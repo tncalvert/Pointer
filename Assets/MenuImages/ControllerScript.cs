@@ -62,6 +62,8 @@ public class ControllerScript : MonoBehaviour {
 			} else if (this.selectedButton == this.creditsButton){
 				this.inTransitionToCredits = true;
 				//this.angleChangeToCredits = 0;
+			} else {
+				Application.LoadLevel("Game");
 			}
 
 		}
