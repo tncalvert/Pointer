@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MenuImages\ControllerScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CloudScript.cs">
     <Files>
       <File FileName="Assets\MenuImages\ControllerScript.cs" Line="63" Column="22" />
+      <File FileName="Assets\CloudScript.cs" Line="23" Column="110" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
