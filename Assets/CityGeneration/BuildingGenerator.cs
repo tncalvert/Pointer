@@ -9,6 +9,16 @@ public class BuildingGenerator : MonoBehaviour {
 	 * Every building will then have some additional number of features
 	 * that help to individualize the building
 	 *
+	 *
+	 * Possible features could include...
+	 * 
+	 * TOPS
+	 * 1. A dome top
+	 * 2. An extended flat top
+	 * 3. A vent box on the top with radio attena
+	 * 
+	 * SIDES
+	 * 1. 
 	 */
 
 
@@ -16,12 +26,16 @@ public class BuildingGenerator : MonoBehaviour {
 	/// The building block. This is what the building generator will use to form buildings
 	/// </summary>
 	public GameObject buildingBlock;
-
-
+	
 	/// <summary>
 	/// The floor. This is the Y position that the bottom of the building will be on
 	/// </summary>
 	public float floor = 0;
+
+	public float height = 2;
+
+
+
 
 	/// <summary>
 	/// The master scale controls the over all size of the building. It scales xyz
@@ -46,8 +60,31 @@ public class BuildingGenerator : MonoBehaviour {
 		this.putOnFloor (squareBase);
 
 
-		GameObject core = generateBlock (0, 0, 0, this.squareSize * .9f, 4, this.squareSize * .9f);
+		GameObject core = generateBlock (0, 0, 0, this.squareSize * .92f, this.height, this.squareSize * .92f);
 		this.putOnBlock (core, squareBase);
+
+		for (int i = 0; i < 6; i ++) {
+
+			float y = this.height + 6 + 4 *Random.value;
+			float x = 1 + 3 * Random.value;
+			float z = 1 + 3 * Random.value;
+
+			int xside = 1;
+			if (Random.value > .5f){
+				xside = -1;
+			}
+			int zside = 1;
+			if (Random.value > .5f){
+				zside = -1;
+			}
+
+			GameObject feature = generateBlock(x/2 * xside, 0, z/2 * zside,
+			                                   x,
+			                                   y,
+			                                   z);
+			this.putOnBlock(feature, squareBase);
+		}
+
 	}
 
 	/// <summary>
