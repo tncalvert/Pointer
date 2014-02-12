@@ -150,9 +150,10 @@ public class CityGenerator : MonoBehaviour {
         // DEBUG
         Texture2D debugTexture = new Texture2D(_cityWidth, _cityHeight);
         for (width = 0; width < _cityWidth; ++width) {
+            int h = _cityHeight - 1;  // deal with texture stuff
             for (height = 0; height < _cityHeight; ++height) {
 
-                switch (cityGrid[height, width]) {
+                switch (cityGrid[h, width]) {
 
                     case FILLTYPE.BULIDING:
                         debugTexture.SetPixel(width, height, Color.blue);
@@ -165,6 +166,8 @@ public class CityGenerator : MonoBehaviour {
                         break;
 
                 }
+
+                --h;
 
             }
         }
