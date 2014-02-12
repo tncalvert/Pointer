@@ -27,7 +27,7 @@ public class CityGenerator : MonoBehaviour {
     // number of parks in city
     private int _numberOfParks = 1;
 
-    /*
+    /*\
      * Enum for identifying areas
      */
 
@@ -128,7 +128,7 @@ public class CityGenerator : MonoBehaviour {
         }
 
         // Cut horizontal roads
-        height = 6;
+        height = 1;
         for (int i = 0; i < numberOfSubsectionsUp; ++i) {
             for (width = 1; width < _cityWidth - 1; ++width) {
                 cityGrid[height, width] = FILLTYPE.ROAD;
@@ -137,7 +137,54 @@ public class CityGenerator : MonoBehaviour {
             height += subsectionHeight;
         }
 
-        // TODO: Place parks
+        int newEdge;
+
+        // Eliminate extras along the edges (either overwrite with buildings, or close them with roads if they are large enough)
+        width = _cityWidth - 2; // _cityWidth - 1 must be a building, this is the first place we can have a road
+        height = 1;  // top layer
+        // Walk back until we find the most recent intersection
+        do {
+            --width;
+        } while (cityGrid[height + 1, width] != FILLTYPE.ROAD);
+        newEdge = width;
+        // This is small, so we really just need to cut off the edges.
+        ++width;
+        for(; width < _cityWidth - 1; ++width) {
+            for (; height < _cityHeight - 1; ++height) {
+                cityGrid[height, width] = FILLTYPE.BULIDING;
+            }
+        }
+
+        int newHeight;
+
+        width = 1;
+        height = _cityHeight - 2;
+        do {
+            --height;
+        } while (cityGrid[height, width + 1] != FILLTYPE.ROAD);
+        newHeight = height;
+        Debug.Log("Bottom road at " + height);
+        Debug.Log("Space limit " + (subsectionHeight * 0.75));
+        Debug.Log("Current space " + ((_cityHeight - 2) - height));
+        // Check how large the space we have is left
+        // If it is enough of the subsection, close it off, otherwise eliminate the extra road
+        if ((_cityHeight - 2) - height > subsectionHeight * 0.75) {
+            Debug.Log("Closing road");
+            // Close it off
+            height = _cityHeight - 2;
+            for (; width <= newEdge; ++width) {
+                cityGrid[height, width] = FILLTYPE.ROAD;
+            }
+        } else {
+            Debug.Log("Eliminating road");
+            for (; width <= newEdge; ++width) {
+                for (height = newHeight + 1; height < _cityHeight - 1; ++height) {
+                    cityGrid[height, width] = FILLTYPE.BULIDING;
+                }
+            }
+        }
+
+        // TODO: place parks
 
         // DEBUG
         Texture2D debugTexture = new Texture2D(_cityWidth, _cityHeight);
@@ -162,5 +209,6 @@ public class CityGenerator : MonoBehaviour {
         }
         debugTexture.Apply();
         File.WriteAllBytes(Application.dataPath + "/CityTexture.png", debugTexture.EncodeToPNG());
+        Debug.Log("Wrote new file");
     }
 }
