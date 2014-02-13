@@ -12,13 +12,13 @@ SceneSettings:
     backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: .5, g: .5, b: .5, a: 1}
   m_FogMode: 3
   m_FogDensity: .00999999978
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+  m_AmbientLight: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
@@ -114,9 +114,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingBlock: {fileID: 100000, guid: 7badeab47bb6d434eb5672f405a1c828, type: 2}
   domeBlock: {fileID: 100000, guid: ef392fb5cd61ae245b41a5bcbc3d9d4c, type: 2}
+  streetLight: {fileID: 100002, guid: 0907dadcb099b4a44b549d2089a676ab, type: 2}
   floor: 0
   minHeight: 6
   heightVariance: .5
+  lightChance: .5
+  sideWalkWidthRatio: .800000012
   buildingMaterial: {fileID: 2100000, guid: 39be353ead7a9c545a5cc3e7f7e4ab5e, type: 2}
   streetMaterial: {fileID: 2100000, guid: 8fd86d5144472e840a64e3ca7f612939, type: 2}
   sidewalkMaterial: {fileID: 2100000, guid: 2a7395be856304a409249bbf46bf797b, type: 2}
@@ -150,8 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
-  width: 17
-  height: 17
+  width: 32
+  height: 32
 --- !u!4 &381908261
 Transform:
   m_ObjectHideFlags: 0
@@ -213,7 +216,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: .198529422, g: .156195939, b: .167582199, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -320,7 +323,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 3
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .323529422, g: .323529422, b: .323529422, a: 1}
   m_Intensity: .5
   m_Range: 10
   m_SpotAngle: 30
