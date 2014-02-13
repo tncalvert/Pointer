@@ -237,9 +237,9 @@ public class BuildingGenerator : MonoBehaviour {
 		float highest = 0;
 		GameObject highestBlock = null;
 
-		for (int i = 0; i < 3; i ++) {
+		for (int i = 0; i < 2; i ++) {
 
-			float y = this.minHeight +heightPlus + 2 + 4 *Random.value ;
+			float y = this.minHeight +heightPlus + 2 + 6 *Random.value ;
 			float x = (squareSize/2) + squareSize/4 * Random.value;
 			float z = (squareSize/2) + squareSize/4 * Random.value;
 
