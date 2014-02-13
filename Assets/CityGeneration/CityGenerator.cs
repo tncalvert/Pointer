@@ -145,6 +145,9 @@ public class CityGenerator : MonoBehaviour {
             cityGrid = _placePark(cityGrid, newEdgeHoriz, newEdgeVert);
         }
 
+        // Randomly remove some roads
+        cityGrid = _removeRandomRoads(cityGrid, numberOfSubsectionsUp, numberOfSubsectionsAcross, newEdgeHoriz, newEdgeVert);
+
 		return cityGrid;
     }
 
@@ -182,7 +185,7 @@ public class CityGenerator : MonoBehaviour {
         int tempY = y;
         for (int i = 0; i < _parkFootprintWidth; ++i) {
             y = tempY;
-            for (int j = 0; j < _parkFootprintHeight; ++j) {
+            for (int j = 0; j < _parkFootprintHeight && y > 0; ++j) {
                 cityGrid[y--, x] = FILLTYPE.PARK;
             }
             ++x;
@@ -234,5 +237,92 @@ public class CityGenerator : MonoBehaviour {
 
         return cityGrid;
 
+    }
+
+    private FILLTYPE[,] _removeRandomRoads(FILLTYPE[,] cityGrid, int subsectionsVert, int subsectionsHoriz, int horizEdge, int vertEdge) {
+        // Pick a couple of roads and simply remove them
+        // to add some diversity to the city
+
+        Vector2 pos;
+        int verticalRoadsCut, horizontalRoadsCut, x, y;
+        verticalRoadsCut = (int)Random.Range(1f, Mathf.Floor(subsectionsHoriz / 2));
+        horizontalRoadsCut = (int)Random.Range(1f, Mathf.Floor(subsectionsVert / 2));
+
+        for (int i = 0; i < verticalRoadsCut; ++i) {
+            pos = _getCoordinatesOfRoadToRemove(cityGrid, true, horizEdge, vertEdge);
+            x = (int)pos.x;
+            y = (int)pos.y;
+
+            while (cityGrid[y, x - 1] != FILLTYPE.ROAD && cityGrid[y, x + 1] != FILLTYPE.ROAD) {
+                cityGrid[y++, x] = FILLTYPE.BULIDING;
+            }
+        }
+
+        for (int i = 0; i < horizontalRoadsCut; ++i) {
+            pos = _getCoordinatesOfRoadToRemove(cityGrid, false, horizEdge, vertEdge);
+            x = (int)pos.x;
+            y = (int)pos.y;
+
+            while (cityGrid[y - 1, x] != FILLTYPE.ROAD && cityGrid[y + 1, x] != FILLTYPE.ROAD) {
+                cityGrid[y, x++] = FILLTYPE.BULIDING;
+            }
+        }
+
+        return cityGrid;
+    }
+
+    private Vector2 _getCoordinatesOfRoadToRemove(FILLTYPE[,] cityGrid, bool verticalRoad, int horizEdge, int vertEdge) {
+
+        Vector2 pos = new Vector2();
+        int x, y;
+
+        if (verticalRoad) {
+            x = Random.Range(1, horizEdge - 1);
+            y = Random.Range(2, vertEdge - 1);
+
+            // Walk until we are just below a horizontal road
+            while (y >= 3 && ((x != 1 && cityGrid[y - 1, x - 1] != FILLTYPE.ROAD) || cityGrid[y - 1, x + 1] != FILLTYPE.ROAD)) {
+                --y;
+            }
+
+            // Walk until we find a road
+            while (x <= horizEdge && cityGrid[y, x] != FILLTYPE.ROAD) {
+                ++x;
+            }
+
+            if (x > horizEdge) {
+                // We already removed the road in this section
+                return _getCoordinatesOfRoadToRemove(cityGrid, verticalRoad, horizEdge, vertEdge);
+            }
+
+            // Otherwise, we are at a good point, return it
+            pos.x = x;
+            pos.y = y;
+
+            return pos;
+        } else {
+            x = Random.Range(2, horizEdge - 1);
+            y = Random.Range(1, vertEdge - 1);
+
+            // Walk until we are just to the right of a vertical road
+            while (x >= 3 && ((y != 1 && cityGrid[y - 1, x - 1] != FILLTYPE.ROAD) || cityGrid[y + 1, x - 1] != FILLTYPE.ROAD)) {
+                --x;
+            }
+
+            // Walk until we find a road
+            while (y <= vertEdge && cityGrid[y, x] != FILLTYPE.ROAD) {
+                ++y;
+            }
+
+            if (y > vertEdge) {
+                // Road here is already gone
+                return _getCoordinatesOfRoadToRemove(cityGrid, verticalRoad, horizEdge, vertEdge);
+            }
+
+            pos.x = x;
+            pos.y = y;
+
+            return pos;
+        }
     }
 }
