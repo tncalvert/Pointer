@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 public class CityGenerator : MonoBehaviour {
@@ -21,7 +22,7 @@ public class CityGenerator : MonoBehaviour {
     // number of parks in city
     private int _numberOfParks = 2;
 
-    /*\
+    /*
      * Enum for identifying areas
      */
 
@@ -30,6 +31,16 @@ public class CityGenerator : MonoBehaviour {
         ROAD,
         PARK
     };
+
+    /*
+     * Enum for flood fill
+     */
+
+    private enum FLOODFILL {
+        IGNORE = 0,
+        REACHABLE,
+        UNREACHABLE
+    }
  
     /*
      * Starter functions
@@ -42,6 +53,13 @@ public class CityGenerator : MonoBehaviour {
     public FILLTYPE[,] buildCity(int cityWidth, int cityHeight) {
         _cityWidth = cityWidth;
         _cityHeight = cityHeight;
+        return _buildCity();
+    }
+
+    public FILLTYPE[,] buildCity(int cityWidth, int cityHeight, int parkCount) {
+        _cityWidth = cityWidth;
+        _cityHeight = cityHeight;
+        _numberOfParks = parkCount;
         return _buildCity();
     }
 
@@ -94,10 +112,6 @@ public class CityGenerator : MonoBehaviour {
 
     /*
      * Functions for actually generating the city
-     * ***CHANGED TO PUBLIC AND HAS RETURN TYPE ***
-     * 
-     * **** There are public functions above which should be used to kick off
-     *       the process. ****
      */
 
     private FILLTYPE[,] _buildCity() {
@@ -139,7 +153,7 @@ public class CityGenerator : MonoBehaviour {
         // Need the new edges of the city so we don't place things outside
         // The number will be for the outer most road, not the final edge of buildings
         cityGrid = _cleanUpEdges(cityGrid, subsectionWidth, subsectionHeight, out newEdgeVert, out newEdgeHoriz);
-
+        
         // Place parks
         for (int i = 0; i < _numberOfParks; ++i) {
             cityGrid = _placePark(cityGrid, newEdgeHoriz, newEdgeVert);
@@ -147,6 +161,9 @@ public class CityGenerator : MonoBehaviour {
 
         // Randomly remove some roads
         cityGrid = _removeRandomRoads(cityGrid, numberOfSubsectionsUp, numberOfSubsectionsAcross, newEdgeHoriz, newEdgeVert);
+
+        // Make sure all sections are connected
+        cityGrid = _fixCutoffSections(cityGrid, newEdgeHoriz, newEdgeVert);
 
 		return cityGrid;
     }
@@ -166,7 +183,7 @@ public class CityGenerator : MonoBehaviour {
             x = Random.Range(2, edgeHoriz - 2);  // don't want the outer edge of buildings or the inside ring of 
             y = Random.Range(2, edgeVert - 2);
 
-        } while (cityGrid[y, x] != FILLTYPE.PARK);
+        } while (cityGrid[y, x] == FILLTYPE.PARK);
 
         // We should never need more than 3 steps to get off a road
         if (cityGrid[y, x] == FILLTYPE.ROAD) {
@@ -359,5 +376,202 @@ public class CityGenerator : MonoBehaviour {
 
             return pos;
         }
+    }
+
+    private FILLTYPE[,] _fixCutoffSections(FILLTYPE[,] cityGrid, int edgeHoriz, int edgeVert) {
+
+        FLOODFILL[,] floodGrid = new FLOODFILL[_cityHeight, _cityWidth];
+        int initX, initY, unreachablePoints;
+        
+       	do {
+            initX = -1;
+            initY = -1;
+            unreachablePoints = 0;
+
+            for (int i = 0; i < _cityHeight; ++i) {
+                for (int j = 0; j < _cityWidth; ++j) {
+
+                    if (cityGrid[i, j] == FILLTYPE.ROAD) {
+                        floodGrid[i, j] = FLOODFILL.UNREACHABLE;
+                        if (initX == -1 && initY == -1) {
+                            initX = j;
+                            initY = i;
+                        }
+                    } else {
+                        floodGrid[i, j] = FLOODFILL.IGNORE;
+                    }
+                }
+            }
+
+            if (initX == -1 && initY == -1) {
+                // Something when terribly wrong
+                return cityGrid;
+            }
+
+            // Flood fill
+            floodGrid = _floodFill(floodGrid, new Vector2(initX, initY));
+
+			bool breakLoop = false;
+            // Check how many points are unreachable and try to fix them
+            for (int i = 0; i < _cityHeight; ++i) {
+                for (int j = 0; j < _cityWidth; ++j) {
+                    if (floodGrid[i, j] == FLOODFILL.UNREACHABLE) {
+						++unreachablePoints;
+                        List<Vector2> path = _getShortestPathToOpenRoad(floodGrid, new Vector2(j, i), cityGrid);
+
+                        if (path.Count == 0) {
+                            continue;
+                        }
+
+                        cityGrid = _cutPath(cityGrid, path);
+
+						breakLoop = true;
+						break;
+                    }
+                }
+				if(breakLoop) { break; }
+            }
+
+        } while (unreachablePoints != 0);
+
+
+        return cityGrid;
+    }
+
+    private FLOODFILL[,] _floodFill(FLOODFILL[,] floodGrid, Vector2 pos) {
+
+        Queue<Vector2> q = new Queue<Vector2>();
+
+        if (floodGrid[(int)pos.y, (int)pos.x] == FLOODFILL.IGNORE) {
+            return floodGrid;
+        }
+
+        q.Enqueue(pos);
+
+        while(q.Count != 0) {
+            Vector2 p = q.Dequeue();
+            Vector2 w, e;
+
+            if (floodGrid[(int)p.y, (int)p.x] == FLOODFILL.UNREACHABLE) {
+                w = new Vector2(p.x - 1, p.y);
+                e = new Vector2(p.x + 1, p.y);
+
+                while (floodGrid[(int)e.y, (int)e.x] == FLOODFILL.UNREACHABLE) {
+                    e.x += 1;
+                }
+
+                while (floodGrid[(int)w.y, (int)w.x] == FLOODFILL.UNREACHABLE) {
+                    w.x -= 1;
+                }
+
+                // The two x value will point to the first IGNORE or REACHABLE value they come upon
+                int left = (int)w.x + 1;
+                int right = (int)e.x - 1;
+                int y = (int)e.y;
+
+                for (; left <= right; ++left) {
+                    floodGrid[y, left] = FLOODFILL.REACHABLE;
+                    if (floodGrid[y - 1, left] == FLOODFILL.UNREACHABLE) {
+                        q.Enqueue(new Vector2(left, y - 1));
+                    }
+                    if (floodGrid[y + 1, left] == FLOODFILL.UNREACHABLE) {
+                        q.Enqueue(new Vector2(left, y + 1));
+                    }
+                }
+            }
+        }
+
+        return floodGrid;
+    }
+
+    private List<Vector2> _getShortestPathToOpenRoad(FLOODFILL[,] floodGrid, Vector2 initPoint, FILLTYPE[,] cityGrid) {
+        List<Vector2> visitedNodes = new List<Vector2>();
+        List<BFSStorage> fringe = new List<BFSStorage>();
+        BFSStorage currentState = new BFSStorage(initPoint, null);
+        int x = (int)currentState.nodeLocation.x, y = (int)currentState.nodeLocation.y;
+
+        while ((y > 0 && y < _cityHeight - 1) && (x > 0 && x < _cityWidth - 1) && floodGrid[y, x] != FLOODFILL.REACHABLE) {
+
+            // Add successors, making sure to not go off the edge or through parks
+            if (y - 1 > 0) {
+                if (cityGrid[y - 1, x] != FILLTYPE.PARK) {
+                fringe.Add(new BFSStorage(new Vector2(x, y - 1), currentState));
+                }
+            }
+            if (y + 1 < _cityHeight - 1) {
+                if (cityGrid[y + 1, x] != FILLTYPE.PARK) {
+					fringe.Add(new BFSStorage(new Vector2(x, y + 1), currentState));
+                }
+            }
+            if (x - 1 > 0) {
+                if (cityGrid[y, x - 1] != FILLTYPE.PARK) {
+					fringe.Add(new BFSStorage(new Vector2(x - 1, y), currentState));
+                }
+            }
+            if (x + 1 < _cityWidth - 1) {
+                if (cityGrid[y, x + 1] != FILLTYPE.PARK) {
+					fringe.Add(new BFSStorage(new Vector2(x + 1, y), currentState));
+                }
+            }
+
+            visitedNodes.Add(currentState.nodeLocation);
+
+            if (fringe.Count == 0) {
+                // No path
+                return new List<Vector2>();
+            }
+
+            // Get the next node
+            do {
+                currentState = fringe[0];
+				fringe.RemoveAt(0);
+                x = (int)currentState.nodeLocation.x;
+                y = (int)currentState.nodeLocation.y;
+            } while (visitedNodes.Contains(currentState.nodeLocation));
+        }
+
+        // Found a solution, get the path
+        List<Vector2> directions = new List<Vector2>();
+        while (currentState.parentNode != null) {
+            directions.Insert(0, currentState.nodeLocation);
+            currentState = currentState.parentNode;
+        }
+
+        return directions;
+    }
+
+    private class BFSStorage {
+
+		public BFSStorage() {
+			nodeLocation = new Vector2();
+			parentNode = null;
+		}
+
+        public BFSStorage(Vector2 nLocation, BFSStorage pNode) {
+            nodeLocation = nLocation;
+            parentNode = pNode;
+        }
+
+        public Vector2 nodeLocation;
+        public BFSStorage parentNode;
+
+        public override string ToString() {
+            string temp = "(" + nodeLocation.x + ", " + nodeLocation.y + ")::";
+            if (parentNode == null) {
+				temp += "(" + parentNode.nodeLocation.x + ", " + parentNode.nodeLocation.y + ")";
+            } else {
+                temp += "null";
+            }
+            return temp;
+        }
+    }
+
+    private FILLTYPE[,] _cutPath(FILLTYPE[,] cityGrid, List<Vector2> path) {
+
+        foreach (var p in path) {
+            cityGrid[(int)p.y, (int)p.x] = FILLTYPE.ROAD;
+        }
+
+        return cityGrid;
     }
 }
