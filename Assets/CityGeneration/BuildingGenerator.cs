@@ -38,6 +38,11 @@ public class BuildingGenerator : MonoBehaviour {
 
 	public float heightVariance = .5f;
 
+	/// <summary>
+	/// The side walk width ratio.
+	/// </summary>
+	public float sideWalkWidthRatio = .8f;
+
 	public Material buildingMaterial;
 	public Material streetMaterial;
 	public Material sidewalkMaterial;
@@ -93,45 +98,45 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <param name="roadType">Road type.</param>
 	public void generateStreet(Vector2 position, ROADTYPE roadType){
 
-		float widthRatio = 2f;
+
 
 		float dist = this.squareSize / 2;
-		dist -= widthRatio * this._masterScale * .5f;
+		dist -= sideWalkWidthRatio * this._masterScale * .5f;
 
 		float length = this.squareSize - 2f*this._masterScale;
-		length *= this._masterScale;
+		length *= this._masterScale/this.sideWalkWidthRatio;
 
 		GameObject sidewalk;
 
 		//create top left
-		sidewalk = this.generateBlock(position.x+dist, 0, position.y-dist, widthRatio, heightRatio, widthRatio);
+		sidewalk = this.generateBlock(position.x+dist, 0, position.y-dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
 		this.putOnFloor (sidewalk);
 
 		//create top right
-		sidewalk = this.generateBlock (position.x + dist, 0, position.y + dist, widthRatio, heightRatio, widthRatio);
+		sidewalk = this.generateBlock (position.x + dist, 0, position.y + dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
 		this.putOnFloor (sidewalk);
 
 		//create bottam left
-		sidewalk = this.generateBlock (position.x - dist, 0, position.y - dist, widthRatio, heightRatio, widthRatio);
+		sidewalk = this.generateBlock (position.x - dist, 0, position.y - dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
 		this.putOnFloor (sidewalk);
 
 		//create bottam right
-		sidewalk = this.generateBlock(position.x-dist, 0, position.y+dist,widthRatio,heightRatio,widthRatio);
+		sidewalk = this.generateBlock(position.x-dist, 0, position.y+dist,sideWalkWidthRatio,heightRatio,sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
 		this.putOnFloor (sidewalk);
 
 
 		//create  left
 		if ((roadType & ROADTYPE.LEFT) == ROADTYPE.LEFT) {
-			sidewalk = this.generateBlock(position.x, 0, position.y-dist, length, heightRatio, widthRatio);
+			sidewalk = this.generateBlock(position.x, 0, position.y-dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
 		}//create  right
 		if ((roadType & ROADTYPE.RIGHT) == ROADTYPE.RIGHT) {
-			sidewalk = this.generateBlock(position.x, 0, position.y+dist, length, heightRatio, widthRatio);
+			sidewalk = this.generateBlock(position.x, 0, position.y+dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
 		}
@@ -139,14 +144,14 @@ public class BuildingGenerator : MonoBehaviour {
 
 		//create top 
 		if ((roadType & ROADTYPE.TOP) == ROADTYPE.TOP) {
-			sidewalk = this.generateBlock(position.x+dist, 0, position.y, widthRatio, heightRatio, length);
+			sidewalk = this.generateBlock(position.x+dist, 0, position.y, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
 		}
 
 		//create bottam
 		if ((roadType & ROADTYPE.BOTTAM) == ROADTYPE.BOTTAM) {
-			sidewalk = this.generateBlock(position.x-dist, 0, position.y, widthRatio, heightRatio, length);
+			sidewalk = this.generateBlock(position.x-dist, 0, position.y, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
 		}

@@ -150,8 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
-  width: 15
-  height: 15
+  width: 17
+  height: 17
 --- !u!4 &381908261
 Transform:
   m_ObjectHideFlags: 0
