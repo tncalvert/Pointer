@@ -29,6 +29,8 @@ public class BuildingGenerator : MonoBehaviour {
 
 	public GameObject domeBlock;
 
+	public GameObject streetLight;
+
 	/// <summary>
 	/// The floor. This is the Y position that the bottom of the building will be on
 	/// </summary>
@@ -37,6 +39,8 @@ public class BuildingGenerator : MonoBehaviour {
 	public float minHeight = 2;
 
 	public float heightVariance = .5f;
+
+	public float lightChance = .5f;
 
 	/// <summary>
 	/// The side walk width ratio.
@@ -108,6 +112,10 @@ public class BuildingGenerator : MonoBehaviour {
 
 		GameObject sidewalk;
 
+		//create road
+		GameObject road = this.generateBlock(position.x, 0, position.y, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
+		road.renderer.material = this.streetMaterial;
+
 		//create top left
 		sidewalk = this.generateBlock(position.x+dist, 0, position.y-dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
@@ -129,16 +137,33 @@ public class BuildingGenerator : MonoBehaviour {
 		this.putOnFloor (sidewalk);
 
 
+
+		float lightTest = Random.value;
+		bool tryLight = Random.value <= this.lightChance;
 		//create  left
 		if ((roadType & ROADTYPE.LEFT) == ROADTYPE.LEFT) {
 			sidewalk = this.generateBlock(position.x, 0, position.y-dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
+
+			if (tryLight && lightTest < .25f){
+				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x, 0, position.y-dist), Quaternion.identity);
+				streetLight.transform.position += new Vector3(0, 0, streetLight.transform.localScale.z*1.1f);
+
+				this.putOnBlock (streetLight, road);
+			}
+
 		}//create  right
 		if ((roadType & ROADTYPE.RIGHT) == ROADTYPE.RIGHT) {
 			sidewalk = this.generateBlock(position.x, 0, position.y+dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
+			if (tryLight && lightTest > .25f && lightTest < .5f){
+				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x, 0, position.y+dist), Quaternion.identity);
+				streetLight.transform.position += new Vector3(0, 0, -streetLight.transform.localScale.z*1.1f);
+				streetLight.transform.Rotate(new Vector3(0, 180, 0));
+				this.putOnBlock (streetLight, road);
+			}
 		}
 
 
@@ -147,6 +172,12 @@ public class BuildingGenerator : MonoBehaviour {
 			sidewalk = this.generateBlock(position.x+dist, 0, position.y, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
+			if (tryLight && lightTest > .5f && lightTest < .75f){
+				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x+dist, 0, position.y), Quaternion.identity);
+				streetLight.transform.position += new Vector3(-streetLight.transform.localScale.z*1.1f, 0, 0);
+				streetLight.transform.Rotate(new Vector3(0, 270, 0));
+				this.putOnBlock (streetLight, road);
+			}
 		}
 
 		//create bottam
@@ -154,10 +185,18 @@ public class BuildingGenerator : MonoBehaviour {
 			sidewalk = this.generateBlock(position.x-dist, 0, position.y, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
+			if (tryLight && lightTest > .75f){
+				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x-dist, 0, position.y), Quaternion.identity);
+				streetLight.transform.position += new Vector3(streetLight.transform.localScale.z*1.1f, 0, 0);
+				streetLight.transform.Rotate(new Vector3(0, 90, 0));
+				this.putOnBlock (streetLight, road);
+			}
 		}
 
-		GameObject road = this.generateBlock(position.x, 0, position.y, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
-		road.renderer.material = this.streetMaterial;
+
+
+
+	
 	}
 
 	public void generatePark(Vector2 position){
@@ -234,7 +273,7 @@ public class BuildingGenerator : MonoBehaviour {
 
 		float randomTop = Random.value;
 
-		if (randomTop > .8f) {
+		if (randomTop > .9f) {
 			float domeScale = Mathf.Min (highestBlock.transform.localScale.x, highestBlock.transform.localScale.z) * .95f;
 			GameObject dome = generateDome (highestBlock.transform.position.x - position.x, 0, highestBlock.transform.position.z - position.y, domeScale, domeScale, domeScale);
 			this.putOnBlock (dome, highestBlock);

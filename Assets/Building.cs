@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Building : MonoBehaviour {
+public class Building {
 
 	private List<GameObject> blocks;
 
