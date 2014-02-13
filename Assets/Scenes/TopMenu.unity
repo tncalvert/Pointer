@@ -221,12 +221,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 172747153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .100000001
-  radius: 3
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &172747155
 Renderer:
   m_ObjectHideFlags: 0
@@ -317,12 +317,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 342419445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -.100000001
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &342419448
 Renderer:
   m_ObjectHideFlags: 0
@@ -602,12 +602,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 712193532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -.100000001
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &712193535
 Renderer:
   m_ObjectHideFlags: 0
@@ -846,12 +846,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 946419775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .200000003
-  radius: 2
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!1 &994694925
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,12 +879,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 994694925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -.150000006
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &994694927
 Renderer:
   m_ObjectHideFlags: 0
@@ -3226,12 +3226,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1485279662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .100000001
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &1485279665
 Renderer:
   m_ObjectHideFlags: 0
@@ -3361,12 +3361,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1542727868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .150000006
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &1542727871
 Renderer:
   m_ObjectHideFlags: 0
@@ -3446,12 +3446,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1564103829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .200000003
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &1564103832
 Renderer:
   m_ObjectHideFlags: 0
@@ -3833,12 +3833,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1962271270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9665cfbcb7e47d4479b6a5ec51d2cc43, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bd74f80bfda6384c9c315ebe5369fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -.150000006
-  radius: 1
-  moveSpeed: .00999999978
+  speed: 0
+  radius: 0
+  moveSpeed: 0
 --- !u!23 &1962271273
 Renderer:
   m_ObjectHideFlags: 0
