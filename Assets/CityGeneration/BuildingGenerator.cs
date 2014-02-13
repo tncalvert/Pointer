@@ -32,9 +32,9 @@ public class BuildingGenerator : MonoBehaviour {
 	/// </summary>
 	public float floor = 0;
 
-	public float height = 2;
+	public float minHeight = 2;
 
-
+	public float heightVariance = .5f;
 
 
 	/// <summary>
@@ -47,43 +47,62 @@ public class BuildingGenerator : MonoBehaviour {
 
 	// Use this for initialization
 
-	void Start () {
-		this.generateBuilding ();
+	//void Start () {
+	//	this.generateBuilding ();
+	//}
+
+	public Building generateBuilding(){
+		return this.generateBuilding (Vector2.zero);
 	}
-
-
 	/// <summary>
 	/// Create a building that will fully occupy one game cell
 	/// </summary>
-	private void generateBuilding(){
+	public Building generateBuilding(Vector2 position){
+		Building building = new Building (position);
+
 		GameObject squareBase = generateBlock (0, 0, 0, this.squareSize, 2, this.squareSize);
 		this.putOnFloor (squareBase);
 
 
-		GameObject core = generateBlock (0, 0, 0, this.squareSize * .92f, this.height, this.squareSize * .92f);
+		GameObject core = generateBlock (0, 0, 0, this.squareSize * .92f, this.minHeight, this.squareSize * .92f);
 		this.putOnBlock (core, squareBase);
 
+		building.addBlock (squareBase);
+		building.addBlock (core);
+
+		float heightPlus = (Random.value * this.heightVariance);
 		for (int i = 0; i < 6; i ++) {
 
-			float y = this.height + 6 + 4 *Random.value;
+			float y = this.minHeight + heightPlus + 6 + 4 *Random.value ;
 			float x = 1 + 3 * Random.value;
 			float z = 1 + 3 * Random.value;
 
-			int xside = 1;
+			//x *= this._masterScale;
+			//y *= this._masterScale;
+			//z *= this._masterScale;
+
+			float xside = 1;
 			if (Random.value > .5f){
 				xside = -1;
 			}
-			int zside = 1;
+			float zside = 1;
 			if (Random.value > .5f){
 				zside = -1;
 			}
+			xside *= this._masterScale;
+			zside *= this._masterScale;
 
 			GameObject feature = generateBlock(x/2 * xside, 0, z/2 * zside,
 			                                   x,
 			                                   y,
 			                                   z);
 			this.putOnBlock(feature, squareBase);
+
+			building.addBlock(feature);
+
 		}
+
+		return building;
 
 	}
 
