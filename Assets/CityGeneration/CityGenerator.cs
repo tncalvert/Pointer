@@ -245,21 +245,19 @@ public class CityGenerator : MonoBehaviour {
 
         
         int totalIntersections = subsectionsHoriz * subsectionsVert;
-        Debug.Log(subsectionsVert + " " + subsectionsHoriz + " " + totalIntersections);
         Vector2 pos;
         int verticalRoadsCut, horizontalRoadsCut, x, y;
         verticalRoadsCut = (int)Random.Range(Mathf.Max(1f, Mathf.Floor(totalIntersections / 4)),
             Mathf.Floor(totalIntersections / 2));
         horizontalRoadsCut = (int)Random.Range(Mathf.Max(1f, Mathf.Floor(totalIntersections / 4)),
             Mathf.Floor(totalIntersections / 2));
-        Debug.Log(verticalRoadsCut + " " + horizontalRoadsCut);
 
         for (int i = 0; i < verticalRoadsCut; ++i) {
             pos = _getCoordinatesOfRoadToRemove(cityGrid, true, horizEdge, vertEdge);
             x = (int)pos.x;
             y = (int)pos.y;
 
-            while (cityGrid[y, x - 1] != FILLTYPE.ROAD && cityGrid[y, x + 1] != FILLTYPE.ROAD) {
+            while (y <= vertEdge && cityGrid[y, x - 1] != FILLTYPE.ROAD && cityGrid[y, x + 1] != FILLTYPE.ROAD) {
                 cityGrid[y++, x] = FILLTYPE.BULIDING;
             }
         }
@@ -268,8 +266,8 @@ public class CityGenerator : MonoBehaviour {
             pos = _getCoordinatesOfRoadToRemove(cityGrid, false, horizEdge, vertEdge);
             x = (int)pos.x;
             y = (int)pos.y;
-
-            while (cityGrid[y - 1, x] != FILLTYPE.ROAD && cityGrid[y + 1, x] != FILLTYPE.ROAD) {
+            
+            while (x <= horizEdge && cityGrid[y - 1, x] != FILLTYPE.ROAD && cityGrid[y + 1, x] != FILLTYPE.ROAD) {
                 cityGrid[y, x++] = FILLTYPE.BULIDING;
             }
         }
