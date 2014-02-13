@@ -243,10 +243,16 @@ public class CityGenerator : MonoBehaviour {
         // Pick a couple of roads and simply remove them
         // to add some diversity to the city
 
+        
+        int totalIntersections = subsectionsHoriz * subsectionsVert;
+        Debug.Log(subsectionsVert + " " + subsectionsHoriz + " " + totalIntersections);
         Vector2 pos;
         int verticalRoadsCut, horizontalRoadsCut, x, y;
-        verticalRoadsCut = (int)Random.Range(1f, Mathf.Floor(subsectionsHoriz / 2));
-        horizontalRoadsCut = (int)Random.Range(1f, Mathf.Floor(subsectionsVert / 2));
+        verticalRoadsCut = (int)Random.Range(Mathf.Max(1f, Mathf.Floor(totalIntersections / 4)),
+            Mathf.Floor(totalIntersections / 2));
+        horizontalRoadsCut = (int)Random.Range(Mathf.Max(1f, Mathf.Floor(totalIntersections / 4)),
+            Mathf.Floor(totalIntersections / 2));
+        Debug.Log(verticalRoadsCut + " " + horizontalRoadsCut);
 
         for (int i = 0; i < verticalRoadsCut; ++i) {
             pos = _getCoordinatesOfRoadToRemove(cityGrid, true, horizEdge, vertEdge);
