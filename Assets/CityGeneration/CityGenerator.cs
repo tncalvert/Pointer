@@ -155,11 +155,18 @@ public class CityGenerator : MonoBehaviour {
         // Pick a random point, then walk until it is a building
         // Then work up and down, left and right replacing building with parks
         int x, y;
-        x = Random.Range(2, edgeHoriz - 2);  // don't want the outer edge of buildings or the inside ring of 
-        y = Random.Range(2, edgeVert - 2);
+        int attemptCount = 0, maxAttempts = 15;
 
-        if (cityGrid[y, x] == FILLTYPE.PARK) // just pick another spot
-            return _placePark(cityGrid, edgeHoriz, edgeVert);
+        do {
+            ++attemptCount;
+            if (attemptCount >= maxAttempts) {
+                return cityGrid;
+            }
+
+            x = Random.Range(2, edgeHoriz - 2);  // don't want the outer edge of buildings or the inside ring of 
+            y = Random.Range(2, edgeVert - 2);
+
+        } while (cityGrid[y, x] != FILLTYPE.PARK);
 
         // We should never need more than 3 steps to get off a road
         if (cityGrid[y, x] == FILLTYPE.ROAD) {
@@ -254,6 +261,11 @@ public class CityGenerator : MonoBehaviour {
 
         for (int i = 0; i < verticalRoadsCut; ++i) {
             pos = _getCoordinatesOfRoadToRemove(cityGrid, true, horizEdge, vertEdge);
+
+            if (pos.x == -1 && pos.y == -1) {
+                continue;
+            }
+
             x = (int)pos.x;
             y = (int)pos.y;
 
@@ -264,6 +276,11 @@ public class CityGenerator : MonoBehaviour {
 
         for (int i = 0; i < horizontalRoadsCut; ++i) {
             pos = _getCoordinatesOfRoadToRemove(cityGrid, false, horizEdge, vertEdge);
+
+            if (pos.x == -1 && pos.y == -1) {
+                continue;
+            }
+
             x = (int)pos.x;
             y = (int)pos.y;
             
@@ -279,25 +296,33 @@ public class CityGenerator : MonoBehaviour {
 
         Vector2 pos = new Vector2();
         int x, y;
+        int attemptCount = 0, maxAttempts = 15;
 
         if (verticalRoad) {
-            x = Random.Range(1, horizEdge - 1);
-            y = Random.Range(2, vertEdge - 1);
+            do {
 
-            // Walk until we are just below a horizontal road
-            while (y >= 3 && ((x != 1 && cityGrid[y - 1, x - 1] != FILLTYPE.ROAD) || cityGrid[y - 1, x + 1] != FILLTYPE.ROAD)) {
-                --y;
-            }
+                ++attemptCount;
+                if (attemptCount >= maxAttempts) {
+                    pos.x = -1;
+                    pos.y = -1;
+                    return pos;
+                }
 
-            // Walk until we find a road
-            while (x <= horizEdge && cityGrid[y, x] != FILLTYPE.ROAD) {
-                ++x;
-            }
+                x = Random.Range(1, horizEdge - 1);
+                y = Random.Range(2, vertEdge - 1);
 
-            if (x > horizEdge) {
-                // We already removed the road in this section
-                return _getCoordinatesOfRoadToRemove(cityGrid, verticalRoad, horizEdge, vertEdge);
-            }
+                // Walk until we are just below a horizontal road
+                while (y >= 3 && ((x != 1 && cityGrid[y - 1, x - 1] != FILLTYPE.ROAD) || cityGrid[y - 1, x + 1] != FILLTYPE.ROAD)) {
+                    --y;
+                }
+
+                // Walk until we find a road
+                while (x <= horizEdge && cityGrid[y, x] != FILLTYPE.ROAD) {
+                    ++x;
+                }
+
+            // If x is out of bounds, try again
+            } while (x > horizEdge);
 
             // Otherwise, we are at a good point, return it
             pos.x = x;
@@ -305,23 +330,29 @@ public class CityGenerator : MonoBehaviour {
 
             return pos;
         } else {
-            x = Random.Range(2, horizEdge - 1);
-            y = Random.Range(1, vertEdge - 1);
+            do {
 
-            // Walk until we are just to the right of a vertical road
-            while (x >= 3 && ((y != 1 && cityGrid[y - 1, x - 1] != FILLTYPE.ROAD) || cityGrid[y + 1, x - 1] != FILLTYPE.ROAD)) {
-                --x;
-            }
+                ++attemptCount;
+                if (attemptCount >= maxAttempts) {
+                    pos.x = -1;
+                    pos.y = -1;
+                    return pos;
+                }
 
-            // Walk until we find a road
-            while (y <= vertEdge && cityGrid[y, x] != FILLTYPE.ROAD) {
-                ++y;
-            }
+                x = Random.Range(2, horizEdge - 1);
+                y = Random.Range(1, vertEdge - 1);
 
-            if (y > vertEdge) {
-                // Road here is already gone
-                return _getCoordinatesOfRoadToRemove(cityGrid, verticalRoad, horizEdge, vertEdge);
-            }
+                // Walk until we are just to the right of a vertical road
+                while (x >= 3 && ((y != 1 && cityGrid[y - 1, x - 1] != FILLTYPE.ROAD) || cityGrid[y + 1, x - 1] != FILLTYPE.ROAD)) {
+                    --x;
+                }
+
+                // Walk until we find a road
+                while (y <= vertEdge && cityGrid[y, x] != FILLTYPE.ROAD) {
+                    ++y;
+                }
+
+            } while (y > vertEdge);
 
             pos.x = x;
             pos.y = y;
