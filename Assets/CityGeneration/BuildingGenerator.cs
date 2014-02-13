@@ -36,6 +36,9 @@ public class BuildingGenerator : MonoBehaviour {
 
 	public float heightVariance = .5f;
 
+	public Material buildingMaterial;
+
+
 
 	/// <summary>
 	/// The master scale controls the over all size of the building. It scales xyz
@@ -51,12 +54,19 @@ public class BuildingGenerator : MonoBehaviour {
 	//	this.generateBuilding ();
 	//}
 
+	/// <summary>
+	/// Generates the building.
+	/// </summary>
+	/// <returns>The building.</returns>
 	public Building generateBuilding(){
 		return this.generateBuilding (Vector2.zero);
 	}
+
 	/// <summary>
-	/// Create a building that will fully occupy one game cell
+	/// Generates the building at some spot x,z
 	/// </summary>
+	/// <returns>The building.</returns>
+	/// <param name="position">Position.</param>
 	public Building generateBuilding(Vector2 position){
 		Building building = new Building (position);
 
@@ -71,15 +81,12 @@ public class BuildingGenerator : MonoBehaviour {
 		building.addBlock (core);
 
 		float heightPlus = (Random.value * this.heightVariance);
-		for (int i = 0; i < 6; i ++) {
+		for (int i = 0; i < 3; i ++) {
 
 			float y = this.minHeight + heightPlus + 6 + 4 *Random.value ;
-			float x = 1 + 3 * Random.value;
-			float z = 1 + 3 * Random.value;
+			float x = (squareSize/2) + squareSize/4 * Random.value;
+			float z = (squareSize/2) + squareSize/4 * Random.value;
 
-			//x *= this._masterScale;
-			//y *= this._masterScale;
-			//z *= this._masterScale;
 
 			float xside = 1;
 			if (Random.value > .5f){
@@ -92,7 +99,7 @@ public class BuildingGenerator : MonoBehaviour {
 			xside *= this._masterScale;
 			zside *= this._masterScale;
 
-			GameObject feature = generateBlock(x/2 * xside, 0, z/2 * zside,
+			GameObject feature = generateBlock(xside*(Random.value*squareSize/7), 0, zside*(Random.value*squareSize/6),
 			                                   x,
 			                                   y,
 			                                   z);
@@ -147,6 +154,7 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <param name="sz">The z scale</param>
 	private GameObject generateBlock(float x, float y, float z, float sx, float sy, float sz){
 		GameObject block = (GameObject) Instantiate (this.buildingBlock, new Vector3 (x, y, z), Quaternion.identity);
+		block.renderer.material = this.buildingMaterial;
 		block.transform.localScale = this._masterScale * new Vector3 (sx, sy, sz);
 		return block;
 	}
