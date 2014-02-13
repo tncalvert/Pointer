@@ -31,7 +31,7 @@ public class CityGenerator : MonoBehaviour {
      * Enum for identifying areas
      */
 
-    private enum FILLTYPE {
+    public enum FILLTYPE {
         BULIDING = 0,
         ROAD,
         PARK
@@ -41,23 +41,23 @@ public class CityGenerator : MonoBehaviour {
      * Starter functions
      */
 
-    public void buildCity() {
-        _buildCity();
+    public FILLTYPE[,] buildCity() {
+        return _buildCity();
     }
 
-    public void buildCity(int cityWidth, int cityHeight) {
+    public FILLTYPE[,] buildCity(int cityWidth, int cityHeight) {
         _cityWidth = cityWidth;
         _cityHeight = cityHeight;
-        _buildCity();
+        return _buildCity();
     }
 
-    public void buildCity(int cityWidth, int cityHeight,int parkWidth, int parkHeight, int parkCount) {
+    public FILLTYPE[,] buildCity(int cityWidth, int cityHeight,int parkWidth, int parkHeight, int parkCount) {
         _cityWidth = cityWidth;
         _cityHeight = cityHeight;
         _parkFootprintWidth = parkWidth;
         _parkFootprintHeight = parkHeight;
         _numberOfParks = parkCount;
-        _buildCity();
+        return _buildCity();
     }
 
     /*
@@ -101,9 +101,12 @@ public class CityGenerator : MonoBehaviour {
     /*
      * Functions for actually generating the city
      * ***CHANGED TO PUBLIC AND HAS RETURN TYPE ***
+     * 
+     * **** There are public functions above which should be used to kick off
+     *       the process. ****
      */
 
-    public FILLTYPE[,] _buildCity() {
+    private FILLTYPE[,] _buildCity() {
 
         // Enums are initialized to 0 value (which is BUILDING) by default
         FILLTYPE[,] cityGrid = new FILLTYPE[_cityHeight, _cityWidth];  // note height by width
