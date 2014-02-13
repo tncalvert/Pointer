@@ -26,7 +26,9 @@ public class BuildingGenerator : MonoBehaviour {
 	/// The building block. This is what the building generator will use to form buildings
 	/// </summary>
 	public GameObject buildingBlock;
-	
+
+	public GameObject domeBlock;
+
 	/// <summary>
 	/// The floor. This is the Y position that the bottom of the building will be on
 	/// </summary>
@@ -53,6 +55,8 @@ public class BuildingGenerator : MonoBehaviour {
 	//void Start () {
 	//	this.generateBuilding ();
 	//}
+
+
 
 	/// <summary>
 	/// Generates the building.
@@ -81,9 +85,13 @@ public class BuildingGenerator : MonoBehaviour {
 		building.addBlock (core);
 
 		float heightPlus = (Random.value * this.heightVariance);
+
+		float highest = 0;
+		GameObject highestBlock = null;
+
 		for (int i = 0; i < 3; i ++) {
 
-			float y = this.minHeight + heightPlus + 6 + 4 *Random.value ;
+			float y = this.minHeight +heightPlus + 2 + 4 *Random.value ;
 			float x = (squareSize/2) + squareSize/4 * Random.value;
 			float z = (squareSize/2) + squareSize/4 * Random.value;
 
@@ -103,12 +111,28 @@ public class BuildingGenerator : MonoBehaviour {
 			                                   x,
 			                                   y,
 			                                   z);
-			this.putOnBlock(feature, squareBase);
+			this.putOnBlock(feature, core);
 
 			building.addBlock(feature);
 
+
+			if (y > highest){
+				highest = y;
+				highestBlock = feature;
+			}
+
 		}
 
+		float randomTop = Random.value;
+
+		if (randomTop > .8f) {
+			float domeScale = Mathf.Min (highestBlock.transform.localScale.x, highestBlock.transform.localScale.z) * .95f;
+			GameObject dome = generateDome (highestBlock.transform.position.x - position.x, 0, highestBlock.transform.position.z - position.y, domeScale, domeScale, domeScale);
+			this.putOnBlock (dome, highestBlock);
+			dome.transform.position -= Vector3.up * dome.transform.localScale.y / 2;
+
+			building.addBlock (dome);
+		}
 		return building;
 
 	}
@@ -127,7 +151,7 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <param name="block">Block.</param>
 	/// <param name="baseBlock>The block whose ceiling will become the floor</para>"> 
 	private void putOnBlock(GameObject block, GameObject baseBlock){
-		block.transform.position = new Vector3 (block.transform.position.x, (block.transform.localScale.y / 2) + (baseBlock.transform.localScale.y/2), block.transform.position.z);
+		block.transform.position = new Vector3 (block.transform.position.x,baseBlock.transform.position.y + (block.transform.localScale.y / 2) + (baseBlock.transform.localScale.y/2), block.transform.position.z);
 	}
 
 
@@ -159,6 +183,13 @@ public class BuildingGenerator : MonoBehaviour {
 		return block;
 	}
 
+
+	private GameObject generateDome(float x, float y, float z, float sx, float sy, float sz){
+		GameObject block = (GameObject) Instantiate (this.domeBlock, new Vector3 (x, y, z), Quaternion.identity);
+		//block.renderer.material = this.buildingMaterial;
+		block.transform.localScale = this._masterScale * new Vector3 (sx, sy, sz);
+		return block;
+	}
 
 
 	// Not needed at the moment
