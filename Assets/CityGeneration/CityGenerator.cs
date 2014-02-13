@@ -45,13 +45,13 @@ public class CityGenerator : MonoBehaviour {
         return _buildCity();
     }
 
-	public FILLTYPE[,] buildCity(int cityWidth, int cityHeight) {
+    public FILLTYPE[,] buildCity(int cityWidth, int cityHeight) {
         _cityWidth = cityWidth;
         _cityHeight = cityHeight;
         return _buildCity();
     }
 
-	public FILLTYPE[,] buildCity(int cityWidth, int cityHeight,int parkWidth, int parkHeight, int parkCount) {
+    public FILLTYPE[,] buildCity(int cityWidth, int cityHeight,int parkWidth, int parkHeight, int parkCount) {
         _cityWidth = cityWidth;
         _cityHeight = cityHeight;
         _parkFootprintWidth = parkWidth;
@@ -101,6 +101,9 @@ public class CityGenerator : MonoBehaviour {
     /*
      * Functions for actually generating the city
      * ***CHANGED TO PUBLIC AND HAS RETURN TYPE ***
+     * 
+     * **** There are public functions above which should be used to kick off
+     *       the process. ****
      */
 
     private FILLTYPE[,] _buildCity() {
