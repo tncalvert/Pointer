@@ -4,12 +4,6 @@ using System.IO;
 
 public class CityGenerator : MonoBehaviour {
 
-    // ** For testing **
-    //public void Start() {
-        //Debug.Log("Testing city generation");
-        //buildCity();
-    //}
-
     /*
      * TODO
      *  - Setup a means of defining how the city is divided beyond just a plain grid
@@ -151,33 +145,6 @@ public class CityGenerator : MonoBehaviour {
             cityGrid = _placePark(cityGrid, newEdgeHoriz, newEdgeVert);
         }
 
-        // DEBUG
-        Texture2D debugTexture = new Texture2D(_cityWidth, _cityHeight);
-        for (width = 0; width < _cityWidth; ++width) {
-            int h = _cityHeight - 1;  // deal with texture stuff
-            for (height = 0; height < _cityHeight; ++height) {
-
-                switch (cityGrid[h, width]) {
-
-                    case FILLTYPE.BULIDING:
-                        debugTexture.SetPixel(width, height, Color.blue);
-                        break;
-                    case FILLTYPE.ROAD:
-                        debugTexture.SetPixel(width, height, Color.grey);
-                        break;
-                    case FILLTYPE.PARK:
-                        debugTexture.SetPixel(width, height, Color.green);
-                        break;
-
-                }
-
-                --h;
-
-            }
-        }
-        debugTexture.Apply();
-        File.WriteAllBytes(Application.dataPath + "/CityTexture.png", debugTexture.EncodeToPNG());
-        Debug.Log("Wrote new file");
 		return cityGrid;
     }
 
