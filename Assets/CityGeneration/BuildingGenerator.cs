@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+//using System;
 public class BuildingGenerator : MonoBehaviour {
 
 	/*
@@ -38,9 +38,15 @@ public class BuildingGenerator : MonoBehaviour {
 
 	public float heightVariance = .5f;
 
+	/// <summary>
+	/// The side walk width ratio.
+	/// </summary>
+	public float sideWalkWidthRatio = .8f;
+
 	public Material buildingMaterial;
-
-
+	public Material streetMaterial;
+	public Material sidewalkMaterial;
+	public Material parkMaterial;
 
 	/// <summary>
 	/// The master scale controls the over all size of the building. It scales xyz
@@ -50,11 +56,114 @@ public class BuildingGenerator : MonoBehaviour {
 
 	private float squareSize = 8f;
 
+	/// <summary>
+	/// scale ratio for the height of sidewalks and parks
+	/// </summary>
+	private float heightRatio = .5f;
 	// Use this for initialization
 
 	//void Start () {
 	//	this.generateBuilding ();
 	//}
+
+
+	/*
+	 * An enum to keep track of what kind of road a road piece is
+	 * X | X X X | X
+	 * _   _____   _
+	 * X  |     |  X
+	 * X  |     |  X
+	 * X  |_____|  X
+	 * _           _
+	 * X | X X X | X
+	 * 
+	 */
+	[System.Flags]
+	public enum ROADTYPE{
+		NONE = 0x00, 
+		TOP = 0x01, 
+	
+		LEFT = 0x02, 
+		RIGHT = 0x04,
+
+		BOTTAM = 0x08
+
+
+	}
+
+	/// <summary>
+	/// Generates the street.
+	/// </summary>
+	/// <param name="position">Position.</param>
+	/// <param name="roadType">Road type.</param>
+	public void generateStreet(Vector2 position, ROADTYPE roadType){
+
+
+
+		float dist = this.squareSize / 2;
+		dist -= sideWalkWidthRatio * this._masterScale * .5f;
+
+		float length = this.squareSize - 2f*this._masterScale;
+		length *= this._masterScale/this.sideWalkWidthRatio;
+
+		GameObject sidewalk;
+
+		//create top left
+		sidewalk = this.generateBlock(position.x+dist, 0, position.y-dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
+		sidewalk.renderer.material = this.sidewalkMaterial;
+		this.putOnFloor (sidewalk);
+
+		//create top right
+		sidewalk = this.generateBlock (position.x + dist, 0, position.y + dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
+		sidewalk.renderer.material = this.sidewalkMaterial;
+		this.putOnFloor (sidewalk);
+
+		//create bottam left
+		sidewalk = this.generateBlock (position.x - dist, 0, position.y - dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
+		sidewalk.renderer.material = this.sidewalkMaterial;
+		this.putOnFloor (sidewalk);
+
+		//create bottam right
+		sidewalk = this.generateBlock(position.x-dist, 0, position.y+dist,sideWalkWidthRatio,heightRatio,sideWalkWidthRatio);
+		sidewalk.renderer.material = this.sidewalkMaterial;
+		this.putOnFloor (sidewalk);
+
+
+		//create  left
+		if ((roadType & ROADTYPE.LEFT) == ROADTYPE.LEFT) {
+			sidewalk = this.generateBlock(position.x, 0, position.y-dist, length, heightRatio, sideWalkWidthRatio);
+			sidewalk.renderer.material = this.sidewalkMaterial;
+			this.putOnFloor (sidewalk);
+		}//create  right
+		if ((roadType & ROADTYPE.RIGHT) == ROADTYPE.RIGHT) {
+			sidewalk = this.generateBlock(position.x, 0, position.y+dist, length, heightRatio, sideWalkWidthRatio);
+			sidewalk.renderer.material = this.sidewalkMaterial;
+			this.putOnFloor (sidewalk);
+		}
+
+
+		//create top 
+		if ((roadType & ROADTYPE.TOP) == ROADTYPE.TOP) {
+			sidewalk = this.generateBlock(position.x+dist, 0, position.y, sideWalkWidthRatio, heightRatio, length);
+			sidewalk.renderer.material = this.sidewalkMaterial;
+			this.putOnFloor (sidewalk);
+		}
+
+		//create bottam
+		if ((roadType & ROADTYPE.BOTTAM) == ROADTYPE.BOTTAM) {
+			sidewalk = this.generateBlock(position.x-dist, 0, position.y, sideWalkWidthRatio, heightRatio, length);
+			sidewalk.renderer.material = this.sidewalkMaterial;
+			this.putOnFloor (sidewalk);
+		}
+
+		GameObject road = this.generateBlock(position.x, 0, position.y, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
+		road.renderer.material = this.streetMaterial;
+	}
+
+	public void generatePark(Vector2 position){
+		GameObject park = this.generateBlock(position.x, 0, position.y, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
+		park.renderer.material = this.parkMaterial;
+	}
 
 
 
