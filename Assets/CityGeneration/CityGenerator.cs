@@ -5,10 +5,10 @@ using System.IO;
 public class CityGenerator : MonoBehaviour {
 
     // ** For testing **
-    public void Start() {
-        Debug.Log("Testing city generation");
-        buildCity();
-    }
+    //public void Start() {
+        //Debug.Log("Testing city generation");
+        //buildCity();
+    //}
 
     /*
      * TODO
