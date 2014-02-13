@@ -100,9 +100,10 @@ public class CityGenerator : MonoBehaviour {
 
     /*
      * Functions for actually generating the city
+     * ***CHANGED TO PUBLIC AND HAS RETURN TYPE ***
      */
 
-    private void _buildCity() {
+    public FILLTYPE[,] _buildCity() {
 
         // Enums are initialized to 0 value (which is BUILDING) by default
         FILLTYPE[,] cityGrid = new FILLTYPE[_cityHeight, _cityWidth];  // note height by width
@@ -174,6 +175,7 @@ public class CityGenerator : MonoBehaviour {
         debugTexture.Apply();
         File.WriteAllBytes(Application.dataPath + "/CityTexture.png", debugTexture.EncodeToPNG());
         Debug.Log("Wrote new file");
+		return cityGrid;
     }
 
     private FILLTYPE[,] _placePark(FILLTYPE[,] cityGrid, int edgeHoriz, int edgeVert) {
