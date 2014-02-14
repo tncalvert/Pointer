@@ -141,7 +141,9 @@ public class PathFinder : MonoBehaviour {
 		List<WayPoint> waypoints = doAStar (first, last);
 
 		//clean the waypoint list. There is a chance that the last waypoint has the path move past the end
-		if (this.canSee (end, waypoints [waypoints.Count - 1].Position)) {
+		if (waypoints.Count > 1 
+		    && this.canSee (end, waypoints [waypoints.Count - 1].Position)
+		    && this.canSee (end, waypoints [waypoints.Count - 2].Position)) {
 			waypoints.Remove(waypoints[waypoints.Count-1]);
 		}
 
