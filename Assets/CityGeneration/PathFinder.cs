@@ -32,6 +32,7 @@ public class PathFinder : MonoBehaviour {
 		/// </summary>
 		/// <param name="other">Other.</param>
 		public float heuristicTo(WayPoint other){
+
 			return this.position.x - other.position.x + this.position.y - other.position.y;
 		}
 
@@ -63,24 +64,7 @@ public class PathFinder : MonoBehaviour {
 		}
 		
 	}
-
-
-	//TODO implement all of this
-	private class PQ<T> {
 	
-		T nothing;
-
-		public PQ(){
-		}
-
-		public T pop(){
-			return nothing;
-		}
-
-		public void push(T thing, float priority){
-		}
-
-	}
 
 
 	/// <summary>
@@ -121,14 +105,22 @@ public class PathFinder : MonoBehaviour {
 		//TODO right now, it is assumed that start is a valid position. If start is given as an invalid position, then this method may not produce the correct waypoint
 		float firstSqrDist = float.MaxValue;
 		float lastSqrDist = float.MaxValue;
-		WayPoint first = null;
+
+		WayPoint temp = new WayPoint (start);
+
+		//WayPoint first = null;
 		WayPoint last = null;
 		foreach (WayPoint waypoint in this.wayPoints) {
-			float waypointSqrDist = (waypoint.Position - start).sqrMagnitude;
-			if ( first == null || waypointSqrDist < firstSqrDist ){
-				firstSqrDist = waypointSqrDist;
-				first = waypoint;
+
+			if (this.canSee(waypoint.Position, temp.Position)){
+				temp.addChild(waypoint, (waypoint.Position - temp.Position).magnitude);
 			}
+
+			float waypointSqrDist = (waypoint.Position - start).sqrMagnitude;
+			//if ( first == null || waypointSqrDist < firstSqrDist ){
+			//	firstSqrDist = waypointSqrDist;
+		//		first = waypoint;
+		//	}
 			waypointSqrDist = (waypoint.Position - end).sqrMagnitude;
 			if ( last == null || waypointSqrDist < lastSqrDist ){
 				lastSqrDist = waypointSqrDist;
@@ -138,7 +130,7 @@ public class PathFinder : MonoBehaviour {
 
 
 		//run A*
-		List<WayPoint> waypoints = doAStar (first, last);
+		List<WayPoint> waypoints = doAStar (temp, last);
 
 		//clean the waypoint list. There is a chance that the last waypoint has the path move past the end
 		if (waypoints.Count > 1 
@@ -157,13 +149,13 @@ public class PathFinder : MonoBehaviour {
 
 
 		//draw path
-		/*Vector3 origin = new Vector3 (start.x, 1, start.y);
+		Vector3 origin = new Vector3 (start.x, 1, start.y);
 		foreach (Vector2 p in path) {
 			Vector3 next = new Vector3(p.x, 1, p.y);
-			Debug.DrawLine(origin, next,Color.green,1f, false);
+			Debug.DrawLine(origin, next,Color.green,2f, false);
 			origin = next;
 		}
-		*/
+
 
 		return path;
 	}
@@ -183,16 +175,16 @@ public class PathFinder : MonoBehaviour {
 		gScore [start] = 0;
 		fScore [start] = gScore [start] + start.heuristicTo (goal);
 
-
+		//something fishy is going on
 		while (openSet.Count > 0) {
 			WayPoint current = null;//get the lowest value from openset
 			foreach(WayPoint currentCandidate in openSet){
-				if (current == null ){
+				if (current == null || fScore[currentCandidate] < fScore[current]){
 					current = currentCandidate;
 				}
 			}
 	
-
+			
 			if (current == goal){
 				return reconstructPath(cameFrom, goal);
 			}
@@ -205,7 +197,7 @@ public class PathFinder : MonoBehaviour {
 				}
 
 				float gTentative = gScore[current] + current.costTo(waypoint);
-				if (!openSet.Contains(waypoint) || gTentative < 0){ // < gScore[waypoint] 
+				if (!openSet.Contains(waypoint) || gTentative < gScore[waypoint]){ // < gScore[waypoint] 
 					cameFrom[waypoint] = current;
 					gScore[waypoint]  = gTentative;
 					fScore[waypoint] = gScore[waypoint] + waypoint.heuristicTo(goal);
@@ -244,9 +236,9 @@ public class PathFinder : MonoBehaviour {
 		//generate waypoints from streets
 		//a way point should be generated on any street that IS NOT UP/DOWN or RIGHT/LEFT
 		
-		
+		bool cornersOnly = true;
 		foreach (Street street in streets){
-			if (!street.isUpDown() && ! street.isRightLeft()){
+			if (!cornersOnly || !street.isUpDown() && ! street.isRightLeft()){
 				this.addWaypoint(street.Position);
 			}
 		}
@@ -299,10 +291,12 @@ public class PathFinder : MonoBehaviour {
 	}
 
 	private bool canSee(Vector2 a, Vector2 b){
-		Vector3 origin = new Vector3 (a.x, 1, a.y);
-		Vector3 direction = new Vector3 (b.x - a.x, 1, b.y - a.y);
+		//using 4 to avoid player object. Need to find a better way to do this TODO
+		Vector3 origin = new Vector3 (a.x, 4, a.y);
+		Vector3 direction = new Vector3 (b.x - a.x, 4, b.y - a.y);
 		float distance = direction.magnitude;
 		direction.Normalize ();
+	
 		return !Physics.Raycast (origin, direction, distance);
 	}
 
