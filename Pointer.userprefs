@@ -1,8 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CityGeneration\CityGenerator.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CityGeneration\PathFinder.cs">
     <Files>
       <File FileName="Assets\CityGeneration\CityGenerator.cs" Line="46" Column="6" />
+      <File FileName="Assets\MasterGame.cs" Line="80" Column="54" />
+      <File FileName="Assets\CityGeneration\BuildingGenerator.cs" Line="306" Column="24" />
+      <File FileName="Assets\Street.cs" Line="80" Column="1" />
+      <File FileName="Assets\Building.cs" Line="15" Column="2" />
+      <File FileName="Assets\CityGeneration\PathFinder.cs" Line="39" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

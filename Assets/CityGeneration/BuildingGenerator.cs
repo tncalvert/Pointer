@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+
+
+
 //using System;
 public class BuildingGenerator : MonoBehaviour {
 
@@ -71,38 +74,16 @@ public class BuildingGenerator : MonoBehaviour {
 	//}
 
 
-	/*
-	 * An enum to keep track of what kind of road a road piece is
-	 * X | X X X | X
-	 * _   _____   _
-	 * X  |     |  X
-	 * X  |     |  X
-	 * X  |_____|  X
-	 * _           _
-	 * X | X X X | X
-	 * 
-	 */
-	[System.Flags]
-	public enum ROADTYPE{
-		NONE = 0x00, 
-		TOP = 0x01, 
-	
-		LEFT = 0x02, 
-		RIGHT = 0x04,
 
-		BOTTAM = 0x08
-
-
-	}
 
 	/// <summary>
 	/// Generates the street.
 	/// </summary>
 	/// <param name="position">Position.</param>
 	/// <param name="roadType">Road type.</param>
-	public Street generateStreet(Vector2 position, ROADTYPE roadType){
+	public Street generateStreet(Vector2 position, Street.ROADTYPE roadType){
 
-		Street street = new Street (position);
+		Street street = new Street (position, roadType);
 
 		float dist = this.squareSize / 2;
 		dist -= sideWalkWidthRatio * this._masterScale * .5f;
@@ -147,7 +128,7 @@ public class BuildingGenerator : MonoBehaviour {
 		float lightTest = Random.value;
 		bool tryLight = Random.value <= this.lightChance;
 		//create  left
-		if ((roadType & ROADTYPE.LEFT) == ROADTYPE.LEFT) {
+		if ((roadType & Street.ROADTYPE.LEFT) == Street.ROADTYPE.LEFT) {
 			sidewalk = this.generateBlock(0, 0, -dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
@@ -161,7 +142,7 @@ public class BuildingGenerator : MonoBehaviour {
 			}
 
 		}//create  right
-		if ((roadType & ROADTYPE.RIGHT) == ROADTYPE.RIGHT) {
+		if ((roadType & Street.ROADTYPE.RIGHT) == Street.ROADTYPE.RIGHT) {
 			sidewalk = this.generateBlock(0, 0, +dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
@@ -177,7 +158,7 @@ public class BuildingGenerator : MonoBehaviour {
 
 
 		//create top 
-		if ((roadType & ROADTYPE.TOP) == ROADTYPE.TOP) {
+		if ((roadType & Street.ROADTYPE.TOP) == Street.ROADTYPE.TOP) {
 			sidewalk = this.generateBlock(dist, 0, 0, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
@@ -192,7 +173,7 @@ public class BuildingGenerator : MonoBehaviour {
 		}
 
 		//create bottam
-		if ((roadType & ROADTYPE.BOTTAM) == ROADTYPE.BOTTAM) {
+		if ((roadType & Street.ROADTYPE.BOTTAM) == Street.ROADTYPE.BOTTAM) {
 			sidewalk = this.generateBlock(-dist, 0, 0, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
 			this.putOnFloor (sidewalk);
@@ -323,7 +304,7 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <param name="x">The x coordinate.</param>
 	/// <param name="y">The y coordinate.</param>
 	/// <param name="z">The z coordinate.</param>
-	private GameObject generateBlock(float x, float y, float z){
+	public GameObject generateBlock(float x, float y, float z){
 		return this.generateBlock (x, y, z, 1, 1, 1);
 	}
 
@@ -337,7 +318,7 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <param name="sx">The x scale</param>
 	/// <param name="sy">The y scale</param>
 	/// <param name="sz">The z scale</param>
-	private GameObject generateBlock(float x, float y, float z, float sx, float sy, float sz){
+	public GameObject generateBlock(float x, float y, float z, float sx, float sy, float sz){
 		GameObject block = (GameObject) Instantiate (this.buildingBlock, new Vector3 (x, y, z), Quaternion.identity);
 		block.renderer.material = this.buildingMaterial;
 		block.transform.localScale = this._masterScale * new Vector3 (sx, sy, sz);
@@ -345,7 +326,7 @@ public class BuildingGenerator : MonoBehaviour {
 	}
 
 
-	private GameObject generateDome(float x, float y, float z, float sx, float sy, float sz){
+	public GameObject generateDome(float x, float y, float z, float sx, float sy, float sz){
 		GameObject block = (GameObject) Instantiate (this.domeBlock, new Vector3 (x, y, z), Quaternion.identity);
 		//block.renderer.material = this.buildingMaterial;
 		block.transform.localScale = this._masterScale * new Vector3 (sx, sy, sz);
