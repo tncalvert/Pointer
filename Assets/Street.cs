@@ -36,7 +36,7 @@ public class Street {
 	private List<GameObject> blocks;
 	
 	private Vector3 position;
-	public Vector3 Position { get{ return this.position; } }
+	public Vector2 Position { get{ return new Vector2(position.x, position.z); } }
 
 
 	private ROADTYPE roadType;

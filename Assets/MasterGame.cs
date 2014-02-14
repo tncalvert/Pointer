@@ -8,6 +8,10 @@ public class MasterGame : MonoBehaviour {
 	public CityGenerator cityGenerator;
 	public PathFinder pathFinder;
 
+
+	//Uhm, I dont know what I'm doing anymore
+	public FollowPath follower;
+
 	public int width = 16;
 	public int height = 16;
 
@@ -21,6 +25,9 @@ public class MasterGame : MonoBehaviour {
 	/// </summary>
 	private List<Building> buildings;
 
+
+	//an instance of the follower
+	private FollowPath f;
 
 	// Use this for initialization
 	void Start () {
@@ -74,18 +81,45 @@ public class MasterGame : MonoBehaviour {
 		}
 
 
-		//generate waypoints from streets
-		//a way point should be generated on any street that IS NOT UP/DOWN or RIGHT/LEFT
-		foreach (Street street in this.streets){
-			if (!street.isUpDown() && ! street.isRightLeft()){
-				this.pathFinder.addWaypoint(new Vector2(street.Position.x, street.Position.z));
-			}
-		}
+		//generate path graph
+		this.pathFinder.buildPathGraph (this.buildings, this.streets);
 
-	}
+
+
+		//pathFinder.getPath (this.streets [0].Position, this.streets [this.streets.Count - 1].Position);
 	
+		this.f = this.generateFollower (this.streets [0].Position);
+	}
+
+	//I am teh unity n00b and I don't know if this is a good way to go about generating people
+	private FollowPath generateFollower(Vector2 position){
+		FollowPath f = (FollowPath) Instantiate (this.follower, new Vector3(position.x, 1, position.y), Quaternion.identity);
+		f.pathFinder = this.pathFinder;
+		return f;
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
+		//as it stands right now, this whole thing is just to test out A*. Right click to direct the simple capsuleman
+
+		//simple mouse selection stuff
+
+		if (Input.GetMouseButtonDown (1) || Input.GetMouseButtonDown(0)) {
+			Ray cameraRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+		
+
+			RaycastHit hit;//=new RaycastHit();
+		
+			if (Physics.Raycast(cameraRay, out hit, 1000)){
+
+				Vector2 start = new Vector2(this.f.transform.position.x, this.f.transform.position.z);
+				Vector2 end = new Vector2(hit.point.x, hit.point.z);
+
+				this.f.setPath(this.pathFinder.getPath(start, end));
+				
+			}
+		}
+
 	}
 }

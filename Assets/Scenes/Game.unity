@@ -13,12 +13,12 @@ SceneSettings:
 --- !u!104 &2
 RenderSettings:
   m_Fog: 1
-  m_FogColor: {r: .176470578, g: .101211071, b: .101211071, a: 1}
+  m_FogColor: {r: .25, g: .170955881, b: .170955881, a: 1}
   m_FogMode: 3
   m_FogDensity: .00999999978
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientLight: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientLight: {r: .272058845, g: .272058845, b: .272058845, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
@@ -124,6 +124,44 @@ MonoBehaviour:
   streetMaterial: {fileID: 2100000, guid: 8fd86d5144472e840a64e3ca7f612939, type: 2}
   sidewalkMaterial: {fileID: 2100000, guid: 2a7395be856304a409249bbf46bf797b, type: 2}
   parkMaterial: {fileID: 2100000, guid: cad6c884531d89f4caad5430ba8bfb15, type: 2}
+--- !u!1 &212829801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 212829802}
+  - 114: {fileID: 212829803}
+  m_Layer: 0
+  m_Name: Pathfinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &212829802
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 212829801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &212829803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 212829801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dcf5649201668945be67678cd783b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &381908259
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,6 +191,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
+  pathFinder: {fileID: 212829803}
+  follower: {fileID: 11400000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
   width: 64
   height: 64
 --- !u!4 &381908261
