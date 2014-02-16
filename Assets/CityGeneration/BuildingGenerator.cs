@@ -217,12 +217,10 @@ public class BuildingGenerator : MonoBehaviour {
 		Building building = new Building (position);
 
 		GameObject squareBase = generateBlock (0, 0, 0, this.squareSize, 2, this.squareSize);
-        squareBase.AddComponent<BoxCollider>();
 		this.putOnFloor (squareBase);
 
 
 		GameObject core = generateBlock (0, 0, 0, this.squareSize * .92f, this.minHeight, this.squareSize * .92f);
-        core.AddComponent<BoxCollider>();
 		this.putOnBlock (core, squareBase);
 
 		building.addBlock (squareBase);
@@ -255,7 +253,6 @@ public class BuildingGenerator : MonoBehaviour {
 			                                   x,
 			                                   y,
 			                                   z);
-            feature.AddComponent<BoxCollider>();
 			this.putOnBlock(feature, core);
 
 			building.addBlock(feature);
