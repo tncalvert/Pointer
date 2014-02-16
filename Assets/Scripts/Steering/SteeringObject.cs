@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Allows the object containing this script to be moved by a series of steering forces
-/// Requires that the object has a rigid body on it
+/// Requires that the object has a rigidbody on it
 /// Class based on demonstrations and code by Prof. Kesselman
 /// </summary>
 public class SteeringObject : MonoBehaviour {
@@ -22,21 +22,19 @@ public class SteeringObject : MonoBehaviour {
     /// <summary>
     /// A list of all steering forces acting on this object
     /// </summary>
-    List<SteeringForce> steeringForces = new List<SteeringForce>();
-
-    /// <summary>
-    /// A flag that indicates the object has a rigidbody. Update is aborted if this is set to false
-    /// </summary>
-    private bool hasRigidbody = false;
+    public List<SteeringForce> steeringForces = new List<SteeringForce>();
 
 	void Start () { 
         // Check to see if we have a rigid body
         try {
             GetComponent<Rigidbody>();
-            hasRigidbody = true;
+
+            // Add always used steering forces
+            AddSteeringForce(new Fear(this.rigidbody));
         } catch (MissingComponentException e) {
             Debug.Log("Object " + this.name + " does not have a Rigidbody.\n" + e.Message);
         }
+        
     }
 	
 	void Update () {
