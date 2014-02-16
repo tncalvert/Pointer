@@ -48,14 +48,14 @@ public class CollisionAvoidance : SteeringForce {
             (rb.velocity.normalized * boundingRadius), boundingRadius,
             rb.velocity.normalized, out rayHit, rb.velocity.magnitude * velocityMult,
             Physics.kDefaultRaycastLayers)) {
-                Debug.Log("Got a collision with " + rayHit.point);
-                Debug.Log("Center at " + rayHit.collider.bounds.center);
                 Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
-                Debug.Log(collisionDirection);
-                Debug.DrawLine(rayHit.collider.bounds.center, collisionDirection * maxVelocity);
                 return collisionDirection * maxVelocity;
         }
 
         return new Vector3(0, 0, 0);
+    }
+
+    public void UpdateRendererCenter(Vector3 rendererCenter) {
+        this.rendererCenter = rendererCenter;
     }
 }

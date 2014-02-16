@@ -47,7 +47,7 @@ public class Wander : SteeringForce {
         wanderTarget.Normalize();
         wanderTarget *= wanderRadius;
         Vector3 localTarget = wanderTarget + rb.velocity.normalized * wanderDistance;
-        Debug.Log(localTarget);
+        
         return localTarget;
     }
 
