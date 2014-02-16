@@ -44,30 +44,18 @@ public class Fear : SteeringForce {
     /// <returns></returns>
     public Vector3 GetSteeringForce(float maxVelocity) {
         float fearDistanceSquared = fearRadius * fearRadius;
-        List<GameObject> fearedObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag(fearedTag));
-        
-        // Sort objects by distance from player
-        fearedObjects.Sort(delegate(GameObject x, GameObject y) {
-            return (x.rigidbody.position - rb.position).sqrMagnitude
-                .CompareTo((y.rigidbody.position - rb.position).sqrMagnitude);
-        });
-        // Removed all objects that are out of range
-        fearedObjects.RemoveAll(x => (x.rigidbody.position - rb.position).sqrMagnitude > fearDistanceSquared);
 
-        // calculate the denominator and the first numerator
-        float num = fearedObjects.Count;
-        float den = (num * (num + 1)) / 2;
+        GameObject fearedObject = GameObject.FindGameObjectWithTag(fearedTag);
 
-        Vector3 desiredVelocity = new Vector3(0, 0, 0);
+        Vector3 desiredVelocity;
 
-        foreach(GameObject f in fearedObjects) {
-            // Calculate the vector away from the feared object, clamped to
-            // max velocity and then weighted by its position in the list
-            desiredVelocity += 
-                ((rb.position - f.rigidbody.position).normalized * maxVelocity) *
-                (num-- / den);
+        if ((fearedObject.rigidbody.position - rb.position).sqrMagnitude > fearDistanceSquared) {
+            // Too far away
+            desiredVelocity = new Vector3(0, 0, 0);
+        } else {
+            desiredVelocity = ((rb.position - fearedObject.rigidbody.position).normalized * maxVelocity);
         }
-
+        
         return (desiredVelocity - rb.velocity);
     }
 
