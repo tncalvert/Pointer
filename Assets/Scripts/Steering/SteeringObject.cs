@@ -38,20 +38,20 @@ public class SteeringObject : MonoBehaviour {
 
             // Add always used steering forces
 
-            seeker = new Seek(rigidbody);
-            AddSteeringForce(seeker);            
-            //fear = new Fear(rigidbody);
-            //AddSteeringForce(fear);
-            collisionAvoider = new CollisionAvoidance(rigidbody,
-                Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
-                renderer.bounds.size.z) / 2, renderer.bounds.center);
-            AddSteeringForce(collisionAvoider);
+            //seeker = new Seek(rigidbody);
+            //AddSteeringForce(seeker);
+            fear = new Fear(rigidbody);
+            AddSteeringForce(fear);
+            //collisionAvoider = new CollisionAvoidance(rigidbody,
+            //    Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
+            //    renderer.bounds.size.z) / 2, renderer.bounds.center);
+            //AddSteeringForce(collisionAvoider);
             //wander = new Wander(rigidbody);
             //AddSteeringForce(wander);
-            wallAvoidance = new WallAvoidance(rigidbody,
-                Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
-                renderer.bounds.size.z) / 2);
-            AddSteeringForce(wallAvoidance);
+            //wallAvoidance = new WallAvoidance(rigidbody,
+            //    Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
+            //    renderer.bounds.size.z) / 2);
+            //AddSteeringForce(wallAvoidance);
 
         } catch (MissingComponentException e) {
             Debug.Log("Object " + this.name + " does not have a Rigidbody.\n" + e.Message);
@@ -76,7 +76,7 @@ public class SteeringObject : MonoBehaviour {
         }
 
         // Update necessary components
-        collisionAvoider.UpdateRendererCenter(renderer.bounds.center);
+        //collisionAvoider.UpdateRendererCenter(renderer.bounds.center);
 
         Vector3 force = new Vector3(0, 0, 0);
 

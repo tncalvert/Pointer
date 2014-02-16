@@ -53,9 +53,11 @@ public class Fear : SteeringForce {
             // Too far away
             desiredVelocity = new Vector3(0, 0, 0);
         } else {
-            desiredVelocity = ((rb.position - fearedObject.rigidbody.position).normalized * maxVelocity);
+            desiredVelocity = ((rb.position - 
+                (fearedObject.rigidbody.position + fearedObject.rigidbody.velocity))
+                .normalized * maxVelocity);
         }
-        
+        Debug.Log(desiredVelocity - rb.velocity);
         return (desiredVelocity - rb.velocity);
     }
 
