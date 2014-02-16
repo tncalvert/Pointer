@@ -24,8 +24,12 @@ public class SteeringObject : MonoBehaviour {
     /// </summary>
     public List<SteeringForce> steeringForces = new List<SteeringForce>();
 
+    // Behaviors
     Seek seeker;
     CollisionAvoidance collisionAvoider;
+    Fear fear;
+    WallAvoidance wallAvoidance;
+    Wander wander;
 
 	void Start () { 
         // Check to see if we have a rigid body
@@ -33,15 +37,22 @@ public class SteeringObject : MonoBehaviour {
             GetComponent<Rigidbody>();
 
             // Add always used steering forces
-            //AddSteeringForce(new Fear(this.rigidbody));
+
+            seeker = new Seek(rigidbody);
+            AddSteeringForce(seeker);            
+            //fear = new Fear(rigidbody);
+            //AddSteeringForce(fear);
             collisionAvoider = new CollisionAvoidance(rigidbody,
                 Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
                 renderer.bounds.size.z) / 2, renderer.bounds.center);
             AddSteeringForce(collisionAvoider);
-            seeker = new Seek(rigidbody);
+            //wander = new Wander(rigidbody);
+            //AddSteeringForce(wander);
+            wallAvoidance = new WallAvoidance(rigidbody,
+                Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
+                renderer.bounds.size.z) / 2);
+            AddSteeringForce(wallAvoidance);
 
-            AddSteeringForce(seeker);
-            //AddSteeringForce(new Wander(rigidbody));
         } catch (MissingComponentException e) {
             Debug.Log("Object " + this.name + " does not have a Rigidbody.\n" + e.Message);
         }
@@ -49,8 +60,6 @@ public class SteeringObject : MonoBehaviour {
     }
 	
 	void Update () {
-
-        Debug.Log(renderer.bounds.center);
 
         if (!rigidbody) {
             // If there is no rigidbody, abort
