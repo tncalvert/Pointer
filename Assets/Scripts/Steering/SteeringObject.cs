@@ -20,47 +20,16 @@ public class SteeringObject : MonoBehaviour {
     public float maxVelocity = 3.0f;
 
     /// <summary>
-    /// A list of all steering forces acting on this object
+    /// Object containing methods for steering
     /// </summary>
-    public List<SteeringForce> steeringForces = new List<SteeringForce>();
-
-    // Behaviors
-    Seek seeker;
-    CollisionAvoidance collisionAvoider;
-    Fear fear;
-    WallAvoidance wallAvoidance;
-    Wander wander;
-    Cohesion cohesion;
-    Separation separation;
-    Alignment alignment;
+    SteeringBehaviors steeringBehaviors;
 
 	void Start () { 
         // Check to see if we have a rigid body
         try {
             GetComponent<Rigidbody>();
 
-            // Add always used steering forces
-
-            seeker = new Seek(rigidbody);
-            AddSteeringForce(seeker);
-            //fear = new Fear(rigidbody);
-            //AddSteeringForce(fear);
-            //collisionAvoider = new CollisionAvoidance(rigidbody,
-            //    Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
-            //    renderer.bounds.size.z) / 2, renderer.bounds.center);
-            //AddSteeringForce(collisionAvoider);
-            //wander = new Wander(rigidbody);
-            //AddSteeringForce(wander);
-            //wallAvoidance = new WallAvoidance(rigidbody,
-            //    Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y,
-            //    renderer.bounds.size.z) / 2);
-            //AddSteeringForce(wallAvoidance);
-            cohesion = new Cohesion(rigidbody);
-            separation = new Separation(rigidbody);
-            alignment = new Alignment(rigidbody);
-            AddSteeringForce(cohesion);
-            AddSteeringForce(separation);
-            AddSteeringForce(alignment);
+            steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
 
         } catch (MissingComponentException e) {
             Debug.Log("Object " + this.name + " does not have a Rigidbody.\n" + e.Message);
@@ -75,48 +44,32 @@ public class SteeringObject : MonoBehaviour {
             return;
         }
 
+        Vector3 force = new Vector3(0, 0, 0);
+
         if (Input.GetMouseButton(0)) {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit)) {
-                seeker.SetSeekPosition(hit.point);
+                steeringBehaviors.targetPosition = hit.point;
             }
         }
 
-        // Update necessary components
-        //collisionAvoider.UpdateRendererCenter(renderer.bounds.center);
-
-        Vector3 force = new Vector3(0, 0, 0);
-
-        // Accumulate the effects of all steering forces
-        foreach (SteeringForce sf in steeringForces) {
-            force = force + sf.GetSteeringForce(maxVelocity);
-        }
+        // Add forces
+        force += steeringBehaviors.GetAlignmentForce(maxVelocity);
+        force += steeringBehaviors.GetCohesionForce(maxVelocity);
+        force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity);
+        force += steeringBehaviors.GetFearForce(maxVelocity);
+        force += steeringBehaviors.GetSeekForce(maxVelocity);
+        force += steeringBehaviors.GetSeparationForce(maxVelocity);
+        force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity);
+        force += steeringBehaviors.GetWanderForce(maxVelocity);
 
         // Limit the force
         force = Vector3.ClampMagnitude(force, maxForce);
 
         // Apply the force
-        GetComponent<Rigidbody>().AddForce(force);
+        rigidbody.AddForce(force - rigidbody.velocity);
         
 	}
-
-    /// <summary>
-    /// Adds a new steering force to the object
-    /// Does not check if there is already a steering force of this type on the object
-    /// </summary>
-    /// <param name="sf">The new steering force to add</param>
-    public void AddSteeringForce(SteeringForce sf) {
-        steeringForces.Add(sf);
-    }
-
-    /// <summary>
-    /// Removes a steering force from the object
-    /// Does not handle duplicates
-    /// </summary>
-    /// <param name="sf">Steering force to remove</param>
-    public void RemoveSteeringForce(SteeringForce sf) {
-        steeringForces.Remove(sf);
-    }
 }
