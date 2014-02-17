@@ -71,13 +71,16 @@ public class SteeringBehaviors : MonoBehaviour {
 
     public Vector3 GetCollisionAvoidanceForce(float maxVelocity) {
 
+        // We'll let flocking behaviors handle collision with other victims
+
         RaycastHit rayHit = new RaycastHit();
         if (Physics.SphereCast(renderer.bounds.center +
             (rigidbody.velocity.normalized * boundingRadiusCollisionAvoidance),
             boundingRadiusCollisionAvoidance, rigidbody.velocity.normalized, out rayHit,
             rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
-            Physics.kDefaultRaycastLayers)) {
+            ~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
             Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
+            //Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.blue);
             return collisionDirection * maxVelocity;
         }
 
@@ -94,7 +97,11 @@ public class SteeringBehaviors : MonoBehaviour {
     public Vector3 GetFearForce(float maxVelocity) {
         float fearDistanceSquared = fearRadius * fearRadius;
 
-        GameObject fearedObject = GameObject.FindGameObjectWithTag(fearedTag);
+        GameObject fearedObject = GameObject.FindWithTag(fearedTag);
+
+        if (!fearedObject) {
+            return new Vector3(0, 0, 0);
+        }
 
         Vector3 desiredVelocity;
 
@@ -161,6 +168,10 @@ public class SteeringBehaviors : MonoBehaviour {
         feelers[2] = (feelers[0] + new Vector3(feelers[0].z, feelers[0].y, -feelers[0].x))
             .normalized * feelerLength;
 
+        //Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[0], Color.green);
+        //Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[1], Color.green);
+        //Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[2], Color.green);
+
         // check for impacts
         Vector3 result = new Vector3(0, 0, 0);
         RaycastHit hit = new RaycastHit();
@@ -170,6 +181,8 @@ public class SteeringBehaviors : MonoBehaviour {
                 result += hit.normal * ((feelers[i].magnitude - hit.distance) * forceFactor);
             }
         }
+
+        //Debug.DrawLine(rigidbody.position, rigidbody.position + result, Color.yellow);
 
         return result;
     }
