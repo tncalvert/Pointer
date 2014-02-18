@@ -51,6 +51,7 @@ public class SteeringObject : MonoBehaviour {
             GetComponent<Rigidbody>();
 
             steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
+            steeringBehaviors.targetPosition = rigidbody.position;
 
         } catch (MissingComponentException e) {
             Debug.Log("Object " + this.name + " does not have a Rigidbody.\n" + e.Message);

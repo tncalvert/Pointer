@@ -240,6 +240,9 @@ public class CityGenerator : MonoBehaviour {
         // Make sure all sections are connected
         cityGrid = _fixCutoffSections(cityGrid, newEdgeHoriz, newEdgeVert);
 
+        // Make sure all parks have access to a road
+        cityGrid = _checkParkAccess(cityGrid, newEdgeHoriz, newEdgeVert);
+
 		return cityGrid;
     }
 
@@ -716,6 +719,80 @@ public class CityGenerator : MonoBehaviour {
         foreach (var p in path) {
             cityGrid[(int)p.y, (int)p.x] = FILLTYPE.ROAD;
         }
+
+        return cityGrid;
+    }
+
+    private FILLTYPE[,] _checkParkAccess(FILLTYPE[,] cityGrid, int newHorzEdge, int newVertEdge) {
+
+        List<Vector2> parkPoints = new List<Vector2>();
+
+        for (int i = 0; i < newVertEdge; ++i) {
+            for (int j = 0; j < newHorzEdge; ++j) {
+                if (cityGrid[i, j] == FILLTYPE.PARK && !parkPoints.Contains(new Vector2(j, i))) {
+                    // Add points to parkPoints so we don't handle the same park again
+                    int y = i, x = j, baseX = j;
+                    while (cityGrid[y, x] == FILLTYPE.PARK) {
+                        while (cityGrid[y, x] == FILLTYPE.PARK) {
+                            parkPoints.Add(new Vector2(x, y));
+                            ++x;
+                        }
+                        x = baseX;
+                        ++y;
+                    }
+                    x = baseX;
+
+                    // Make sure we have road access
+                    bool bottom = false, right = false, left = false, top = false;
+                    // Check bottom section
+                    while (cityGrid[y - 1, x] == FILLTYPE.PARK) {
+                        if (cityGrid[y, x] == FILLTYPE.ROAD) {
+                            bottom = true;
+                        }
+                        ++x;
+                    }
+                    --y;
+                    // Check right
+                    while (cityGrid[y, x - 1] == FILLTYPE.PARK) {
+                        if (cityGrid[y, x] == FILLTYPE.ROAD) {
+                            right = true;
+                        }
+                        --y;
+                    }
+                    --x;
+                    // Check top
+                    while (cityGrid[y + 1, x] == FILLTYPE.PARK) {
+                        if (cityGrid[y, x] == FILLTYPE.ROAD) {
+                            top = true;
+                        }
+                        --x;
+                    }
+                    ++y;
+                    // Check left
+                    while (cityGrid[y, x + 1] == FILLTYPE.PARK) {
+                        if (cityGrid[y, x] == FILLTYPE.ROAD) {
+                            left = true;
+                        }
+                        ++y;
+                    }
+
+                    if (bottom || top || left || right) {
+                        continue;
+                    }
+
+                    // Go with the simple option and just cut to the left until we meet a road
+                    // There will already be a road nearby, and there is nothing in the way
+                    // that we care about keeping as we cannot have two parks next to each
+                    // other without a road in between (they are added before removing
+                    // roads)
+                    x = j - 1;
+                    y = i;
+                    while (cityGrid[y, x] != FILLTYPE.ROAD) {
+                        cityGrid[y, x--] = FILLTYPE.ROAD;
+                    }
+                }
+            }
+        }        
 
         return cityGrid;
     }
