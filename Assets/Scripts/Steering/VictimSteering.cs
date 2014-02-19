@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// Requires that the object has a rigidbody on it
 /// Class based on demonstrations and code by Prof. Kesselman
 /// </summary>
-public class SteeringObject : MonoBehaviour {
+public class VictimSteering : MonoBehaviour {
 
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
@@ -23,6 +23,16 @@ public class SteeringObject : MonoBehaviour {
     /// Object containing methods for steering
     /// </summary>
     SteeringBehaviors steeringBehaviors;
+
+    /// <summary>
+    /// Pathfinder to get A* path to new location
+    /// </summary>
+    PathFinder pathFinder = null;
+
+    /// <summary>
+    /// Holds path to follow
+    /// </summary>
+    Vector2[] path = new Vector2[0];
 
     /// <summary>
     /// Weights for behaviors
@@ -45,7 +55,7 @@ public class SteeringObject : MonoBehaviour {
                                                     0.6f    // Wander
     };
 
-	void Start () { 
+    void Start() {
         // Check to see if we have a rigid body
         try {
             GetComponent<Rigidbody>();
@@ -53,30 +63,42 @@ public class SteeringObject : MonoBehaviour {
             steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
             steeringBehaviors.targetPosition = rigidbody.position;
 
-        } catch (MissingComponentException e) {
-            Debug.Log("Object " + this.name + " does not have a Rigidbody.\n" + e.Message);
+            GameObject pf = GameObject.Find("Pathfinder");
+            if (pf) {
+                try {
+                    pathFinder = pf.GetComponent<PathFinder>();
+                } catch {
+                    Debug.Log("Pathfinder object does not have the correct script attached, and so path have not been generated");
+                }
+            }
+
+        } catch {
+            Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+            rb.freezeRotation = true;
         }
-        
+
     }
-	
-	void Update () {
+
+    void Update() {
 
         if (!rigidbody) {
             // If there is no rigidbody, abort
             return;
         }
 
-        Vector3 force = new Vector3(0, 0, 0);
-
-        if (Input.GetMouseButton(0)) {
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit)) {
-                Debug.Log("Clicked");
-                steeringBehaviors.targetPosition = hit.point;
+        if (pathFinder) {
+            if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(0)) {
+                Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(cameraRay, out hit)) {
+                    Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
+                    Vector2 end = new Vector2(hit.point.x, hit.point.z);
+                    this.path = this.pathFinder.getPath(start, end);
+                }
             }
         }
+
+        Vector3 force = new Vector3(0, 0, 0);
 
         // Add forces
         force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
@@ -93,6 +115,6 @@ public class SteeringObject : MonoBehaviour {
 
         // Apply the force
         rigidbody.AddForce(force - rigidbody.velocity);
-        
-	}
+
+    }
 }

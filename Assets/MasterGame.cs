@@ -10,7 +10,7 @@ public class MasterGame : MonoBehaviour {
 
 
 	//Uhm, I dont know what I'm doing anymore
-	public FollowPath follower;
+	public GameObject follower;
 
 	public int width = 16;
 	public int height = 16;
@@ -27,7 +27,7 @@ public class MasterGame : MonoBehaviour {
 
 
 	//an instance of the follower
-	private FollowPath f;
+	private PlayerSteering f;
 
 	// Use this for initialization
 	void Start () {
@@ -92,34 +92,14 @@ public class MasterGame : MonoBehaviour {
 	}
 
 	//I am teh unity n00b and I don't know if this is a good way to go about generating people
-	private FollowPath generateFollower(Vector2 position){
-		FollowPath f = (FollowPath) Instantiate (this.follower, new Vector3(position.x, 1, position.y), Quaternion.identity);
-		f.pathFinder = this.pathFinder;
+	private PlayerSteering generateFollower(Vector2 position){
+		PlayerSteering f = ((GameObject)Instantiate (this.follower, new Vector3(position.x, 1, position.y), Quaternion.identity)).GetComponent<PlayerSteering>();
 		return f;
 	}
 
 	// Update is called once per frame
 	void Update () {
 	
-		//as it stands right now, this whole thing is just to test out A*. Right click to direct the simple capsuleman
-
-		//simple mouse selection stuff
-
-		if (Input.GetMouseButtonDown (1) || Input.GetMouseButtonDown(0)) {
-			Ray cameraRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-		
-
-			RaycastHit hit;//=new RaycastHit();
-		
-			if (Physics.Raycast(cameraRay, out hit, 1000)){
-
-				Vector2 start = new Vector2(this.f.transform.position.x, this.f.transform.position.z);
-				Vector2 end = new Vector2(hit.point.x, hit.point.z);
-
-				this.f.setPath(this.pathFinder.getPath(start, end));
-				
-			}
-		}
 
 	}
 }

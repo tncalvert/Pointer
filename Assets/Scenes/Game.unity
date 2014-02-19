@@ -192,7 +192,7 @@ MonoBehaviour:
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
   pathFinder: {fileID: 212829803}
-  follower: {fileID: 11400000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
+  follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
   width: 64
   height: 64
 --- !u!4 &381908261

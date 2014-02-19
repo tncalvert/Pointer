@@ -11,8 +11,8 @@ GameObject:
   - 33: {fileID: 3300000}
   - 136: {fileID: 13600000}
   - 23: {fileID: 2300000}
-  - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: SimplePersonModel
   m_TagString: Untagged
@@ -82,11 +82,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1956bdc14afeaf2419146bdabada4806, type: 3}
+  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathFinder: {fileID: 0}
-  speed: 1
+  maxForce: 50
+  maxVelocity: 100
+  behaviorWeights:
+  - 1.10000002
+  - 1.20000005
+  - 1.5
+  - 2
+  - 1
+  - 1.5
+  - 1.5
+  - .600000024
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

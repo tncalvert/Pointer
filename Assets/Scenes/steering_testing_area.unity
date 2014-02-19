@@ -85,8 +85,8 @@ GameObject:
   - 33: {fileID: 41936179}
   - 136: {fileID: 41936178}
   - 23: {fileID: 41936177}
-  - 114: {fileID: 41936176}
   - 54: {fileID: 41936175}
+  - 114: {fileID: 41936176}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 41936174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -318,8 +318,8 @@ GameObject:
   - 33: {fileID: 661966953}
   - 136: {fileID: 661966952}
   - 23: {fileID: 661966951}
-  - 114: {fileID: 661966950}
   - 54: {fileID: 661966949}
+  - 114: {fileID: 661966950}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 661966948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -427,8 +427,8 @@ GameObject:
   - 33: {fileID: 719280643}
   - 136: {fileID: 719280642}
   - 23: {fileID: 719280641}
-  - 114: {fileID: 719280640}
   - 54: {fileID: 719280639}
+  - 114: {fileID: 719280640}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -459,7 +459,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 719280638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -705,8 +705,8 @@ GameObject:
   - 33: {fileID: 1144690256}
   - 136: {fileID: 1144690255}
   - 23: {fileID: 1144690254}
-  - 114: {fileID: 1144690253}
   - 54: {fileID: 1144690252}
+  - 114: {fileID: 1144690253}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1144690251}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -814,8 +814,8 @@ GameObject:
   - 33: {fileID: 1264470835}
   - 136: {fileID: 1264470834}
   - 23: {fileID: 1264470833}
-  - 114: {fileID: 1264470832}
   - 54: {fileID: 1264470831}
+  - 114: {fileID: 1264470832}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -846,7 +846,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1264470830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -923,8 +923,8 @@ GameObject:
   - 33: {fileID: 1539746244}
   - 136: {fileID: 1539746243}
   - 23: {fileID: 1539746242}
-  - 114: {fileID: 1539746241}
   - 54: {fileID: 1539746240}
+  - 114: {fileID: 1539746241}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1539746239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -1032,8 +1032,8 @@ GameObject:
   - 33: {fileID: 1660460759}
   - 136: {fileID: 1660460758}
   - 23: {fileID: 1660460757}
-  - 114: {fileID: 1660460756}
   - 54: {fileID: 1660460755}
+  - 114: {fileID: 1660460756}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1660460754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -1275,8 +1275,8 @@ GameObject:
   - 33: {fileID: 1874608980}
   - 136: {fileID: 1874608979}
   - 23: {fileID: 1874608978}
-  - 114: {fileID: 1874608977}
   - 54: {fileID: 1874608976}
+  - 114: {fileID: 1874608977}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -1307,7 +1307,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1874608975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
@@ -1373,6 +1373,44 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!1 &1931137425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1931137427}
+  - 114: {fileID: 1931137426}
+  m_Layer: 0
+  m_Name: Pathfinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1931137426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1931137425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dcf5649201668945be67678cd783b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1931137427
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1931137425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &1972771810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,8 +1422,8 @@ GameObject:
   - 33: {fileID: 1972771815}
   - 136: {fileID: 1972771814}
   - 23: {fileID: 1972771813}
-  - 114: {fileID: 1972771812}
   - 54: {fileID: 1972771811}
+  - 114: {fileID: 1972771812}
   m_Layer: 9
   m_Name: BasicSteeredObject
   m_TagString: Untagged
@@ -1416,7 +1454,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1972771810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
+  m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxForce: 5
