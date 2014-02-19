@@ -96,6 +96,10 @@ public class PlayerSteering : MonoBehaviour {
             return;
         }
 
+        // Keep object rotated in the correct direction
+        // *** BUGGY ***
+        //rigidbody.rotation = Quaternion.RotateTowards(rigidbody.rotation, Quaternion.LookRotation(-rigidbody.velocity, Vector3.up), Time.deltaTime * 100f);
+
         Vector3 force = new Vector3(0, 0, 0);
 
         if (pathFinder) {
