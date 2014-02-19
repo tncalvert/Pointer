@@ -291,13 +291,14 @@ public class PathFinder : MonoBehaviour {
 	}
 
 	private bool canSee(Vector2 a, Vector2 b){
-		//using 4 to avoid player object. Need to find a better way to do this TODO
-		Vector3 origin = new Vector3 (a.x, 4, a.y);
-		Vector3 direction = new Vector3 (b.x - a.x, 4, b.y - a.y);
+		//using 2, which should be right in the middle of the player
+		Vector3 origin = new Vector3 (a.x, 2, a.y);
+		Vector3 direction = new Vector3 (b.x - a.x, 2, b.y - a.y);
 		float distance = direction.magnitude;
 		direction.Normalize ();
 	
-		return !Physics.Raycast (origin, direction, distance);
+		return !Physics.Raycast (origin, direction, distance,
+            ~((1 << LayerMask.NameToLayer("Victims") | (1 << LayerMask.NameToLayer("Player")))));
 	}
 
 
