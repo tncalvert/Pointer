@@ -12,7 +12,7 @@ SceneSettings:
     backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: .25, g: .170955881, b: .170955881, a: 1}
   m_FogMode: 3
   m_FogDensity: .00999999978
@@ -193,8 +193,9 @@ MonoBehaviour:
   cityGenerator: {fileID: 1813717340}
   pathFinder: {fileID: 212829803}
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
-  width: 64
-  height: 64
+  victim: {fileID: 100000, guid: 049a24953cd89ef4caf9295d83c39ee1, type: 2}
+  width: 32
+  height: 32
 --- !u!4 &381908261
 Transform:
   m_ObjectHideFlags: 0

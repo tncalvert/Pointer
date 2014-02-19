@@ -142,9 +142,10 @@ public class BuildingGenerator : MonoBehaviour {
 
 			if (tryLight && lightTest < .25f){
 				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x, 0, position.y-dist), Quaternion.identity);
-				streetLight.transform.position += new Vector3(0, 0, streetLight.transform.localScale.z*1.1f);
+				streetLight.transform.position += new Vector3(0, streetLight.transform.localScale.y, streetLight.transform.localScale.z*1.1f);
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 
 		}//create  right
@@ -157,10 +158,11 @@ public class BuildingGenerator : MonoBehaviour {
 
 			if (tryLight && lightTest > .25f && lightTest < .5f){
 				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x, 0, position.y+dist), Quaternion.identity);
-				streetLight.transform.position += new Vector3(0, 0, -streetLight.transform.localScale.z*1.1f);
+				streetLight.transform.position += new Vector3(0, streetLight.transform.localScale.y, -streetLight.transform.localScale.z*1.1f);
 				streetLight.transform.Rotate(new Vector3(0, 180, 0));
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 		}
 
@@ -175,10 +177,11 @@ public class BuildingGenerator : MonoBehaviour {
 
 			if (tryLight && lightTest > .5f && lightTest < .75f){
 				GameObject streetLight = (GameObject) Instantiate (this.streetLight, new Vector3 (position.x+dist, 0, position.y), Quaternion.identity);
-				streetLight.transform.position += new Vector3(-streetLight.transform.localScale.z*1.1f, 0, 0);
+				streetLight.transform.position += new Vector3(-streetLight.transform.localScale.z*1.1f, streetLight.transform.localScale.y, 0);
 				streetLight.transform.Rotate(new Vector3(0, 270, 0));
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 		}
 
@@ -196,6 +199,7 @@ public class BuildingGenerator : MonoBehaviour {
 				streetLight.transform.Rotate(new Vector3(0, 90, 0));
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 		}
 

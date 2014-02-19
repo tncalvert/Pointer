@@ -88,14 +88,14 @@ MonoBehaviour:
   maxForce: 40
   maxVelocity: 80
   behaviorWeights:
-  - 1.10000002
+  - 1.73000002
   - 1.20000005
-  - 1
+  - .959999979
   - 2
-  - 1.20000005
-  - 1.5
-  - 1
-  - .600000024
+  - 1.62
+  - 2.55999994
+  - .899999976
+  - .330000013
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
