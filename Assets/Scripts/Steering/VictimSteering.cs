@@ -12,12 +12,22 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
-    public float maxForce = 5.0f;
+    public float maxForce = 40.0f;
 
     /// <summary>
     /// The maximum velocity that results from the application of a steering force
     /// </summary>
-    public float maxVelocity = 10.0f;
+    public float maxVelocity = 80.0f;
+
+	/// <summary>
+	/// Distance the object can be from its target destination before it is considered to have arrived
+	/// </summary>
+	float minimumArrivalRadiusSqrd = 25.0f;
+	
+	/// <summary>
+	/// Distance the object can be from the final point of its path before the path is considered complete
+	/// </summary>
+	float minimumCompleteArrivalRadiusSqrd = 9.0f;
 
     /// <summary>
     /// Object containing methods for steering
@@ -32,7 +42,7 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// Holds path to follow
     /// </summary>
-    Vector2[] path = new Vector2[0];
+	List<Vector2> path = new List<Vector2>();
 
     /// <summary>
     /// Weights for behaviors
@@ -93,22 +103,38 @@ public class VictimSteering : MonoBehaviour {
                 if (Physics.Raycast(cameraRay, out hit)) {
                     Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
                     Vector2 end = new Vector2(hit.point.x, hit.point.z);
-                    this.path = this.pathFinder.getPath(start, end);
+                    this.path = new List<Vector2>(this.pathFinder.getPath(start, end));
                 }
             }
         }
 
+		if (path.Count > 0) {
+			// Check if we have arrived
+			if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
+				// We are close enough, get the next goal
+				steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
+				path.RemoveAt(0);
+			}
+			// else don't do anything, continue to let it path closer to goal
+		} else {
+			// Working on the last one
+			// If we are there, stop
+			if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumCompleteArrivalRadiusSqrd) {
+				steeringBehaviors.targetPosition = rigidbody.position;
+			}
+		}
+
         Vector3 force = new Vector3(0, 0, 0);
 
         // Add forces
-        force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
-        force += steeringBehaviors.GetCohesionForce(maxVelocity) * behaviorWeights[1];
+        //force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
+        //force += steeringBehaviors.GetCohesionForce(maxVelocity) * behaviorWeights[1];
         force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
-        force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
+        //force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
         force += steeringBehaviors.GetSeekForce(maxVelocity) * behaviorWeights[4];
-        force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
+        //force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
         force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
-        force += steeringBehaviors.GetWanderForce(maxVelocity) * behaviorWeights[7];
+        //force += steeringBehaviors.GetWanderForce(maxVelocity) * behaviorWeights[7];
 
         // Limit the force
         force = Vector3.ClampMagnitude(force, maxForce);

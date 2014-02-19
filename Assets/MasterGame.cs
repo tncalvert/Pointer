@@ -9,8 +9,12 @@ public class MasterGame : MonoBehaviour {
 	public PathFinder pathFinder;
 
 
+
+
 	//Uhm, I dont know what I'm doing anymore
 	public GameObject follower;
+
+	public GameObject victim;
 
 	public int width = 16;
 	public int height = 16;
@@ -26,8 +30,7 @@ public class MasterGame : MonoBehaviour {
 	private List<Building> buildings;
 
 
-	//an instance of the follower
-	private PlayerSteering f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -84,11 +87,17 @@ public class MasterGame : MonoBehaviour {
 		//generate path graph
 		this.pathFinder.buildPathGraph (this.buildings, this.streets);
 
-
+		generateVictim (streets [0].Position);
 
 		//pathFinder.getPath (this.streets [0].Position, this.streets [this.streets.Count - 1].Position);
-	
-		this.f = this.generateFollower (this.streets [0].Position);
+		//for (int i = 0 ; i < 4 ; i ++)
+		//	this.generateFollower (this.streets [0].Position);
+
+	}
+
+	private VictimSteering generateVictim(Vector2 position){
+		VictimSteering v = ((GameObject)Instantiate(this.victim, new Vector3(position.x, 1, position.y), Quaternion.identity)).GetComponent<VictimSteering>();
+		return v;
 	}
 
 	//I am teh unity n00b and I don't know if this is a good way to go about generating people
