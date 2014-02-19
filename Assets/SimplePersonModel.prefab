@@ -85,16 +85,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxForce: 50
-  maxVelocity: 100
+  maxForce: 40
+  maxVelocity: 80
   behaviorWeights:
   - 1.10000002
   - 1.20000005
-  - 1.5
-  - 2
   - 1
+  - 2
+  - 1.20000005
   - 1.5
-  - 1.5
+  - 1
   - .600000024
 --- !u!136 &13600000
 CapsuleCollider:

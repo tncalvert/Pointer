@@ -12,12 +12,12 @@ public class PlayerSteering : MonoBehaviour {
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
-    public float maxForce = 6.0f;
+    public float maxForce = 40.0f;
 
     /// <summary>
     /// The maximum velocity that results from the application of a steering force
     /// </summary>
-    public float maxVelocity = 12.0f;
+    public float maxVelocity = 80.0f;
 
     /// <summary>
     /// Object containing methods for steering
@@ -40,6 +40,11 @@ public class PlayerSteering : MonoBehaviour {
     float minimumArrivalRadiusSqrd = 25.0f;
 
     /// <summary>
+    /// Distance the object can be from the final point of its path before the path is considered complete
+    /// </summary>
+    float minimumCompleteArrivalRadiusSqrd = 9.0f;
+
+    /// <summary>
     /// Weights for behaviors
     /// 0: Alignment
     /// 1: Cohesion
@@ -52,11 +57,11 @@ public class PlayerSteering : MonoBehaviour {
     /// </summary>
     public float[] behaviorWeights = new float[8] { 1.1f,   // Alignment
                                                     1.2f,   // Cohesion
-                                                    1.5f,   // Collision Avoidance
+                                                    1.0f,   // Collision Avoidance
                                                     2.0f,   // Fear
-                                                    1.0f,   // Seek
+                                                    1.2f,   // Seek
                                                     1.5f,   // Separation
-                                                    1.5f,   // Wall Avoidance
+                                                    1.0f,   // Wall Avoidance
                                                     0.6f    // Wander
     };
 
@@ -67,7 +72,6 @@ public class PlayerSteering : MonoBehaviour {
 
             steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
             steeringBehaviors.targetPosition = rigidbody.position;
-            Debug.Log("****" + steeringBehaviors.targetPosition + " " + rigidbody.position);
 
             GameObject pf = GameObject.Find("Pathfinder");
             if (pf) {
@@ -102,25 +106,25 @@ public class PlayerSteering : MonoBehaviour {
                     Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
                     Vector2 end = new Vector2(hit.point.x, hit.point.z);
                     path = new List<Vector2>(pathFinder.getPath(start, end));
-                    Debug.Log("new path");
                 }
             }
         }
 
         if (path.Count > 0) {
-            Debug.Log("path has " + path.Count + " positions");
             // Check if we have arrived
-            Debug.Log("****" + steeringBehaviors.targetPosition + " " + rigidbody.position);
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
-                Debug.Log("Close enough to " + steeringBehaviors.targetPosition);
                 // We are close enough, get the next goal
                 steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
-                Debug.Log("New taget is " + steeringBehaviors.targetPosition);
                 path.RemoveAt(0);
             }
             // else don't do anything, continue to let it path closer to goal
-        } else
-            Debug.Log("no points");
+        } else {
+            // Working on the last one
+            // If we are there, stop
+            if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumCompleteArrivalRadiusSqrd) {
+                steeringBehaviors.targetPosition = rigidbody.position;
+            }
+        }
 
         // Add forces
         force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
