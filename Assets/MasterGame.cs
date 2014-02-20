@@ -75,7 +75,12 @@ public class MasterGame : MonoBehaviour {
 							roadType |= Street.ROADTYPE.BOTTAM;
 						}
 						
-						this.streets.Add (buildingGenerator.generateStreet(position, roadType ));
+					bool nextToPark = ((y +1 < height && gridCity[x, y+1] == CityGenerator.FILLTYPE.PARK)
+					    				||(x - 1 > -1 && gridCity[x-1, y] == CityGenerator.FILLTYPE.PARK)
+					    				||(x + 1 < width && gridCity[x+1, y] == CityGenerator.FILLTYPE.PARK)
+					                   	||( y -1 > -1 && gridCity[x, y-1] == CityGenerator.FILLTYPE.PARK));
+
+					    this.streets.Add (buildingGenerator.generateStreet(position, roadType, nextToPark ));
 						break;
 					case CityGenerator.FILLTYPE.PARK:
 

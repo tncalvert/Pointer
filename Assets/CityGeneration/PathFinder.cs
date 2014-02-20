@@ -238,16 +238,14 @@ public class PathFinder : MonoBehaviour {
 		
 		bool cornersOnly = true;
 		foreach (Street street in streets){
-			if (!cornersOnly || !street.isUpDown() && ! street.isRightLeft()){
+			if (street.NextToPark || !cornersOnly || !street.isUpDown() && ! street.isRightLeft()){
 				this.addWaypoint(street.Position);
 			}
 		}
-
-		foreach (Park parkCell in parks) {
-
-			this.addWaypoint(parkCell.Position);
+		foreach (Park park in parks) {
+			this.addWaypoint(park.Position);
 		}
-	
+
 	}
 
 

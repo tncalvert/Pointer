@@ -66,7 +66,7 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <summary>
 	/// scale ratio for the height of sidewalks and parks
 	/// </summary>
-	private float heightRatio = .5f;
+	private float heightRatio = .1f;
 	// Use this for initialization
 
 	//void Start () {
@@ -81,9 +81,9 @@ public class BuildingGenerator : MonoBehaviour {
 	/// </summary>
 	/// <param name="position">Position.</param>
 	/// <param name="roadType">Road type.</param>
-	public Street generateStreet(Vector2 position, Street.ROADTYPE roadType){
+	public Street generateStreet(Vector2 position, Street.ROADTYPE roadType, bool nextToPark){
 
-		Street street = new Street (position, roadType);
+		Street street = new Street (position, roadType, nextToPark);
 
 		float dist = this.squareSize / 2;
 		dist -= sideWalkWidthRatio * this._masterScale * .5f;

@@ -74,11 +74,12 @@ public class SteeringBehaviors : MonoBehaviour {
         // We'll let flocking behaviors handle collision with other victims
 
         RaycastHit rayHit = new RaycastHit();
-        if (Physics.SphereCast(renderer.bounds.center +
-            (rigidbody.velocity.normalized * boundingRadiusCollisionAvoidance),
-            boundingRadiusCollisionAvoidance, rigidbody.velocity.normalized, out rayHit,
-            rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
-            ~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
+        if (Physics.SphereCast(renderer.bounds.center + (rigidbody.velocity.normalized * boundingRadiusCollisionAvoidance),
+            	boundingRadiusCollisionAvoidance,
+		        rigidbody.velocity.normalized,
+		        out rayHit,
+            	rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
+            	~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
             Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
             //Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.blue);
             return collisionDirection * maxVelocity;

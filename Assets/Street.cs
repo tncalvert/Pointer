@@ -38,13 +38,16 @@ public class Street {
 	private Vector3 position;
 	public Vector2 Position { get{ return new Vector2(position.x, position.z); } }
 
+	private bool nextToPark;
+	public bool NextToPark{ get { return this.nextToPark; } }
 
 	private ROADTYPE roadType;
 	
-	public Street(Vector2 position, ROADTYPE roadType){
+	public Street(Vector2 position, ROADTYPE roadType, bool nextToPark){
 		this.blocks = new List<GameObject>();
 		this.position = new Vector3 (position.x, 0, position.y);
 		this.roadType = roadType;
+		this.nextToPark = nextToPark;
 	}
 	
 	public void addBlock(GameObject block){
