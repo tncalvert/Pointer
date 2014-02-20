@@ -13,7 +13,7 @@ GameObject:
   - 135: {fileID: 13500000}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: VictimModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,19 +85,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc73a19cf37652340adc444870fc6673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxForce: 5
-  maxVelocity: 10
+  maxForce: 20
+  maxVelocity: 40
   path: []
   destination: {x: 0, y: 0}
-  uniquePathProbability: .5
+  uniquePathProbability: 0
+  pathCheckRadius: 20
   behaviorWeights:
-  - 1.10000002
-  - 1.20000005
-  - 1.5
-  - 2
   - 1
-  - 1.5
-  - 1.5
+  - 1
+  - 2.75
+  - 4
+  - 1
+  - 1.20000005
+  - 2.75
   - .600000024
 --- !u!135 &13500000
 SphereCollider:

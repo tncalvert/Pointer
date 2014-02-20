@@ -92,7 +92,7 @@ public class MasterGame : MonoBehaviour {
 	
 		this.f = this.generateFollower (this.streets [0].Position);
 
-        for (int i = 2; i < streets.Count / 10; i++)
+        for (int i = 2; i < 4; i++)
             generateVictim(streets[i].Position);
 	}
 
