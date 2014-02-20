@@ -81,7 +81,8 @@ public class SteeringBehaviors : MonoBehaviour {
             	rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
             	~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
             Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
-            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.blue);
+			//collisionDirection = rayHit.normal;
+            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.white);
             return collisionDirection * maxVelocity;
         }
 

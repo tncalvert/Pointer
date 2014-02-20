@@ -89,7 +89,9 @@ public class BuildingGenerator : MonoBehaviour {
 		dist -= sideWalkWidthRatio * this._masterScale * .5f;
 
 		float length = this.squareSize - 2f*this._masterScale;
-		length *= this._masterScale/this.sideWalkWidthRatio;
+		//length *= this._masterScale/this.sideWalkWidthRatio;
+		length += sideWalkWidthRatio * this._masterScale * .5f;
+
 
 		GameObject sidewalk;
 
