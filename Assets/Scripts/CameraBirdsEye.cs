@@ -32,6 +32,14 @@ public class CameraBirdsEye : MonoBehaviour {
 		if (Input.GetKey("q")) {
 			this.transform.position += this.transform.forward * -this.moveSpeed;
 		}
+		if (Input.GetKey("z")) {
+			PlayerSteering player = (PlayerSteering)FindObjectOfType(typeof(PlayerSteering));
+
+			var temp = new Vector3(player.transform.position.x,this.transform.position.y,
+			                                        player.transform.position.z);
+
+			this.transform.position = temp;
+		}
 
 	}
 }
