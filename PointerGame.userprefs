@@ -1,10 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Steering\VictimSteering.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MasterGame.cs">
     <Files>
-      <File FileName="Assets\MasterGame.cs" Line="1" Column="1" />
-      <File FileName="Assets\CityGeneration\CityGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Steering\VictimSteering.cs" Line="28" Column="50" />
+      <File FileName="Assets\CityGeneration\PathFinder.cs" Line="245" Column="3" />
+      <File FileName="Assets\MenuImages\ControllerScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\CityGeneration\CityGenerator.cs" Line="800" Column="1" />
+      <File FileName="Assets\Scripts\CloudScript.cs" Line="28" Column="1" />
+      <File FileName="Assets\CityGeneration\BuildingGenerator.cs" Line="218" Column="12" />
+      <File FileName="Assets\Building.cs" Line="1" Column="1" />
+      <File FileName="Assets\MasterGame.cs" Line="89" Column="3" />
+      <File FileName="Assets\Scripts\CameraBirdsEye.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CameraFreeRoam.cs" Line="1" Column="1" />
+      <File FileName="Assets\Park.cs" Line="15" Column="2" />
+      <File FileName="Assets\Street.cs" Line="80" Column="2" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -13,10 +21,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\Tim Calvert\Documents\School Work\WPI\IMGD 4100\Final Project\PointerGame\Assets\CityGeneration\CityGenerator.cs" line="734" />
-      <Breakpoint file="C:\Users\Tim Calvert\Documents\School Work\WPI\IMGD 4100\Final Project\PointerGame\Assets\CityGeneration\CityGenerator.cs" line="743" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

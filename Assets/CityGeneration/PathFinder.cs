@@ -232,7 +232,7 @@ public class PathFinder : MonoBehaviour {
 	/// </summary>
 	/// <param name="buildings">Buildings.</param>
 	/// <param name="streets">Streets.</param>
-	public void buildPathGraph(List<Building> buildings, List<Street> streets){
+	public void buildPathGraph(List<Building> buildings, List<Street> streets, List<Park> parks){
 		//generate waypoints from streets
 		//a way point should be generated on any street that IS NOT UP/DOWN or RIGHT/LEFT
 		
@@ -241,6 +241,11 @@ public class PathFinder : MonoBehaviour {
 			if (!cornersOnly || !street.isUpDown() && ! street.isRightLeft()){
 				this.addWaypoint(street.Position);
 			}
+		}
+
+		foreach (Park parkCell in parks) {
+
+			this.addWaypoint(parkCell.Position);
 		}
 	
 	}

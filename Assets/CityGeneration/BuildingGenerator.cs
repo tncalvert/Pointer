@@ -145,6 +145,7 @@ public class BuildingGenerator : MonoBehaviour {
 				streetLight.transform.position += new Vector3(0, 0, streetLight.transform.localScale.z*1.1f);
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 
 		}//create  right
@@ -161,6 +162,7 @@ public class BuildingGenerator : MonoBehaviour {
 				streetLight.transform.Rotate(new Vector3(0, 180, 0));
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 		}
 
@@ -179,6 +181,7 @@ public class BuildingGenerator : MonoBehaviour {
 				streetLight.transform.Rotate(new Vector3(0, 270, 0));
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 		}
 
@@ -196,6 +199,7 @@ public class BuildingGenerator : MonoBehaviour {
 				streetLight.transform.Rotate(new Vector3(0, 90, 0));
                 streetLight.layer = LayerMask.NameToLayer("City");
 				this.putOnBlock (streetLight, road);
+				streetLight.transform.position += new Vector3(0,2,0);
 			}
 		}
 
@@ -205,10 +209,13 @@ public class BuildingGenerator : MonoBehaviour {
 	
 	}
 
-	public void generatePark(Vector2 position){
-		GameObject park = this.generateBlock(position.x, 0, position.y, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
+	public Park generatePark(Vector2 position){
+		GameObject park = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
 		park.renderer.material = this.parkMaterial;
         park.layer = LayerMask.NameToLayer("Ground");
+		Park p = new Park (position);
+		p.addBlock (park);
+		return p;
 	}
 
 

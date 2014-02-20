@@ -25,6 +25,10 @@ public class MasterGame : MonoBehaviour {
 	/// </summary>
 	private List<Building> buildings;
 
+	/// <summary>
+	/// all of the parks in the city
+	/// </summary>
+	private List<Park> parks;
 
 	//an instance of the follower
 	private PlayerSteering f;
@@ -37,6 +41,7 @@ public class MasterGame : MonoBehaviour {
 		//init
 		this.streets = new List<Street> ();
 		this.buildings = new List<Building> ();
+		this.parks = new List<Park> ();
 
 		//generate city data
 		CityGenerator.FILLTYPE[,] gridCity = this.cityGenerator.buildCity (width, height);
@@ -75,7 +80,7 @@ public class MasterGame : MonoBehaviour {
 					case CityGenerator.FILLTYPE.PARK:
 
 						// TODO make a park class and have generate park return it.
-						buildingGenerator.generatePark(position);
+						this.parks.Add (buildingGenerator.generatePark(position));
 						break;
 				}
 			
@@ -84,7 +89,7 @@ public class MasterGame : MonoBehaviour {
 
 
 		//generate path graph
-		this.pathFinder.buildPathGraph (this.buildings, this.streets);
+		this.pathFinder.buildPathGraph (this.buildings, this.streets, this.parks);
 
 
 
