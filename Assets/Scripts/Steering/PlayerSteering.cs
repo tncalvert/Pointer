@@ -44,6 +44,17 @@ public class PlayerSteering : MonoBehaviour {
     /// </summary>
     float minimumCompleteArrivalRadiusSqrd = 9.0f;
 
+	/// <summary>
+	/// Attack range for the monster
+	/// </summary>
+	int attackRange = 5;
+
+	/// <summary>
+	/// Player score
+	/// </summary>
+	int playerScore = 0;
+
+
     /// <summary>
     /// Weights for behaviors
     /// 0: Alignment
@@ -64,6 +75,7 @@ public class PlayerSteering : MonoBehaviour {
                                                     1.0f,   // Wall Avoidance
                                                     0.6f    // Wander
     };
+
 
 	void Start () { 
         // Check to see if we have a rigid body
@@ -141,5 +153,20 @@ public class PlayerSteering : MonoBehaviour {
         // Apply the force
         rigidbody.AddForce(force - rigidbody.velocity);
         
+
+		//Kill the victims
+		if(Input.GetKeyDown ("space"))
+		{
+			Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, attackRange, 1 << LayerMask.NameToLayer("Victims"));
+
+			foreach(var n in nearbyVictims)
+			{
+				Destroy (n);
+				playerScore++;
+
+				Debug.Log ("Score: " + playerScore);
+			}
+
+		}
 	}
 }
