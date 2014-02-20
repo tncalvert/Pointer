@@ -66,7 +66,7 @@ public class BuildingGenerator : MonoBehaviour {
 	/// <summary>
 	/// scale ratio for the height of sidewalks and parks
 	/// </summary>
-	private float heightRatio = .1f;
+	private float heightRatio = .3f;
 	// Use this for initialization
 
 	//void Start () {
@@ -96,7 +96,7 @@ public class BuildingGenerator : MonoBehaviour {
 		GameObject sidewalk;
 
 		//create road
-		GameObject road = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
+		GameObject road = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio,  this.squareSize * this._masterScale);
 		road.renderer.material = this.streetMaterial;
         road.layer = LayerMask.NameToLayer("Ground");
 		street.addBlock (road);
@@ -112,21 +112,21 @@ public class BuildingGenerator : MonoBehaviour {
 		//create top right
 		sidewalk = this.generateBlock (dist, 0,dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
-        sidewalk.layer = LayerMask.NameToLayer("City");
+        sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 		this.putOnFloor (sidewalk);
 		street.addBlock (sidewalk);
 
 		//create bottam left
 		sidewalk = this.generateBlock (-dist, 0, -dist, sideWalkWidthRatio, heightRatio, sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
-        sidewalk.layer = LayerMask.NameToLayer("City");
+		sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 		this.putOnFloor (sidewalk);
 		street.addBlock (sidewalk);
 
 		//create bottam right
 		sidewalk = this.generateBlock(-dist, 0, dist,sideWalkWidthRatio,heightRatio,sideWalkWidthRatio);
 		sidewalk.renderer.material = this.sidewalkMaterial;
-        sidewalk.layer = LayerMask.NameToLayer("City");
+		sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 		this.putOnFloor (sidewalk);
 		street.addBlock (sidewalk);
 
@@ -138,7 +138,7 @@ public class BuildingGenerator : MonoBehaviour {
 		if ((roadType & Street.ROADTYPE.LEFT) == Street.ROADTYPE.LEFT) {
 			sidewalk = this.generateBlock(0, 0, -dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
-            sidewalk.layer = LayerMask.NameToLayer("City");
+			sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 			this.putOnFloor (sidewalk);
 			street.addBlock (sidewalk);
 
@@ -154,7 +154,7 @@ public class BuildingGenerator : MonoBehaviour {
 		if ((roadType & Street.ROADTYPE.RIGHT) == Street.ROADTYPE.RIGHT) {
 			sidewalk = this.generateBlock(0, 0, +dist, length, heightRatio, sideWalkWidthRatio);
 			sidewalk.renderer.material = this.sidewalkMaterial;
-            sidewalk.layer = LayerMask.NameToLayer("City");
+			sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 			this.putOnFloor (sidewalk);
 			street.addBlock (sidewalk);
 
@@ -173,7 +173,7 @@ public class BuildingGenerator : MonoBehaviour {
 		if ((roadType & Street.ROADTYPE.TOP) == Street.ROADTYPE.TOP) {
 			sidewalk = this.generateBlock(dist, 0, 0, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
-            sidewalk.layer = LayerMask.NameToLayer("City");
+			sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 			this.putOnFloor (sidewalk);
 			street.addBlock (sidewalk);
 
@@ -191,7 +191,7 @@ public class BuildingGenerator : MonoBehaviour {
 		if ((roadType & Street.ROADTYPE.BOTTAM) == Street.ROADTYPE.BOTTAM) {
 			sidewalk = this.generateBlock(-dist, 0, 0, sideWalkWidthRatio, heightRatio, length);
 			sidewalk.renderer.material = this.sidewalkMaterial;
-            sidewalk.layer = LayerMask.NameToLayer("City");
+			sidewalk.layer = LayerMask.NameToLayer("Sidewalk");
 			this.putOnFloor (sidewalk);
 			street.addBlock (sidewalk);
 
@@ -212,7 +212,7 @@ public class BuildingGenerator : MonoBehaviour {
 	}
 
 	public Park generatePark(Vector2 position){
-		GameObject park = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio*.5f,  this.squareSize * this._masterScale);
+		GameObject park = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio,  this.squareSize * this._masterScale);
 		park.renderer.material = this.parkMaterial;
         park.layer = LayerMask.NameToLayer("Ground");
 		Park p = new Park (position);

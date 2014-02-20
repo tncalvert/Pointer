@@ -72,14 +72,15 @@ public class VictimSteering : MonoBehaviour {
     /// 6: Wall Avoidance
     /// 7: Wander
     /// </summary>
-    public float[] behaviorWeights = new float[8] { 1.0f,   // Alignment
+    public float[] behaviorWeights = new float[9] { 1.0f,   // Alignment
                                                     1.0f,   // Cohesion
-                                                    2.75f,   // Collision Avoidance
+                                                    3f,   // Collision Avoidance
                                                     4.0f,   // Fear
                                                     1.0f,   // Seek
                                                     1.2f,   // Separation
                                                     2.75f,   // Wall Avoidance
-                                                    0.6f    // Wander
+                                                    0.6f,    // Wander
+													1.0f 	//Sidewalk stickyness
     };
 
     void Start() {
@@ -195,6 +196,10 @@ public class VictimSteering : MonoBehaviour {
         force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
         force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
         force += steeringBehaviors.GetWanderForce(maxVelocity) * behaviorWeights[7];
+
+		//force += steeringBehaviors.GetSideWalkLoveForce (maxVelocity) * behaviorWeights[8];
+		force += steeringBehaviors.PushedByWallsForce (maxVelocity);
+
 
         // Limit the force
         force = Vector3.ClampMagnitude(force, maxForce);

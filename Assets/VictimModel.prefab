@@ -88,7 +88,6 @@ MonoBehaviour:
   maxForce: 20
   maxVelocity: 40
   path: []
-  destination: {x: 0, y: 0}
   uniquePathProbability: 0
   pathCheckRadius: 20
   behaviorWeights:
@@ -100,6 +99,7 @@ MonoBehaviour:
   - 1.20000005
   - 2.75
   - .600000024
+  - 1
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -64,10 +64,12 @@ public class SteeringBehaviors : MonoBehaviour {
 
     #endregion
 
+
+
     #region CollisionAvoidance
 
     public float boundingRadiusCollisionAvoidance;
-    public float velocityMultCollisionAvoidance = 2.0f;
+    public float velocityMultCollisionAvoidance = 2f;
 
     public Vector3 GetCollisionAvoidanceForce(float maxVelocity) {
 
@@ -79,10 +81,32 @@ public class SteeringBehaviors : MonoBehaviour {
 		        rigidbody.velocity.normalized,
 		        out rayHit,
             	rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
-            	~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
-            Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
-			//collisionDirection = rayHit.normal;
-            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.white);
+		                       /*~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Sidewalk"))))*/ (1<<LayerMask.NameToLayer("City")))) {
+			Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
+			//collisionDirection = (rayHit.normal + Vector3.Reflect(rigidbody.velocity, rayHit.normal).normalized).normalized;
+			collisionDirection = rayHit.normal;
+			float xDucker = Mathf.Abs(rigidbody.velocity.x)/rigidbody.velocity.x;
+			float zDucker = Mathf.Abs(rigidbody.velocity.z)/rigidbody.velocity.z;
+
+			if (Mathf.Abs (rayHit.normal.z) > .5f && Mathf.Abs (rayHit.normal.x) < .5f){
+				collisionDirection = new Vector3(xDucker, 0, 0).normalized;
+			}
+			if (Mathf.Abs (rayHit.normal.x) > .5f && Mathf.Abs (rayHit.normal.z) < .5f){
+				collisionDirection = new Vector3(0, 0, zDucker).normalized;
+			}
+
+			RaycastHit rayHit2 = new RaycastHit();
+			if (Physics.Raycast( (.5f*(rayHit.point + renderer.bounds.center)) + (collisionDirection * boundingRadiusCollisionAvoidance),
+			                       
+			                       collisionDirection,
+			                       out rayHit2,
+			                       collisionDirection.magnitude * velocityMultCollisionAvoidance*2,
+			                        (1<<LayerMask.NameToLayer("City")))) {
+				collisionDirection = rayHit.normal;
+			}
+
+
+            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.magenta);
             return collisionDirection * maxVelocity;
         }
 
@@ -155,7 +179,7 @@ public class SteeringBehaviors : MonoBehaviour {
 
     #region WallAvoidance
 
-    public float feelerFactor = 1.0f;
+    public float feelerFactor = 0.5f;
     public float forceFactor = 3.0f;
     public float boundingRadiusWallAvoidance;
 
@@ -164,7 +188,7 @@ public class SteeringBehaviors : MonoBehaviour {
         // calculate feelers
         Vector3[] feelers = new Vector3[3];
         float feelerLength = (rigidbody.velocity.magnitude * feelerFactor) + boundingRadiusWallAvoidance;
-        feelers[0] = rigidbody.velocity.normalized * feelerLength;
+        feelers[0] = rigidbody.velocity.normalized * feelerLength * 5;
         feelers[1] = (feelers[0] + new Vector3(-feelers[0].z, feelers[0].y, feelers[0].x))
             .normalized * feelerLength;
         feelers[2] = (feelers[0] + new Vector3(feelers[0].z, feelers[0].y, -feelers[0].x))
@@ -214,4 +238,84 @@ public class SteeringBehaviors : MonoBehaviour {
     }
 
     #endregion
+
+	#region SidewalkLove
+	public Vector3 GetSideWalkLoveForce(float maxVelocity){
+		
+		//cast out ray to the right and left of movement
+		Vector3[] feelers = new Vector3[3];
+		float feelerLength = .3f * (rigidbody.velocity.magnitude * 1) + boundingRadiusWallAvoidance;
+		feelers[0] = rigidbody.velocity.normalized * feelerLength;
+		feelers[1] = (feelers[0] + new Vector3(-feelers[0].z, feelers[0].y, feelers[0].x))
+			.normalized * feelerLength;
+		feelers[2] = (feelers[0] + new Vector3(feelers[0].z, feelers[0].y, -feelers[0].x))
+			.normalized * feelerLength;
+		
+		//if either intersects a sidewalk, pick shorter, and apply forces towards it, inverse porportional to distance
+		RaycastHit rayHitLeft = new RaycastHit ();
+		RaycastHit rayHitRight = new RaycastHit ();
+		bool hitLeft = Physics.SphereCast (renderer.bounds.center,
+		                                   boundingRadiusCollisionAvoidance,
+		                                   feelers[1].normalized,
+		                                   out rayHitLeft,
+		                                   feelers[1].magnitude,
+		                                   (1 << LayerMask.NameToLayer ("Sidewalk")));
+		bool hitRight = Physics.SphereCast (renderer.bounds.center,
+		                                    boundingRadiusCollisionAvoidance,
+		                                    feelers[2].normalized,
+		                                    out rayHitRight,
+		                                    feelers[2].magnitude,
+		                                    (1 << LayerMask.NameToLayer ("Sidewalk")));
+		
+		if (rayHitRight.distance < .3f)
+			hitRight = false;
+		if (rayHitLeft.distance < .3f)
+			hitLeft = false;
+		
+		RaycastHit rayHit = new RaycastHit ();
+		if (hitLeft && hitRight) {
+			if (rayHitLeft.distance < rayHitRight.distance) {
+				rayHit = rayHitLeft;
+			} else {
+				rayHit = rayHitRight;
+			}
+		} else {
+			if (hitLeft){
+				rayHit = rayHitLeft;
+			} else if (hitRight){
+				rayHit = rayHitRight;
+			}
+		}
+		
+		if (hitLeft || hitRight){
+			Vector3 sidewalkLove = (rayHit.collider.bounds.center - renderer.bounds.center).normalized;
+			
+			Debug.DrawLine(rayHit.point, renderer.bounds.center, Color.blue);
+			return sidewalkLove * maxVelocity * (2*rayHit.distance/feelers[0].magnitude);
+		}
+		
+		return new Vector3 (0, 0, 0);
+	}
+	#endregion
+
+	#region PushedByWallForce
+	public Vector3 PushedByWallsForce(float maxVelocity){
+
+
+	
+		RaycastHit rayHit = new RaycastHit();
+		if (Physics.SphereCast (renderer.bounds.center,
+		                       boundingRadiusCollisionAvoidance*3,
+		                       new Vector3(0,1,0),
+		                       out rayHit,
+		                       2,
+		                        (1 << LayerMask.NameToLayer ("City")))) {
+						Vector3 collisionDirection = rayHit.normal.normalized;
+			Debug.DrawLine(renderer.bounds.center, renderer.bounds.center + (collisionDirection * maxVelocity), Color.red);
+			return collisionDirection * 2.5f * maxVelocity * Mathf.Max (9, rayHit.distance / 9)/9;
+				}
+		return Vector3.zero;
+	}
+	#endregion
+
 }
