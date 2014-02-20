@@ -125,12 +125,12 @@ public class VictimSteering : MonoBehaviour {
         }
 
         // DEBUG - Display the path that we are trying to follow
-        for (int i = 0; i < path.Count; ++i) {
-            if (i == 0) {
-                Debug.DrawLine(rigidbody.position, new Vector3(path[i].x, rigidbody.position.y, path[i].y), Color.white);
-            } else {
-                Debug.DrawLine(new Vector3(path[i - 1].x, rigidbody.position.y, path[i - 1].y), new Vector3(path[i].x, rigidbody.position.y, path[i].y), Color.white);
-            }
+        Debug.DrawLine(rigidbody.position, steeringBehaviors.targetPosition, Color.white);
+        if(path.Count > 0)
+            Debug.DrawLine(steeringBehaviors.targetPosition, new Vector3(path[0].x, rigidbody.position.y, path[0].y), Color.white);
+        for (int i = 1; i < path.Count; ++i) {
+            Debug.DrawLine(new Vector3(path[i - 1].x, rigidbody.position.y, path[i - 1].y),
+                new Vector3(path[i].x, rigidbody.position.y, path[i].y), Color.white);
         }
 
         if (pathFinder && !hasPath) {
@@ -184,8 +184,10 @@ public class VictimSteering : MonoBehaviour {
 				Debug.Log ("At a distance of " + (steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude + 
 				           ". Progressing to the next point");
                 // We are close enough, get the next goal
-                path.RemoveAt(0);
+                Debug.Log("Target was " + steeringBehaviors.targetPosition);
                 steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
+                Debug.Log("Target is now " + steeringBehaviors.targetPosition);
+                path.RemoveAt(0);
             }
             // else don't do anything, continue to let it path closer to goal
         } else {
