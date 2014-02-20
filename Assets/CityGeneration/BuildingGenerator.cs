@@ -96,7 +96,7 @@ public class BuildingGenerator : MonoBehaviour {
 		GameObject sidewalk;
 
 		//create road
-		GameObject road = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio,  this.squareSize * this._masterScale);
+		GameObject road = this.generateBlock(0, 0, 0, this.squareSize * this._masterScale, heightRatio*.6f,  this.squareSize * this._masterScale);
 		road.renderer.material = this.streetMaterial;
         road.layer = LayerMask.NameToLayer("Ground");
 		street.addBlock (road);

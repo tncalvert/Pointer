@@ -203,10 +203,10 @@ public class VictimSteering : MonoBehaviour {
         Vector3 force = new Vector3(0, 0, 0);
 
         // Add forces
-        force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
+        //force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
         force += steeringBehaviors.GetCohesionForce(maxVelocity) * behaviorWeights[1];
         force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
-        force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
+        //force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
         force += steeringBehaviors.GetSeekForce(maxVelocity) * (hasPath ? behaviorWeights[4] : 0f);  // ignore seek force if have finished path
         force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
         force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
