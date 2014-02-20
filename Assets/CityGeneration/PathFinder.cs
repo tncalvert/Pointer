@@ -292,8 +292,8 @@ public class PathFinder : MonoBehaviour {
 
 	private bool canSee(Vector2 a, Vector2 b){
 		//using 2, which should be right in the middle of the player
-		Vector3 origin = new Vector3 (a.x, 2, a.y);
-		Vector3 direction = new Vector3 (b.x - a.x, 2, b.y - a.y);
+		Vector3 origin = new Vector3 (a.x, 1f, a.y);
+		Vector3 direction = new Vector3 (b.x - a.x, 1f, b.y - a.y);
 		float distance = direction.magnitude;
 		direction.Normalize ();
 	
