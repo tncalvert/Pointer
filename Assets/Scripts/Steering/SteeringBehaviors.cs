@@ -179,7 +179,7 @@ public class SteeringBehaviors : MonoBehaviour {
 
     #region WallAvoidance
 
-    public float feelerFactor = 0.5f;
+    public float feelerFactor = 1f;
     public float forceFactor = 3.0f;
     public float boundingRadiusWallAvoidance;
 
