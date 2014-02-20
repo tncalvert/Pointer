@@ -75,36 +75,14 @@ public class SteeringBehaviors : MonoBehaviour {
 
         RaycastHit rayHit = new RaycastHit();
         if (Physics.SphereCast(renderer.bounds.center + (rigidbody.velocity.normalized * boundingRadiusCollisionAvoidance),
-            	boundingRadiusCollisionAvoidance,
-		        rigidbody.velocity.normalized,
-		        out rayHit,
-            	rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
-		                       /*~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Sidewalk"))))*/ (1<<LayerMask.NameToLayer("City")))) {
-			Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
-			//collisionDirection = (rayHit.normal + Vector3.Reflect(rigidbody.velocity, rayHit.normal).normalized).normalized;
-			collisionDirection = rayHit.normal;
-			float xDucker = Mathf.Abs(rigidbody.velocity.x)/rigidbody.velocity.x;
-			float zDucker = Mathf.Abs(rigidbody.velocity.z)/rigidbody.velocity.z;
-
-			if (Mathf.Abs (rayHit.normal.z) > .5f && Mathf.Abs (rayHit.normal.x) < .5f){
-				collisionDirection = new Vector3(xDucker, 0, 0).normalized;
-			}
-			if (Mathf.Abs (rayHit.normal.x) > .5f && Mathf.Abs (rayHit.normal.z) < .5f){
-				collisionDirection = new Vector3(0, 0, zDucker).normalized;
-			}
-
-			RaycastHit rayHit2 = new RaycastHit();
-			if (Physics.Raycast( (.5f*(rayHit.point + renderer.bounds.center)) + (collisionDirection * boundingRadiusCollisionAvoidance),
-			                       
-			                       collisionDirection,
-			                       out rayHit2,
-			                       collisionDirection.magnitude * velocityMultCollisionAvoidance*2,
-			                        (1<<LayerMask.NameToLayer("City")))) {
-				collisionDirection = rayHit.normal;
-			}
-
-
-            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.magenta);
+             boundingRadiusCollisionAvoidance,
+                rigidbody.velocity.normalized,
+                out rayHit,
+             rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
+             ~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
+            Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
+            //collisionDirection = rayHit.normal;
+            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.white);
             return collisionDirection * maxVelocity;
         }
 
@@ -186,7 +164,7 @@ public class SteeringBehaviors : MonoBehaviour {
         // calculate feelers
         Vector3[] feelers = new Vector3[3];
         float feelerLength = (rigidbody.velocity.magnitude * feelerFactor) + boundingRadiusWallAvoidance;
-        feelers[0] = rigidbody.velocity.normalized * feelerLength * 5;
+        feelers[0] = rigidbody.velocity.normalized * feelerLength;
         feelers[1] = (feelers[0] + new Vector3(-feelers[0].z, feelers[0].y, feelers[0].x))
             .normalized * feelerLength;
         feelers[2] = (feelers[0] + new Vector3(feelers[0].z, feelers[0].y, -feelers[0].x))
