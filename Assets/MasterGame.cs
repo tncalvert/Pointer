@@ -87,8 +87,10 @@ public class MasterGame : MonoBehaviour {
 		//generate path graph
 		this.pathFinder.buildPathGraph (this.buildings, this.streets);
 
-		for (int i =0 ; i < streets.Count/3 ; i ++)
-		generateVictim (streets [i].Position);
+		this.generateFollower (streets [0].Position);
+
+		for (int i =2 ; i < streets.Count/10 ; i ++)
+			generateVictim (streets [i].Position);
 
 		//pathFinder.getPath (this.streets [0].Position, this.streets [this.streets.Count - 1].Position);
 		//for (int i = 0 ; i < 4 ; i ++)

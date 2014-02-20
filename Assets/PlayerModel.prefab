@@ -15,7 +15,7 @@ GameObject:
   - 136: {fileID: 13600000}
   m_Layer: 11
   m_Name: PlayerModel
-  m_TagString: Untagged
+  m_TagString: feared
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,8 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ca2148847ebbe49863ba7648035ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxForce: 40
-  maxVelocity: 80
+  maxForce: 74
+  maxVelocity: 51.8699989
   behaviorWeights:
   - 1.73000002
   - 1.20000005

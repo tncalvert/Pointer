@@ -103,7 +103,7 @@ public class VictimSteering : MonoBehaviour {
                 if (Physics.Raycast(cameraRay, out hit)) {
                     Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
                     Vector2 end = new Vector2(hit.point.x, hit.point.z);
-                    this.path = new List<Vector2>(this.pathFinder.getPath(start, end));
+                    //this.path = new List<Vector2>(this.pathFinder.getPath(start, end));
                 }
             }
         }
@@ -132,7 +132,7 @@ public class VictimSteering : MonoBehaviour {
         //force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
         force += steeringBehaviors.GetCohesionForce(maxVelocity) * behaviorWeights[1];
         //force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
-        //force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
+        force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
         force += steeringBehaviors.GetSeekForce(maxVelocity) * behaviorWeights[4];
         force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
         force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];

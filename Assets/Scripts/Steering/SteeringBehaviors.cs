@@ -92,7 +92,7 @@ public class SteeringBehaviors : MonoBehaviour {
     #region Fear
 
     public string fearedTag = "feared";
-    public float fearRadius = 10.0f;
+    public float fearRadius = 30.0f;
 
     public Vector3 GetFearForce(float maxVelocity) {
         float fearDistanceSquared = fearRadius * fearRadius;
@@ -107,7 +107,7 @@ public class SteeringBehaviors : MonoBehaviour {
 
         if ((fearedObject.rigidbody.position - rigidbody.position).sqrMagnitude > fearDistanceSquared) {
             // Too far away
-            desiredVelocity = new Vector3(0, 0, 0);
+            desiredVelocity = rigidbody.velocity;
         } else {
             desiredVelocity = ((rigidbody.position -
                 (fearedObject.rigidbody.position + fearedObject.rigidbody.velocity))
