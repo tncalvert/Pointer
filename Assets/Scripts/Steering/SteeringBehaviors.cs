@@ -81,7 +81,7 @@ public class SteeringBehaviors : MonoBehaviour {
             	rigidbody.velocity.magnitude * velocityMultCollisionAvoidance,
             	~((1 << LayerMask.NameToLayer("Victims")) | (1 << LayerMask.NameToLayer("Ground"))))) {
             Vector3 collisionDirection = (rayHit.point - rayHit.collider.bounds.center).normalized;
-            //Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.blue);
+            Debug.DrawLine(rayHit.point, rayHit.point + (collisionDirection * maxVelocity), Color.blue);
             return collisionDirection * maxVelocity;
         }
 
@@ -108,7 +108,7 @@ public class SteeringBehaviors : MonoBehaviour {
 
         if ((fearedObject.rigidbody.position - rigidbody.position).sqrMagnitude > fearDistanceSquared) {
             // Too far away
-            desiredVelocity = new Vector3(0, 0, 0);
+            desiredVelocity = rigidbody.velocity;
         } else {
             desiredVelocity = ((rigidbody.position -
                 (fearedObject.rigidbody.position + fearedObject.rigidbody.velocity))
@@ -169,9 +169,9 @@ public class SteeringBehaviors : MonoBehaviour {
         feelers[2] = (feelers[0] + new Vector3(feelers[0].z, feelers[0].y, -feelers[0].x))
             .normalized * feelerLength;
 
-        //Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[0], Color.green);
-        //Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[1], Color.green);
-        //Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[2], Color.green);
+        Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[0], Color.green);
+        Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[1], Color.green);
+        Debug.DrawLine(rigidbody.position, rigidbody.position + feelers[2], Color.green);
 
         // check for impacts
         Vector3 result = new Vector3(0, 0, 0);
@@ -183,7 +183,7 @@ public class SteeringBehaviors : MonoBehaviour {
             }
         }
 
-        //Debug.DrawLine(rigidbody.position, rigidbody.position + result, Color.yellow);
+        Debug.DrawLine(rigidbody.position, rigidbody.position + result, Color.yellow);
 
         return result;
     }

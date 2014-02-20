@@ -732,8 +732,8 @@ public class CityGenerator : MonoBehaviour {
                 if (cityGrid[i, j] == FILLTYPE.PARK && !parkPoints.Contains(new Vector2(j, i))) {
                     // Add points to parkPoints so we don't handle the same park again
                     int y = i, x = j, baseX = j;
-                    while (cityGrid[y, x] == FILLTYPE.PARK) {
-                        while (cityGrid[y, x] == FILLTYPE.PARK) {
+                    while (y < newVertEdge - 1 && cityGrid[y, x] == FILLTYPE.PARK) {
+                        while (x < newHorzEdge - 1 && cityGrid[y, x] == FILLTYPE.PARK) {
                             parkPoints.Add(new Vector2(x, y));
                             ++x;
                         }
@@ -745,7 +745,7 @@ public class CityGenerator : MonoBehaviour {
                     // Make sure we have road access
                     bool bottom = false, right = false, left = false, top = false;
                     // Check bottom section
-                    while (cityGrid[y - 1, x] == FILLTYPE.PARK) {
+                    while (x < newHorzEdge - 1 && cityGrid[y - 1, x] == FILLTYPE.PARK) {
                         if (cityGrid[y, x] == FILLTYPE.ROAD) {
                             bottom = true;
                         }
@@ -753,7 +753,7 @@ public class CityGenerator : MonoBehaviour {
                     }
                     --y;
                     // Check right
-                    while (cityGrid[y, x - 1] == FILLTYPE.PARK) {
+                    while (y > 1 && cityGrid[y, x - 1] == FILLTYPE.PARK) {
                         if (cityGrid[y, x] == FILLTYPE.ROAD) {
                             right = true;
                         }
@@ -761,7 +761,7 @@ public class CityGenerator : MonoBehaviour {
                     }
                     --x;
                     // Check top
-                    while (cityGrid[y + 1, x] == FILLTYPE.PARK) {
+                    while (x > 1 && cityGrid[y + 1, x] == FILLTYPE.PARK) {
                         if (cityGrid[y, x] == FILLTYPE.ROAD) {
                             top = true;
                         }
@@ -769,7 +769,7 @@ public class CityGenerator : MonoBehaviour {
                     }
                     ++y;
                     // Check left
-                    while (cityGrid[y, x + 1] == FILLTYPE.PARK) {
+                    while (y < newVertEdge - 1 && cityGrid[y, x + 1] == FILLTYPE.PARK) {
                         if (cityGrid[y, x] == FILLTYPE.ROAD) {
                             left = true;
                         }
@@ -787,7 +787,7 @@ public class CityGenerator : MonoBehaviour {
                     // roads)
                     x = j - 1;
                     y = i;
-                    while (cityGrid[y, x] != FILLTYPE.ROAD) {
+                    while (x > 1 && cityGrid[y, x] != FILLTYPE.ROAD) {
                         cityGrid[y, x--] = FILLTYPE.ROAD;
                     }
                 }

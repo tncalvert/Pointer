@@ -50,19 +50,14 @@ public class VictimSteering : MonoBehaviour {
     bool hasPath = false;
 
     /// <summary>
-    /// Destination, broadcast to nearby characters
-    /// </summary>
-    public Vector2 destination;
-
-    /// <summary>
     /// The chance that this object will choose its own path over merging with the hive mind
     /// </summary>
-    public float uniquePathProbability = 0.5f;
+    public float uniquePathProbability = 0.0f;
 
     /// <summary>
     /// Radius of the circle to use when checking for nearby paths
     /// </summary>
-    public float pathCheckRadius = 10f;
+    public float pathCheckRadius = 20f;
 
     List<Street> streets = null;
 
@@ -77,13 +72,13 @@ public class VictimSteering : MonoBehaviour {
     /// 6: Wall Avoidance
     /// 7: Wander
     /// </summary>
-    public float[] behaviorWeights = new float[8] { 1.1f,   // Alignment
-                                                    1.2f,   // Cohesion
-                                                    1.5f,   // Collision Avoidance
+    public float[] behaviorWeights = new float[8] { 1.0f,   // Alignment
+                                                    1.0f,   // Cohesion
+                                                    2.75f,   // Collision Avoidance
                                                     4.0f,   // Fear
                                                     1.0f,   // Seek
-                                                    1.5f,   // Separation
-                                                    1.5f,   // Wall Avoidance
+                                                    1.2f,   // Separation
+                                                    2.75f,   // Wall Avoidance
                                                     0.6f    // Wander
     };
 
@@ -91,6 +86,8 @@ public class VictimSteering : MonoBehaviour {
         // Check to see if we have a rigid body
         try {
             GetComponent<Rigidbody>();
+
+            Debug.Log(rigidbody.position);
 
             steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
             steeringBehaviors.targetPosition = rigidbody.position;
@@ -140,16 +137,15 @@ public class VictimSteering : MonoBehaviour {
                     Debug.Log("Picking my own path");
                     // Pick own path
                     Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
-                    destination = randomStreet;
                     path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
                 } else {
+                    Debug.Log("Checking for a path near me");
                     bool foundPath = false;
                     // Take a path from first nearby object with a path
                     foreach (var n in nearbyVictims) {
                         VictimSteering v = n.gameObject.GetComponent<VictimSteering>();
-                        if (v.hasPath && v.destination != Vector2.zero && v.path.Count != 0) {
-                            path = v.path;
-                            destination = v.destination;
+                        if (v.hasPath && v.path.Count != 0) {
+                            path = new List<Vector2>(v.path);
                             foundPath = true;
                             Debug.Log("Found a path to follow");
                             break;
@@ -160,7 +156,6 @@ public class VictimSteering : MonoBehaviour {
                         // Couldn't find a path, get one of my own
                         Debug.Log("Couldn't get a path, picking my own");
                         Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
-                        destination = randomStreet;
                         path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
                     }
                 }
