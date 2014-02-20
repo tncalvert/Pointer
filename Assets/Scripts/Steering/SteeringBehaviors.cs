@@ -34,7 +34,7 @@ public class SteeringBehaviors : MonoBehaviour {
         foreach (Collider n in neighbors) {
             avgHeading += n.rigidbody.velocity;
         }
-        avgHeading /= neighbors.Length;
+        avgHeading /= (neighbors.Length != 0 ? neighbors.Length : 1);
         return (avgHeading - rigidbody.velocity) * alignmentTweak;
     }
 
@@ -54,7 +54,7 @@ public class SteeringBehaviors : MonoBehaviour {
         foreach (Collider n in neighbors) {
             com += n.rigidbody.position;
         }
-        com /= neighbors.Length;
+        com /= (neighbors.Length != 0 ? neighbors.Length : 1);
         Vector3 currentPos = rigidbody.position;
         Vector3 desiredVelocity =
             (com - currentPos).normalized * cohesionTweak;
@@ -113,7 +113,7 @@ public class SteeringBehaviors : MonoBehaviour {
                 (fearedObject.rigidbody.position + fearedObject.rigidbody.velocity))
                 .normalized * maxVelocity);
         }
-        Debug.Log(desiredVelocity - rigidbody.velocity);
+
         return (desiredVelocity - rigidbody.velocity);
     }
 

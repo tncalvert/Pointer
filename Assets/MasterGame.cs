@@ -29,6 +29,8 @@ public class MasterGame : MonoBehaviour {
 	//an instance of the follower
 	private PlayerSteering f;
 
+    public GameObject victim;
+
 	// Use this for initialization
 	void Start () {
 
@@ -89,7 +91,15 @@ public class MasterGame : MonoBehaviour {
 		//pathFinder.getPath (this.streets [0].Position, this.streets [this.streets.Count - 1].Position);
 	
 		this.f = this.generateFollower (this.streets [0].Position);
+
+        for (int i = 2; i < streets.Count / 10; i++)
+            generateVictim(streets[i].Position);
 	}
+
+    private VictimSteering generateVictim(Vector2 position) {
+        VictimSteering v = ((GameObject)Instantiate(this.victim, new Vector3(position.x, 1, position.y), Quaternion.identity)).GetComponent<VictimSteering>();
+        return v;
+    }
 
 	//I am teh unity n00b and I don't know if this is a good way to go about generating people
 	private PlayerSteering generateFollower(Vector2 position){

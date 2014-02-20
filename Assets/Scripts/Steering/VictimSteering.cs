@@ -12,12 +12,12 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
-    public float maxForce = 30.0f;
+    public float maxForce = 20.0f;
 
     /// <summary>
     /// The maximum velocity that results from the application of a steering force
     /// </summary>
-    public float maxVelocity = 60.0f;
+    public float maxVelocity = 40.0f;
 
     /// <summary>
     /// Object containing methods for steering
@@ -80,7 +80,7 @@ public class VictimSteering : MonoBehaviour {
     public float[] behaviorWeights = new float[8] { 1.1f,   // Alignment
                                                     1.2f,   // Cohesion
                                                     1.5f,   // Collision Avoidance
-                                                    2.0f,   // Fear
+                                                    4.0f,   // Fear
                                                     1.0f,   // Seek
                                                     1.5f,   // Separation
                                                     1.5f,   // Wall Avoidance
@@ -137,6 +137,7 @@ public class VictimSteering : MonoBehaviour {
                 Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, pathCheckRadius, 1 << LayerMask.NameToLayer("Victims"));
 
                 if (rand < uniquePathProbability || nearbyVictims.Length == 0) {
+                    Debug.Log("Picking my own path");
                     // Pick own path
                     Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
                     destination = randomStreet;
@@ -157,6 +158,7 @@ public class VictimSteering : MonoBehaviour {
 
                     if (!foundPath) {
                         // Couldn't find a path, get one of my own
+                        Debug.Log("Couldn't get a path, picking my own");
                         Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
                         destination = randomStreet;
                         path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
