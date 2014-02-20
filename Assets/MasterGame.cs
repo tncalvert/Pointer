@@ -102,4 +102,8 @@ public class MasterGame : MonoBehaviour {
 	
 
 	}
+
+    public List<Street> getStreets() {
+        return streets;
+    }
 }

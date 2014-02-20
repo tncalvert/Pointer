@@ -12,12 +12,12 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
-    public float maxForce = 5.0f;
+    public float maxForce = 30.0f;
 
     /// <summary>
     /// The maximum velocity that results from the application of a steering force
     /// </summary>
-    public float maxVelocity = 10.0f;
+    public float maxVelocity = 60.0f;
 
     /// <summary>
     /// Object containing methods for steering
@@ -30,9 +30,41 @@ public class VictimSteering : MonoBehaviour {
     PathFinder pathFinder = null;
 
     /// <summary>
-    /// Holds path to follow
+    /// Holds path to follow. Will be available to nearby victims so that they can latch on
     /// </summary>
-    Vector2[] path = new Vector2[0];
+    public List<Vector2> path = new List<Vector2>();
+
+    /// <summary>
+    /// Distance the object can be from its target destination before it is considered to have arrived
+    /// </summary>
+    float minimumArrivalRadiusSqrd = 25.0f;
+
+    /// <summary>
+    /// Distance the object can be from the final point of its path before the path is considered complete
+    /// </summary>
+    float minimumCompleteArrivalRadiusSqrd = 9.0f;
+
+    /// <summary>
+    /// Flag indicating that the object has a path that it is following
+    /// </summary>
+    bool hasPath = false;
+
+    /// <summary>
+    /// Destination, broadcast to nearby characters
+    /// </summary>
+    public Vector2 destination;
+
+    /// <summary>
+    /// The chance that this object will choose its own path over merging with the hive mind
+    /// </summary>
+    public float uniquePathProbability = 0.5f;
+
+    /// <summary>
+    /// Radius of the circle to use when checking for nearby paths
+    /// </summary>
+    public float pathCheckRadius = 10f;
+
+    List<Street> streets = null;
 
     /// <summary>
     /// Weights for behaviors
@@ -72,6 +104,16 @@ public class VictimSteering : MonoBehaviour {
                 }
             }
 
+            GameObject master = GameObject.Find("MasterGameObject");
+            if (master) {
+                try {
+                    MasterGame masterScript = master.GetComponent<MasterGame>();
+                    streets = masterScript.getStreets();
+                } catch {
+                    Debug.Log("Master Game Controller does not seem to exist");
+                }
+            }
+
         } catch {
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
             rb.freezeRotation = true;
@@ -86,15 +128,62 @@ public class VictimSteering : MonoBehaviour {
             return;
         }
 
-        if (pathFinder) {
-            if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(0)) {
-                Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(cameraRay, out hit)) {
-                    Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
-                    Vector2 end = new Vector2(hit.point.x, hit.point.z);
-                    this.path = this.pathFinder.getPath(start, end);
+        if (pathFinder && !hasPath) {
+            // Pick a new path, if we don't have one
+
+            if (streets != null) {
+
+                float rand = Random.Range(0f, 1f);
+                Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, pathCheckRadius, 1 << LayerMask.NameToLayer("Victims"));
+
+                if (rand < uniquePathProbability || nearbyVictims.Length == 0) {
+                    // Pick own path
+                    Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
+                    destination = randomStreet;
+                    path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
+                } else {
+                    bool foundPath = false;
+                    // Take a path from first nearby object with a path
+                    foreach (var n in nearbyVictims) {
+                        VictimSteering v = n.gameObject.GetComponent<VictimSteering>();
+                        if (v.hasPath && v.destination != Vector2.zero && v.path.Count != 0) {
+                            path = v.path;
+                            destination = v.destination;
+                            foundPath = true;
+                            Debug.Log("Found a path to follow");
+                            break;
+                        }
+                    }
+
+                    if (!foundPath) {
+                        // Couldn't find a path, get one of my own
+                        Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
+                        destination = randomStreet;
+                        path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
+                    }
                 }
+
+                hasPath = true;
+
+            } else {
+                Debug.Log("We don't have a list of streets! This is a HUGE problem!");
+            }
+        }
+
+        if (path.Count > 0) {
+            // Check if we have arrived
+            if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
+                // We are close enough, get the next goal
+                steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
+                path.RemoveAt(0);
+            }
+            // else don't do anything, continue to let it path closer to goal
+        } else {
+            // Working on the last one
+            // If we are there, stop
+            if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumCompleteArrivalRadiusSqrd) {
+                hasPath = false;
+                steeringBehaviors.targetPosition = rigidbody.position;
             }
         }
 
@@ -105,7 +194,7 @@ public class VictimSteering : MonoBehaviour {
         force += steeringBehaviors.GetCohesionForce(maxVelocity) * behaviorWeights[1];
         force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
         force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
-        force += steeringBehaviors.GetSeekForce(maxVelocity) * behaviorWeights[4];
+        force += steeringBehaviors.GetSeekForce(maxVelocity) * (hasPath ? behaviorWeights[4] : 0f);  // ignore seek force if have finished path
         force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
         force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
         force += steeringBehaviors.GetWanderForce(maxVelocity) * behaviorWeights[7];
