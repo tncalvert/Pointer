@@ -72,7 +72,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -89,11 +89,11 @@ MonoBehaviour:
   maxVelocity: 40
   path: []
   uniquePathProbability: 0
-  pathCheckRadius: 20
+  pathCheckRadius: 10
   behaviorWeights:
   - 1
   - 1
-  - 2.75
+  - 3
   - 4
   - 1
   - 1.20000005

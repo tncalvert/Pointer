@@ -64,8 +64,6 @@ public class SteeringBehaviors : MonoBehaviour {
 
     #endregion
 
-
-
     #region CollisionAvoidance
 
     public float boundingRadiusCollisionAvoidance;

@@ -57,7 +57,7 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// Radius of the circle to use when checking for nearby paths
     /// </summary>
-    public float pathCheckRadius = 20f;
+    public float pathCheckRadius = 10f;
 
     List<Street> streets = null;
 
@@ -87,8 +87,6 @@ public class VictimSteering : MonoBehaviour {
         // Check to see if we have a rigid body
         try {
             GetComponent<Rigidbody>();
-
-            Debug.Log(rigidbody.position);
 
             steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
             steeringBehaviors.targetPosition = rigidbody.position;
@@ -126,6 +124,15 @@ public class VictimSteering : MonoBehaviour {
             return;
         }
 
+        // DEBUG - Display the path that we are trying to follow
+        for (int i = 0; i < path.Count; ++i) {
+            if (i == 0) {
+                Debug.DrawLine(rigidbody.position, new Vector3(path[i].x, rigidbody.position.y, path[i].y), Color.white);
+            } else {
+                Debug.DrawLine(new Vector3(path[i - 1].x, rigidbody.position.y, path[i - 1].y), new Vector3(path[i].x, rigidbody.position.y, path[i].y), Color.white);
+            }
+        }
+
         if (pathFinder && !hasPath) {
             // Pick a new path, if we don't have one
 
@@ -135,29 +142,32 @@ public class VictimSteering : MonoBehaviour {
                 Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, pathCheckRadius, 1 << LayerMask.NameToLayer("Victims"));
 
                 if (rand < uniquePathProbability || nearbyVictims.Length == 0) {
-                    Debug.Log("Picking my own path");
+                    //Debug.Log("Picking my own path");
                     // Pick own path
                     Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
                     path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
+                    steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
                 } else {
-                    Debug.Log("Checking for a path near me");
+                    //Debug.Log("Checking for a path near me");
                     bool foundPath = false;
                     // Take a path from first nearby object with a path
                     foreach (var n in nearbyVictims) {
                         VictimSteering v = n.gameObject.GetComponent<VictimSteering>();
                         if (v.hasPath && v.path.Count != 0) {
                             path = new List<Vector2>(v.path);
+                            steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
                             foundPath = true;
-                            Debug.Log("Found a path to follow");
+                            //Debug.Log("Found a path to follow");
                             break;
                         }
                     }
 
                     if (!foundPath) {
                         // Couldn't find a path, get one of my own
-                        Debug.Log("Couldn't get a path, picking my own");
+                        //Debug.Log("Couldn't get a path, picking my own");
                         Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
                         path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
+                        steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
                     }
                 }
 
@@ -169,17 +179,20 @@ public class VictimSteering : MonoBehaviour {
         }
 
         if (path.Count > 0) {
-            // Check if we have arrived
+            // Check if we have arrived'
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
+				Debug.Log ("At a distance of " + (steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude + 
+				           ". Progressing to the next point");
                 // We are close enough, get the next goal
-                steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
                 path.RemoveAt(0);
+                steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
             }
             // else don't do anything, continue to let it path closer to goal
         } else {
             // Working on the last one
             // If we are there, stop
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumCompleteArrivalRadiusSqrd) {
+				Debug.Log ("We have arrived, stopping movement");
                 hasPath = false;
                 steeringBehaviors.targetPosition = rigidbody.position;
             }
@@ -198,7 +211,7 @@ public class VictimSteering : MonoBehaviour {
         force += steeringBehaviors.GetWanderForce(maxVelocity) * behaviorWeights[7];
 
 		//force += steeringBehaviors.GetSideWalkLoveForce (maxVelocity) * behaviorWeights[8];
-		force += steeringBehaviors.PushedByWallsForce (maxVelocity);
+		//force += steeringBehaviors.PushedByWallsForce (maxVelocity);
 
 
         // Limit the force
