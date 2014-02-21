@@ -32,7 +32,7 @@ public class PlayerSteering : MonoBehaviour {
     /// <summary>
     /// Holds path to follow
     /// </summary>
-    List<Vector2> path = new List<Vector2>();
+    Queue<Vector2> path = new Queue<Vector2>();
 
     /// <summary>
     /// Distance the object can be from its target destination before it is considered to have arrived
@@ -121,7 +121,9 @@ public class PlayerSteering : MonoBehaviour {
                 if (Physics.Raycast(cameraRay, out hit)) {
                     Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
                     Vector2 end = new Vector2(hit.point.x, hit.point.z);
-                    path = new List<Vector2>(pathFinder.getPath(start, end));
+                    path = new Queue<Vector2>(pathFinder.getPath(start, end));
+                    Vector2 newLocation = path.Dequeue();
+                    steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
                 }
             }
         }
@@ -130,8 +132,8 @@ public class PlayerSteering : MonoBehaviour {
             // Check if we have arrived
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
                 // We are close enough, get the next goal
-                steeringBehaviors.targetPosition = new Vector3(path[0].x, rigidbody.position.y, path[0].y);
-                path.RemoveAt(0);
+                Vector2 newLocation = path.Dequeue();
+                steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
             }
             // else don't do anything, continue to let it path closer to goal
         } else {
