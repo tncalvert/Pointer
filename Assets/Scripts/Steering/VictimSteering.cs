@@ -37,7 +37,7 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// Distance the object can be from its target destination before it is considered to have arrived
     /// </summary>
-    float minimumArrivalRadiusSqrd = 25.0f;
+    float minimumArrivalRadiusSqrd = 14.0f;
 
     /// <summary>
     /// Distance the object can be from the final point of its path before the path is considered complete

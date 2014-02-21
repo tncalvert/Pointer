@@ -67,7 +67,7 @@ public class SteeringBehaviors : MonoBehaviour {
     #region CollisionAvoidance
 
     public float boundingRadiusCollisionAvoidance;
-    public float velocityMultCollisionAvoidance = 2f;
+    public float velocityMultCollisionAvoidance = 1.5f;
 
     public Vector3 GetCollisionAvoidanceForce(float maxVelocity) {
 
@@ -125,11 +125,23 @@ public class SteeringBehaviors : MonoBehaviour {
 
     public Vector3 targetPosition = Vector3.zero;
 
-    public Vector3 GetSeekForce(float maxVelocity) {
-        Vector3 desiredVelocity =
-            (targetPosition - rigidbody.position).normalized * maxVelocity;
-        return desiredVelocity - rigidbody.velocity;
-    }
+	public Vector3 GetSeekForce(float maxVelocity) {
+		
+		/* -maxVel
+		 * if distance is less than maxVel
+		 */
+		Vector3 separation = targetPosition - rigidbody.position;
+		if (separation.magnitude <= rigidbody.velocity.magnitude/3) {
+			Vector3 desired = -separation.normalized * Mathf.Max (separation.magnitude, maxVelocity/3);
+			return desired - rigidbody.velocity;
+		}
+		
+		
+		Vector3 desiredVelocity =
+			(targetPosition - rigidbody.position).normalized * maxVelocity;
+		
+		return desiredVelocity - rigidbody.velocity;
+	}
 
     #endregion
 
