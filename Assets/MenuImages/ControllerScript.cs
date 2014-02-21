@@ -9,7 +9,7 @@ public class ControllerScript : MonoBehaviour {
 	public GameObject quitButton;
 
 	public Transform mainLookAt;
-	public Camera camera;
+	public Camera ourCamera;
 
 
 	private GameObject selectedButton;
@@ -20,7 +20,7 @@ public class ControllerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		this.camera.transform.LookAt (this.mainLookAt.transform.position);
+		this.ourCamera.transform.LookAt (this.mainLookAt.transform.position);
 	}
 	
 	// Update is called once per frame
@@ -28,7 +28,7 @@ public class ControllerScript : MonoBehaviour {
 	
 		if (this.inTransitionToCredits) {
 			if (this.angleChangeToCredits <110f) {
-				this.camera.transform.Rotate (Vector3.up * transSpeed);
+				this.ourCamera.transform.Rotate (Vector3.up * transSpeed);
 				this.angleChangeToCredits += transSpeed;
 
 			}
@@ -41,7 +41,7 @@ public class ControllerScript : MonoBehaviour {
 			return;
 		} else {
 			if (this.angleChangeToCredits > 0f) {
-				this.camera.transform.Rotate (Vector3.up * -transSpeed);
+				this.ourCamera.transform.Rotate (Vector3.up * -transSpeed);
 				this.angleChangeToCredits -= transSpeed;
 				
 			}

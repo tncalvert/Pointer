@@ -31,7 +31,7 @@ public class MasterGame : MonoBehaviour {
 	private List<Park> parks;
 
 	//an instance of the follower
-	private PlayerSteering f;
+	//private PlayerSteering f;
 
     public GameObject victim;
 
@@ -100,7 +100,7 @@ public class MasterGame : MonoBehaviour {
 
 		//pathFinder.getPath (this.streets [0].Position, this.streets [this.streets.Count - 1].Position);
 	
-		this.f = this.generateFollower (this.streets [0].Position);
+		this.generateFollower (this.streets [0].Position);
 
 
         for (int i = 2; i < 3/*streets.Count/2*/; i++)

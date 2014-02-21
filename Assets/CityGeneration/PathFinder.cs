@@ -59,7 +59,7 @@ public class PathFinder : MonoBehaviour {
 
 
 
-		public string ToString(){
+		public override string ToString(){
 			return "WAYPOINT{" + this.position.x + "," + this.position.y+"}";
 		}
 		
@@ -103,7 +103,7 @@ public class PathFinder : MonoBehaviour {
 
 		//find the closest node to the start and end. 
 		//TODO right now, it is assumed that start is a valid position. If start is given as an invalid position, then this method may not produce the correct waypoint
-		float firstSqrDist = float.MaxValue;
+		//float firstSqrDist = float.MaxValue;
 		float lastSqrDist = float.MaxValue;
 
 		WayPoint temp = new WayPoint (start);
