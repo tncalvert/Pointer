@@ -157,12 +157,13 @@ public class VictimSteering : MonoBehaviour {
                     foreach (var n in nearbyVictims) {
                         VictimSteering v = n.gameObject.GetComponent<VictimSteering>();
                         if (v.hasPath && v.path.Count != 0) {
-                            path = new Queue<Vector2>(v.path);
-                            Vector2 newLocation = path.Dequeue();
-                            steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
-                            foundPath = true;
+                            //path = new Queue<Vector2>(v.path);
+                            //Vector2 newLocation = path.Dequeue();
+                            //steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
+							//steeringBehaviors.targetPosition = v.rigidbody.transform.position;
+							//foundPath = true;
                             //Debug.Log("Found a path to follow");
-                            break;
+                            //break;
                         }
                     }
 
@@ -218,7 +219,7 @@ public class VictimSteering : MonoBehaviour {
         force += steeringBehaviors.GetWanderForce(maxVelocity) * behaviorWeights[7];
 
 		//force += steeringBehaviors.GetSideWalkLoveForce (maxVelocity) * behaviorWeights[8];
-		//force += steeringBehaviors.PushedByWallsForce (maxVelocity);
+		force += steeringBehaviors.PushedByWallsForce (maxVelocity);
 
 
         // Limit the force
