@@ -87,9 +87,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxForce: 20
   maxVelocity: 40
-  path: []
   uniquePathProbability: 0
   pathCheckRadius: 10
+  publicPath: []
   behaviorWeights:
   - 1
   - 1

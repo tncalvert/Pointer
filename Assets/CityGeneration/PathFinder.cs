@@ -57,7 +57,15 @@ public class PathFinder : MonoBehaviour {
 		}
 
 
-
+        public override bool Equals(object obj) {
+            try {
+                WayPoint w = (WayPoint)obj;
+                return this.Position.Equals(w.Position);
+            } catch /*InvalidCastException most likely */ {
+                // Either way they probably aren't equal
+                return false;
+            }
+        }
 
 		public override string ToString(){
 			return "WAYPOINT{" + this.position.x + "," + this.position.y+"}";
@@ -138,6 +146,9 @@ public class PathFinder : MonoBehaviour {
 		    && this.canSee (end, waypoints [waypoints.Count - 2].Position)) {
 			waypoints.Remove(waypoints[waypoints.Count-1]);
 		}
+
+        // Remove the starting point as we are already there
+        waypoints.RemoveAt(0);
 
 		//assemble information to return
 		Vector2[] path = new Vector2[waypoints.Count + 1];
