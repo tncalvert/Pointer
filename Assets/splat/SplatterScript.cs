@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SplatterScript : MonoBehaviour {
 
-	public GameObject bloodSplat;
+	public SplatScript bloodSplat;
 	public float minScale = .5f;
 	public float maxScale = 4f;
 	// Use this for initialization
@@ -25,13 +25,14 @@ public class SplatterScript : MonoBehaviour {
 			if (Physics.Raycast(cameraRay, out hit)) {
 
 
-
-				GameObject splat = (GameObject)Instantiate(this.bloodSplat, hit.point+(.001f * hit.normal) , Quaternion.identity);
+				SplatScript splat = (SplatScript)Instantiate(this.bloodSplat, hit.point+(.001f * hit.normal) , Quaternion.identity);
+				splat.normal = hit.normal;
 				Vector3 direction = splat.transform.position - hit.normal;
 				splat.transform.LookAt(direction);
 				splat.transform.localScale*= Mathf.Clamp(minScale + Random.value*(maxScale-minScale), minScale, maxScale);
 				//splat.transform.Rotate(splat.transform.forward, Random.value*300);
 
+				splat.transform.RotateAround(splat.transform.position, splat.transform.forward, Random.value*360);
 
 			}
 		}
@@ -46,7 +47,7 @@ public class SplatterScript : MonoBehaviour {
 		RaycastHit ray = new RaycastHit ();
 
 		if (Physics.Raycast (position, direction, out ray, distance, layer)) {
-			GameObject splat = (GameObject)Instantiate(this.bloodSplat, ray.point+(.001f * ray.normal) , Quaternion.identity);
+			SplatScript splat = (SplatScript)Instantiate(this.bloodSplat, ray.point+(.001f * ray.normal) , Quaternion.identity);
 			Vector3 splatDirection = splat.transform.position- ray.normal;
 			splat.transform.LookAt(splatDirection);
 			splat.transform.localScale = new Vector3(1,1,1)*100;
