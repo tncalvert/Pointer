@@ -192,9 +192,10 @@ MonoBehaviour:
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
   pathFinder: {fileID: 212829803}
+  splatter: {fileID: 0}
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
-  width: 32
-  height: 32
+  width: 20
+  height: 20
   victim: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
 --- !u!4 &381908261
 Transform:

@@ -9,6 +9,11 @@ using System.Collections.Generic;
 /// </summary>
 public class PlayerSteering : MonoBehaviour {
 
+	//// <summary>
+	/// The splatter. Squishy.
+	/// </summary>
+	public SplatterScript splatter;
+
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
@@ -163,7 +168,11 @@ public class PlayerSteering : MonoBehaviour {
 
 			foreach(var n in nearbyVictims)
 			{
-				Destroy (n);
+				if (this.splatter!=null){
+					this.splatter.makeSplat(n.transform.position, new Vector3(0,-1,0),10, (1<<LayerMask.NameToLayer("City")));
+				}
+
+				Destroy (n.gameObject);
 				playerScore++;
 
 				Debug.Log ("Score: " + playerScore);
