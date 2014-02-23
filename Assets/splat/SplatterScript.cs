@@ -29,7 +29,7 @@ public class SplatterScript : MonoBehaviour {
 				GameObject splat = (GameObject)Instantiate(this.bloodSplat, hit.point+(.001f * hit.normal) , Quaternion.identity);
 				Vector3 direction = splat.transform.position - hit.normal;
 				splat.transform.LookAt(direction);
-				splat.transform.localScale*= Mathf.Clamp(Random.value, .5f, 1f);
+				splat.transform.localScale*= Mathf.Clamp(minScale + Random.value*(maxScale-minScale), minScale, maxScale);
 				//splat.transform.Rotate(splat.transform.forward, Random.value*300);
 
 
@@ -49,8 +49,8 @@ public class SplatterScript : MonoBehaviour {
 			GameObject splat = (GameObject)Instantiate(this.bloodSplat, ray.point+(.001f * ray.normal) , Quaternion.identity);
 			Vector3 splatDirection = splat.transform.position- ray.normal;
 			splat.transform.LookAt(splatDirection);
-
-			splat.transform.localScale*=Mathf.Clamp(Random.value*this.maxScale, this.minScale, this.maxScale);
+			splat.transform.localScale = new Vector3(1,1,1)*100;
+			//splat.transform.localScale*=Mathf.Clamp(Random.value*this.maxScale, this.minScale, this.maxScale);
 			//splat.transform.Rotate(splat.transform.forward, Random.value*300);
 		}
 
