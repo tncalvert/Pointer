@@ -8,6 +8,19 @@ using System.Collections.Generic;
 public class FuzzyBrain {
 
 
+	public static float AND(float fuzzyElementA, float fuzzyElementB){
+		return Mathf.Min (fuzzyElementA, fuzzyElementB);
+	}
+	public static float OR(float fuzzyElementA, float fuzzyElementB){
+		return Mathf.Max (fuzzyElementA, fuzzyElementB);
+	}
+	public static float NOT(float fuzzyElement){
+		return 1 - fuzzyElement;
+	}
+
+
+
+
 	/// <summary>
 	/// A Fuzzy Set has elements
 	/// </summary>
