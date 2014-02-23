@@ -58,32 +58,24 @@ public class FuzzyBrain {
 		}
 
 		/// <summary>
-		/// Normalize the elements. All values will be brought within the range of -1 and 1. 
-		/// Examples...
-		/// [A: 1, B: .5] -> [A: 1, B: .5]
-		/// [A: 2, B: .5] -> [A: 1, B: .25]
-		/// [A: -2, B: .5] -> [A: -1, B: .5]
+		/// Normalize the elements. All values will be brought within the range of 0 and 1. 
 		/// 
-		/// TODO think about ratio change problem with negative + positive numbers
 		/// </summary>
 		public void normalize(){
-			float max = float.NegativeInfinity;
-			float min = float.PositiveInfinity;
+			float sum = 0;
 			foreach (string key in this.elements.Keys){
-				max = Mathf.Max (this.elements[key], max);
-				min = Mathf.Min (this.elements[key], min);
+				sum += this.elements[key];
 			}
-			max = Mathf.Max (1.0f, max);
-			min = Mathf.Abs (Mathf.Min (-1.0f, min));
+
 
 			foreach (string key in this.elements.Keys) {
-				this.elements[key] /= ( (this.elements[key] > 0 )? max : min );
+				this.elements[key] /= sum;
 			}
 
 		}
 
 		/// <summary>
-		/// Gets the element with the max value
+		/// Gets the max value
 		/// </summary>
 		/// <returns>The max element.</returns>
 		public float getMax(){
@@ -92,6 +84,25 @@ public class FuzzyBrain {
 				max = Mathf.Max (max, this.elements [key]);
 			}
 			return max;
+		}
+
+		/// <summary>
+		/// Gets the element with max value, fuzzified. This weights each answer by its value and rolls a die
+		/// Note, this function will not call normalize(), but values SHOULD be normalized before you try to use this function
+		/// Null will be returned iff something bonkers happens
+		/// </summary>
+		/// <returns>The fuzzy max.</returns>
+		public string getFuzzyMax(){
+			float value = Random.value;
+			float prev = 0;
+			foreach (string key in this.elements.Keys){
+				if (value >= prev && value < prev + this.elements[key]){
+					return key;
+				} else {
+					prev += this.elements[key];
+				}
+			}
+			return null;
 		}
 
 		/// <summary>
