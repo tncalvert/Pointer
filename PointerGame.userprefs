@@ -1,16 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FuzzyBrain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\splat\SplatterScript.cs">
     <Files>
-      <File FileName="Assets\CityGeneration\PathFinder.cs" Line="305" Column="3" />
+      <File FileName="Assets\FuzzyBrain.cs" Line="21" Column="1" />
+      <File FileName="Assets\CityGeneration\PathFinder.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Steering\SteeringBehaviors.cs" Line="1" Column="1" />
       <File FileName="Assets\CityGeneration\BuildingGenerator.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Steering\VictimSteering.cs" Line="1" Column="1" />
       <File FileName="Assets\MasterGame.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Steering\PlayerSteering.cs" Line="1" Column="1" />
-      <File FileName="Assets\splat\SplatterScript.cs" Line="31" Column="39" />
-      <File FileName="Assets\Park.cs" Line="7" Column="2" />
-      <File FileName="Assets\FuzzyBrain.cs" Line="34" Column="36" />
+      <File FileName="Assets\splat\SplatterScript.cs" Line="35" Column="101" />
+      <File FileName="Assets\Park.cs" Line="1" Column="1" />
+      <File FileName="Assets\splat\SplatScript.cs" Line="31" Column="42" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
