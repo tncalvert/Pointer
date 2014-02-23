@@ -166,7 +166,7 @@ public class VictimSteering : MonoBehaviour {
                     foreach (var n in nearbyVictims) {
                         VictimSteering v = n.gameObject.GetComponent<VictimSteering>();
                         // Check that the original path holder is actually close enough (otherwise paths can propagate pretty far)
-                        if ((v.masterPathHolder.rigidbody.position - rigidbody.position).sqrMagnitude > pathCheckRadius * pathCheckRadius) {
+                        if (v.masterPathHolder != null && (v.masterPathHolder.rigidbody.position - rigidbody.position).sqrMagnitude > pathCheckRadius * pathCheckRadius) {
                             // To far, ignore this option
                             Debug.Log("Original path holder is too far away");
                             continue;
