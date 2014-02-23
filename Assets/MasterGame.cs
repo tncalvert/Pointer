@@ -7,7 +7,6 @@ public class MasterGame : MonoBehaviour {
 	public BuildingGenerator buildingGenerator;
 	public CityGenerator cityGenerator;
 	public PathFinder pathFinder;
-	public SplatterScript splatter;
 
 	//Uhm, I dont know what I'm doing anymore
 	public GameObject follower;
@@ -103,7 +102,7 @@ public class MasterGame : MonoBehaviour {
 		this.generateFollower (this.streets [0].Position);
 
 
-        for (int i = 2; i < 3/*streets.Count/2*/; i++)
+        for (int i = 2; i < 16/*streets.Count/2*/; i++)
             generateVictim(streets[i].Position);
 	}
 
@@ -115,7 +114,6 @@ public class MasterGame : MonoBehaviour {
 	//I am teh unity n00b and I don't know if this is a good way to go about generating people
 	private PlayerSteering generateFollower(Vector2 position){
 		PlayerSteering f = ((GameObject)Instantiate (this.follower, new Vector3(position.x, 1, position.y), Quaternion.identity)).GetComponent<PlayerSteering>();
-		f.splatter = this.splatter;
 		return f;
 	}
 

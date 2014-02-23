@@ -13,6 +13,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
   - 136: {fileID: 13600000}
+  - 114: {fileID: 11400002}
   m_Layer: 11
   m_Name: PlayerModel
   m_TagString: feared
@@ -96,6 +97,19 @@ MonoBehaviour:
   - 1.5
   - 1
   - .600000024
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de47815b18e2b9d47ba21e59aed553d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splatter: {fileID: 0}
+  splatterPrefab: {fileID: 100000, guid: f8862566cdf132b4f8cbf5bb14dc88c9, type: 2}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

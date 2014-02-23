@@ -89,6 +89,7 @@ MonoBehaviour:
   maxVelocity: 40
   uniquePathProbability: 0
   pathCheckRadius: 10
+  publicPath: []
   behaviorWeights:
   - 1
   - 1

@@ -9,11 +9,6 @@ using System.Collections.Generic;
 /// </summary>
 public class PlayerSteering : MonoBehaviour {
 
-	//// <summary>
-	/// The splatter. Squishy.
-	/// </summary>
-	public SplatterScript splatter;
-
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
@@ -48,16 +43,6 @@ public class PlayerSteering : MonoBehaviour {
     /// Distance the object can be from the final point of its path before the path is considered complete
     /// </summary>
     float minimumCompleteArrivalRadiusSqrd = 9.0f;
-
-	/// <summary>
-	/// Attack range for the monster
-	/// </summary>
-	int attackRange = 5;
-
-	/// <summary>
-	/// Player score
-	/// </summary>
-	int playerScore = 0;
 
 
     /// <summary>
@@ -159,25 +144,5 @@ public class PlayerSteering : MonoBehaviour {
 
         // Apply the force
         rigidbody.AddForce(force - rigidbody.velocity);
-        
-
-		//Kill the victims
-		if(Input.GetKeyDown ("space"))
-		{
-			Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, attackRange, 1 << LayerMask.NameToLayer("Victims"));
-
-			foreach(var n in nearbyVictims)
-			{
-				if (this.splatter!=null){
-					this.splatter.makeSplat(n.transform.position, new Vector3(0,-1,0),10, (1<<LayerMask.NameToLayer("City")));
-				}
-
-				Destroy (n.gameObject);
-				playerScore++;
-
-				Debug.Log ("Score: " + playerScore);
-			}
-
-		}
 	}
 }

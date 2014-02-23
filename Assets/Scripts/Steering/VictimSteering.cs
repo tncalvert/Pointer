@@ -35,14 +35,24 @@ public class VictimSteering : MonoBehaviour {
     public Queue<Vector2> path = new Queue<Vector2>();
 
     /// <summary>
+    /// Holds the current destination of the victim. Used as an access for by other victims.
+    /// </summary>
+    public Vector2 destination;
+
+    /// <summary>
+    /// The game object that the current path was found from
+    /// </summary>
+    public GameObject masterPathHolder;
+
+    /// <summary>
     /// Distance the object can be from its target destination before it is considered to have arrived
     /// </summary>
-    float minimumArrivalRadiusSqrd = 14.0f;
+    float minimumArrivalRadiusSqrd = 9.0f;
 
     /// <summary>
     /// Distance the object can be from the final point of its path before the path is considered complete
     /// </summary>
-    float minimumCompleteArrivalRadiusSqrd = 9.0f;
+    float minimumCompleteArrivalRadiusSqrd = 4.0f;
 
     /// <summary>
     /// Flag indicating that the object has a path that it is following
@@ -58,6 +68,10 @@ public class VictimSteering : MonoBehaviour {
     /// Radius of the circle to use when checking for nearby paths
     /// </summary>
     public float pathCheckRadius = 10f;
+
+    public Vector2[] publicPath;
+
+    private bool DEBUG = true;
 
     List<Street> streets = null;
 
@@ -90,6 +104,10 @@ public class VictimSteering : MonoBehaviour {
 
             steeringBehaviors = gameObject.AddComponent<SteeringBehaviors>();
             steeringBehaviors.targetPosition = rigidbody.position;
+
+            destination = new Vector2(rigidbody.position.x, rigidbody.position.z);
+
+            masterPathHolder = this.gameObject;  // Set path holder to itself
 
             GameObject pf = GameObject.Find("Pathfinder");
             if (pf) {
@@ -124,16 +142,6 @@ public class VictimSteering : MonoBehaviour {
             return;
         }
 
-        // DEBUG - Display the path that we are trying to follow
-        Vector2[] tempPath = path.ToArray();
-        Debug.DrawLine(rigidbody.position, steeringBehaviors.targetPosition, Color.white);
-        if(path.Count > 0)
-            Debug.DrawLine(steeringBehaviors.targetPosition, new Vector3(tempPath[0].x, rigidbody.position.y, tempPath[0].y), Color.white);
-        for (int i = 1; i < path.Count; ++i) {
-            Debug.DrawLine(new Vector3(tempPath[i - 1].x, rigidbody.position.y, tempPath[i - 1].y),
-                new Vector3(tempPath[i].x, rigidbody.position.y, tempPath[i].y), Color.white);
-        }
-
         if (pathFinder && !hasPath) {
             // Pick a new path, if we don't have one
 
@@ -148,19 +156,55 @@ public class VictimSteering : MonoBehaviour {
                     Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
                     path = new Queue<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
                     //path = new List<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
-                    Vector2 newLocation = path.Dequeue();
-                    steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
+                    destination = path.Dequeue();
+                    steeringBehaviors.targetPosition = new Vector3(destination.x, rigidbody.position.y, destination.y);
+                    masterPathHolder = this.gameObject;
                 } else {
                     //Debug.Log("Checking for a path near me");
                     bool foundPath = false;
                     // Take a path from first nearby object with a path
                     foreach (var n in nearbyVictims) {
                         VictimSteering v = n.gameObject.GetComponent<VictimSteering>();
-                        if (v.hasPath && v.path.Count != 0) {
+                        // Check that the original path holder is actually close enough (otherwise paths can propagate pretty far)
+                        if ((v.masterPathHolder.rigidbody.position - rigidbody.position).sqrMagnitude > pathCheckRadius * pathCheckRadius) {
+                            // To far, ignore this option
+                            Debug.Log("Original path holder is too far away");
+                            continue;
+                        }
+
+                        // Check that we can see the person we are getting a path from, if not, don't take the path
+                        if (Physics.Raycast(rigidbody.position, (v.gameObject.rigidbody.position - rigidbody.position),
+                            (v.gameObject.rigidbody.position - rigidbody.position).magnitude,
+                            (1 << LayerMask.NameToLayer("City")) | (1 << LayerMask.NameToLayer("Sidewalk")))) {
+
+                            Debug.Log("We cannot see the person we are considering for a path");
+                            continue;
+                        }
+
+                        if (v.hasPath && v.destination != Vector2.zero && v.path.Count != 0) {
                             path = new Queue<Vector2>(v.path);
-                            Vector2 newLocation = path.Dequeue();
-                            steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
+
+                            // If we can't see the destination, put destination into the path, and set the path's object's position
+                            // as the first destination
+                            Vector3 firstDestination = new Vector3(v.destination.x, rigidbody.position.y, v.destination.y);
+                            if (Physics.Raycast(rigidbody.position, (firstDestination - rigidbody.position),
+                                (firstDestination - rigidbody.position).magnitude,
+                                (1 << LayerMask.NameToLayer("City")) | (1 << LayerMask.NameToLayer("Sidewalk")))) {
+
+                                Debug.Log("Path is good, but we cannot see the first destination, using object's position");
+                                // Hit, destination is object's position
+                                destination = new Vector2(v.gameObject.rigidbody.position.x, v.gameObject.rigidbody.position.z);
+                                // Add object's position to the front of the queue
+                                List<Vector2> tempPath = new List<Vector2>(path);
+                                tempPath.Insert(0, v.destination);
+                                path = new Queue<Vector2>(tempPath);
+                            } else {
+                                // Otherwise, we are good with just using the object's destination
+                                destination = v.destination;
+                            }
+                            steeringBehaviors.targetPosition = new Vector3(destination.x, rigidbody.position.y, destination.y);
                             foundPath = true;
+                            masterPathHolder = v.masterPathHolder;
                             //Debug.Log("Found a path to follow");
                             break;
                         }
@@ -171,8 +215,9 @@ public class VictimSteering : MonoBehaviour {
                         //Debug.Log("Couldn't get a path, picking my own");
                         Vector2 randomStreet = streets[Random.Range(0, streets.Count - 1)].Position;
                         path = new Queue<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), randomStreet));
-                        Vector2 newLocation = path.Dequeue();
-                        steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
+                        destination = path.Dequeue();
+                        steeringBehaviors.targetPosition = new Vector3(destination.x, rigidbody.position.y, destination.y);
+                        masterPathHolder = this.gameObject;
                     }
                 }
 
@@ -183,24 +228,33 @@ public class VictimSteering : MonoBehaviour {
             }
         }
 
+        if (DEBUG) {
+            // DEBUG - Display the path that we are trying to follow
+            Vector2[] tempPath = publicPath = path.ToArray();
+            Debug.DrawLine(rigidbody.position, steeringBehaviors.targetPosition, Color.white);
+            if (path.Count > 0)
+                Debug.DrawLine(steeringBehaviors.targetPosition, new Vector3(tempPath[0].x, rigidbody.position.y, tempPath[0].y), Color.white);
+            for (int i = 1; i < path.Count; ++i) {
+                Debug.DrawLine(new Vector3(tempPath[i - 1].x, rigidbody.position.y, tempPath[i - 1].y),
+                    new Vector3(tempPath[i].x, rigidbody.position.y, tempPath[i].y), Color.white);
+            }
+        }
+
         if (path.Count > 0) {
             // Check if we have arrived'
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
-				Debug.Log ("At a distance of " + (steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude + 
-				           ". Progressing to the next point");
                 // We are close enough, get the next goal
-                Debug.Log("Target was " + steeringBehaviors.targetPosition);
-                Vector2 newLocation = path.Dequeue();
-                steeringBehaviors.targetPosition = new Vector3(newLocation.x, rigidbody.position.y, newLocation.y);
-                Debug.Log("Target is now " + steeringBehaviors.targetPosition);
+                destination = path.Dequeue();
+                steeringBehaviors.targetPosition = new Vector3(destination.x, rigidbody.position.y, destination.y);
+                publicPath = path.ToArray();
             }
             // else don't do anything, continue to let it path closer to goal
         } else {
             // Working on the last one
             // If we are there, stop
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumCompleteArrivalRadiusSqrd) {
-				Debug.Log ("We have arrived, stopping movement");
                 hasPath = false;
+                destination = Vector2.zero;
                 steeringBehaviors.targetPosition = rigidbody.position;
             }
         }
