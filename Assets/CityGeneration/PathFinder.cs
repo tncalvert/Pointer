@@ -310,9 +310,9 @@ public class PathFinder : MonoBehaviour {
 		Vector3 direction = new Vector3 (b.x - a.x, .5f, b.y - a.y);
 		float distance = direction.magnitude;
 		direction.Normalize ();
-	
-		return !Physics.Raycast (origin, direction, distance,
-            ~((1 << LayerMask.NameToLayer("Victims") | (1 << LayerMask.NameToLayer("Player")))));
+
+        return !Physics.Raycast(origin, direction, distance,
+            ((1 << LayerMask.NameToLayer("City")) | (1 << LayerMask.NameToLayer("Sidewalk")) | (1 << LayerMask.NameToLayer("Ground"))));
 	}
 
 

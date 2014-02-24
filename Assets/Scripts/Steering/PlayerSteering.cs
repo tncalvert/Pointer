@@ -91,7 +91,7 @@ public class PlayerSteering : MonoBehaviour {
         
     }
 	
-	void Update () {
+	void FixedUpdate () {
 
         if (!rigidbody) {
             // If there is no rigidbody, abort
