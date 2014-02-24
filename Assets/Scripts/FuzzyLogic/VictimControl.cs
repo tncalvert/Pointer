@@ -53,8 +53,18 @@ public class VictimControl : MonoBehaviour {
 	private FuzzySet terror;
 
 
+	private VictimSteering steering;
+	private Material material;
+
+
 	// Use this for initialization
 	void Start () {
+
+
+		this.steering = this.GetComponent<VictimSteering> ();
+		this.material = this.GetComponent<Renderer> ().material;
+
+
 		this.brain = new FuzzyBrain ();
 
 		this.actionSet = new FuzzySet ("actionSet");
@@ -77,11 +87,34 @@ public class VictimControl : MonoBehaviour {
 
 		//TODO register update functions for sets
 
+
+
+		this.toughness = Random.value;
+		this.sleepyness = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+		this.updateColor ();
+
+	}
+
+	/// <summary>
+	/// Updates the sleepyness. Victims get tired with time
+	/// </summary>
+	private void updateSleepyness(){
+		this.sleepyness = Mathf.Clamp (this.sleepyness + .0001f, 0, 1);
+	}
+
+	/// <summary>
+	/// Updates the color of the victim. Tough people are red, others are blue.
+	/// </summary>
+	private void updateColor(){
+		float red = Mathf.Clamp (this.toughness, 0, 1);
+		float blue = 1 - red;
+		this.material.color = new Color (red, 0, blue);
+
 	}
 
 
