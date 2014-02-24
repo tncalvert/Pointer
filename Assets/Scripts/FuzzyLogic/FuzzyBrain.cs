@@ -52,7 +52,7 @@ public class FuzzyBrain {
 	/// </summary>
 	/// <param name="name">Name. Note that case does not matter</param>
 	/// <param name="set">Set.</param>
-	public void addFuzzySet(FuzzySet set){
+	public void setFuzzySet(FuzzySet set){
 		this.fuzzySets [set.getName().ToLower()] = set;
 	}
 
@@ -63,6 +63,25 @@ public class FuzzyBrain {
 	/// <param name="name">Name. Note that case does not matter</param>
 	public FuzzySet getFuzzySet(string name){
 		return (this.fuzzySets.ContainsKey (name.ToLower ()) ? this.fuzzySets [name.ToLower ()] : null);
+	}
+
+
+	public FuzzySet this [string name]{
+		get {
+				if (this.fuzzySets.ContainsKey (name)) {
+					return this.getFuzzySet (name);
+				} else{
+					this.setFuzzySet(new FuzzySet(name));
+					return this.fuzzySets[name];
+				}
+			}
+		set {
+				if (this.fuzzySets.ContainsKey (name)) {
+					this.setFuzzySet (value);
+				} else {
+					this.setFuzzySet(new FuzzySet(name));	
+				}
+			}
 	}
 
 
