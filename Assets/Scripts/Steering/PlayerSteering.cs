@@ -91,7 +91,7 @@ public class PlayerSteering : MonoBehaviour {
         
     }
 	
-	void Update () {
+	void FixedUpdate () {
 
         if (!rigidbody) {
             // If there is no rigidbody, abort
@@ -118,6 +118,24 @@ public class PlayerSteering : MonoBehaviour {
             }
         }
 
+        updatePath();
+
+        // Add forces
+        force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
+        force += steeringBehaviors.GetSeekForce(maxVelocity) * behaviorWeights[4];
+        force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
+
+        // Limit the force
+        force = Vector3.ClampMagnitude(force, maxForce);
+
+        // Apply the force
+        rigidbody.AddForce(force - rigidbody.velocity);
+	}
+
+    /// <summary>
+    /// Updates the path in the event that we have made it to another waypoint
+    /// </summary>
+    private void updatePath() {
         if (path.Count > 0) {
             // Check if we have arrived
             if ((steeringBehaviors.targetPosition - rigidbody.position).sqrMagnitude < minimumArrivalRadiusSqrd) {
@@ -133,16 +151,5 @@ public class PlayerSteering : MonoBehaviour {
                 steeringBehaviors.targetPosition = rigidbody.position;
             }
         }
-
-        // Add forces
-        force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
-        force += steeringBehaviors.GetSeekForce(maxVelocity) * behaviorWeights[4];
-        force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
-
-        // Limit the force
-        force = Vector3.ClampMagnitude(force, maxForce);
-
-        // Apply the force
-        rigidbody.AddForce(force - rigidbody.velocity);
-	}
+    }
 }

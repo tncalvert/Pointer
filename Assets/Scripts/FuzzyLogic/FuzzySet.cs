@@ -114,7 +114,17 @@ public class FuzzySet
 		}
 		return null;
 	}
-	
+
+	/// <summary>
+	/// Resets all elements to zero
+	/// </summary>
+	public void resetAll(){
+		
+		foreach (string key in this.elements.Keys) {
+			this.elements[key] = 0;
+		}
+	}
+
 	/// <summary>
 	/// perform FuzzySetOperation on this instance
 	/// </summary>

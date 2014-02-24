@@ -47,6 +47,9 @@ public class FuzzyBrain {
 		}
 	}
 
+
+
+
 	/// <summary>
 	/// Adds the fuzzy set.
 	/// </summary>
