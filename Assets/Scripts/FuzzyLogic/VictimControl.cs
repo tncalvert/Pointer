@@ -19,7 +19,6 @@ public class VictimControl : MonoBehaviour {
 	 * They are the constant factors, and should range from 0 to 1, where
 	 * 1 = VERY, 0 = NOT AT ALL
 	 */
-
 	//toughness factors into aggression and endurance	
 	public float toughness;
 
@@ -28,6 +27,8 @@ public class VictimControl : MonoBehaviour {
 
 	//independence factors into how social the victim is
 	public float independence;
+
+
 
 	/* VARIABLES OF THE VICTIM
 	 * These variables may change due to game events.
@@ -48,21 +49,31 @@ public class VictimControl : MonoBehaviour {
 	private FuzzySet actionSet;
 
 	private FuzzySet peopleAround;
+	private FuzzySet monsterInSight;
+	private FuzzySet terror;
 
 
 	// Use this for initialization
 	void Start () {
 		this.brain = new FuzzyBrain ();
 
-		this.actionSet = this.brain ["actionSet"];
-		this.actionSet ["someAction"] = 0;
+		this.actionSet = new FuzzySet ("actionSet");
+		this.brain.addFuzzySet (this.actionSet);
+		this.brain.setRefreshFunction (this.actionSet, refreshActionSet);
 
 
+		this.peopleAround = new FuzzySet ("peopleAround");
+		this.brain.addFuzzySet (this.peopleAround);
+		this.brain.setRefreshFunction (this.peopleAround, refreshPeopleAroundSet);
+		//this.peopleAround =  
 
-		this.peopleAround = this.brain ["peopleAround"];
+		this.monsterInSight = new FuzzySet ("monsterInSight");
+		this.brain.addFuzzySet (this.monsterInSight);
+		this.brain.setRefreshFunction (this.monsterInSight, refreshMonsterInSightSet);
 
-
-
+		this.terror = new FuzzySet ("terror");
+		this.brain.addFuzzySet (this.terror);
+		this.brain.setRefreshFunction (this.terror, refreshTerrorSet);
 
 		//TODO register update functions for sets
 
@@ -74,9 +85,91 @@ public class VictimControl : MonoBehaviour {
 	}
 
 
-
+	/// <summary>
+	/// Computes the current action.
+	/// </summary>
+	/// <returns>The current action.</returns>
 	public string computeCurrentAction(){
-		this.brain.refreshValues (this.peopleAround);
-		return "";
+		this.brain.refreshValues (this.peopleAround,
+		                          this.monsterInSight,
+		                          this.terror);
+
+		this.brain.refreshValues (this.actionSet);
+		return this.actionSet.getFuzzyMax();
 	}
+
+	/// <summary>
+	/// Plans for given action. 
+	/// </summary>
+	/// <param name="action">Action. This string should be one of the ACTION_* strings in VictimControl</param>
+	public void planForAction(string action){
+		switch (action) {
+		case ACTION_FLEE:
+			break;
+		case ACTION_SHOOT:
+			break;
+		case ACTION_FIND_AMMO:
+			break;
+		case ACTION_FIND_GROUP:
+			break;
+		case ACTION_FIND_GUN:
+			break;
+		case ACTION_FIND_ROOM:
+			break;
+		default:
+			break;
+		}
+	}
+
+	/// <summary>
+	/// returns true if the victim has the capacity to get a gun from the store. This assumes that the victim is physically next to the store
+	/// </summary>
+	/// <returns><c>true</c>, If the victim can get the gun, <c>false</c> otherwise.</returns>
+	public bool canGetGun(){
+		//TODO implement
+		return false;
+	}
+
+	/// <summary>
+	///  returns true if the victim has the capacity to get ammo from the store. This assumes that the victim is physically next to the store
+	/// </summary>
+	/// <returns><c>true</c>, If the victim can get the gun, <c>false</c> otherwise.</returns>
+	public bool canGetAmmo(){
+		//TODO implement
+		return false;
+	}
+
+	/// <summary>
+	/// returns true if the victim has the capacity to get rest from the hotel. This assumes that the victim is physically next to the hotel
+	/// </summary>
+	/// <returns><c>true</c>, if the victim can rest <c>false</c> otherwise.</returns>
+	public bool canGetRest(){
+		//TODO implement
+		return false;
+	}
+
+
+
+
+	private void refreshActionSet(FuzzySet set){
+		set.resetAll ();
+		//TODO add membership statements
+
+		set.normalize ();
+	}
+
+	private void refreshPeopleAroundSet(FuzzySet set){
+		set.resetAll ();
+		//TODO add membership statmes
+		set.normalize ();
+	}
+
+	private void refreshMonsterInSightSet(FuzzySet set){
+		//TODO implement
+	}
+
+	private void refreshTerrorSet(FuzzySet set){
+		//TODO implement
+	}
+
 }
