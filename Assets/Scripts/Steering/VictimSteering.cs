@@ -62,7 +62,7 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// The chance that this object will choose its own path over merging with the hive mind
     /// </summary>
-    public float uniquePathProbability = 0.0f;
+    public float uniquePathProbability = 0.5f;
 
     /// <summary>
     /// Radius of the circle to use when checking for nearby paths
@@ -135,7 +135,7 @@ public class VictimSteering : MonoBehaviour {
 
     }
 
-    void Update() {
+    void FixedUpdate() {
 
         if (!rigidbody) {
             // If there is no rigidbody, abort
@@ -168,7 +168,6 @@ public class VictimSteering : MonoBehaviour {
                         // Check that the original path holder is actually close enough (otherwise paths can propagate pretty far)
                         if (v.masterPathHolder != null && (v.masterPathHolder.rigidbody.position - rigidbody.position).sqrMagnitude > pathCheckRadius * pathCheckRadius) {
                             // To far, ignore this option
-                            Debug.Log("Original path holder is too far away");
                             continue;
                         }
 
@@ -176,8 +175,6 @@ public class VictimSteering : MonoBehaviour {
                         if (Physics.Raycast(rigidbody.position, (v.gameObject.rigidbody.position - rigidbody.position),
                             (v.gameObject.rigidbody.position - rigidbody.position).magnitude,
                             (1 << LayerMask.NameToLayer("City")) | (1 << LayerMask.NameToLayer("Sidewalk")))) {
-
-                            Debug.Log("We cannot see the person we are considering for a path");
                             continue;
                         }
 
@@ -191,7 +188,6 @@ public class VictimSteering : MonoBehaviour {
                                 (firstDestination - rigidbody.position).magnitude,
                                 (1 << LayerMask.NameToLayer("City")) | (1 << LayerMask.NameToLayer("Sidewalk")))) {
 
-                                Debug.Log("Path is good, but we cannot see the first destination, using object's position");
                                 // Hit, destination is object's position
                                 destination = new Vector2(v.gameObject.rigidbody.position.x, v.gameObject.rigidbody.position.z);
                                 // Add object's position to the front of the queue

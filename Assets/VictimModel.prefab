@@ -87,7 +87,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxForce: 20
   maxVelocity: 40
-  uniquePathProbability: 0
+  destination: {x: 0, y: 0}
+  masterPathHolder: {fileID: 0}
+  uniquePathProbability: .5
   pathCheckRadius: 10
   publicPath: []
   behaviorWeights:
@@ -96,7 +98,7 @@ MonoBehaviour:
   - 3
   - 4
   - 1
-  - 1.76999998
+  - 1.20000005
   - 2.75
   - .600000024
   - 1
