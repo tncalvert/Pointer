@@ -69,11 +69,35 @@ public class VictimSteering : MonoBehaviour {
     /// </summary>
     public float pathCheckRadius = 10f;
 
+    /// <summary>
+    /// List of all the street tiles in the game, used as a way to get random destinations
+    /// </summary>
+    List<Street> streets = null;
+
+    /// <summary>
+    /// Count so that every 120 (for now, see end of Update) frames we are checking to see
+    /// how far the victim has moved, in an attempt to patch out the stuck units
+    /// </summary>
+    private int updatesWithNoMovementCount;
+
+    /// <summary>
+    /// Holds the distance moved over the course of 120 frames
+    /// </summary>
+    private Vector3 distanceMoved;
+
+    /// <summary>
+    /// The position of the object after the previous frame
+    /// </summary>
+    private Vector3 previousPosition;
+
+    /// <summary>
+    /// A flag that indicates the victim had its path reset because it was stuck
+    /// </summary>
+    private bool hadPathReset;
+
     public Vector2[] publicPath;
 
     private bool DEBUG = true;
-
-    List<Street> streets = null;
 
     /// <summary>
     /// Weights for behaviors
@@ -128,6 +152,11 @@ public class VictimSteering : MonoBehaviour {
                 }
             }
 
+            updatesWithNoMovementCount = 0;
+            previousPosition = Vector3.zero;
+            distanceMoved = Vector3.zero;
+            hadPathReset = false;
+
         } catch {
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
             rb.freezeRotation = true;
@@ -160,13 +189,14 @@ public class VictimSteering : MonoBehaviour {
 
         updatePath();
 
+        // Force and any steering forces we'll want to be able to inspect later
         Vector3 force = new Vector3(0, 0, 0);
 
         // Add forces
         force += steeringBehaviors.GetAlignmentForce(maxVelocity) * behaviorWeights[0];
         force += steeringBehaviors.GetCohesionForce(maxVelocity) * behaviorWeights[1];
         force += steeringBehaviors.GetCollisionAvoidanceForce(maxVelocity) * behaviorWeights[2];
-        force += steeringBehaviors.GetFearForce(maxVelocity) * behaviorWeights[3];
+        force += steeringBehaviors.GetFearForce(maxForce) * behaviorWeights[3];
         force += steeringBehaviors.GetSeekForce(maxVelocity) * (hasPath ? behaviorWeights[4] : 0f);  // ignore seek force if have finished path
         force += steeringBehaviors.GetSeparationForce(maxVelocity) * behaviorWeights[5];
         force += steeringBehaviors.GetWallAvoidanceForce(maxVelocity) * behaviorWeights[6];
@@ -182,13 +212,59 @@ public class VictimSteering : MonoBehaviour {
         // Apply the force
         rigidbody.AddForce(force - rigidbody.velocity);
 
+        // Check for movement
+        checkMovement();
+
+    }
+
+    /// <summary>
+    /// Checks that the unit has been moving consistently, and is not stuck in a corner (or similar situation)
+    /// </summary>
+    private void checkMovement() {
+        updatesWithNoMovementCount++;
+        distanceMoved += (rigidbody.position - previousPosition);
+        previousPosition = rigidbody.position;
+        if (updatesWithNoMovementCount > 120) { /* arbitrary number */
+            // Didn't move far enough, ignoring those who are feared
+            if (distanceMoved.sqrMagnitude <= 9 && !isPlayerAround()) {
+                Vector2? newDest = null;
+                if (path.Count > 0) {
+                    newDest = path.ToArray()[path.Count - 1];  // Get last item (destination)
+                }
+                getNewPath(newDest);
+                hadPathReset = true;
+            } else {
+                hadPathReset = false;  // If we're moving again, reset the flag
+            }
+            updatesWithNoMovementCount = 0;
+            distanceMoved = Vector3.zero;
+        }
+    }
+
+    /// <summary>
+    /// Finds out if the player is nearby, with a slightly larger radius that fear
+    /// </summary>
+    private bool isPlayerAround() {
+        float fearRadius = steeringBehaviors.fearRadius * 1.2f;
+        GameObject player = GameObject.FindGameObjectWithTag("feared");
+        return ((player.rigidbody.position - rigidbody.position).sqrMagnitude <= (fearRadius * fearRadius));
     }
 
     /// <summary>
     /// Gets a new path for the victim to follow
     /// </summary>
-    private void getNewPath() {
+    private void getNewPath(Vector2? finalPoint=null) {
         // Pick a new path, if we don't have one
+
+        // If we tried to reset the path, but remained stuck, don't attempt to try again, just find a new destination
+        if (finalPoint != null && !hadPathReset) {
+            // Use this as the destination
+            path = new Queue<Vector2>(pathFinder.getPath(new Vector2(rigidbody.position.x, rigidbody.position.z), finalPoint.Value));
+            destination = path.Dequeue();
+            steeringBehaviors.targetPosition = new Vector3(destination.x, rigidbody.position.y, destination.y);
+            masterPathHolder = this.gameObject;
+            return;
+        }
 
         if (streets != null) {
 
