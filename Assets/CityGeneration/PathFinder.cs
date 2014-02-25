@@ -148,7 +148,9 @@ public class PathFinder : MonoBehaviour {
 		}
 
         // Remove the starting point as we are already there
-        waypoints.RemoveAt(0);
+        if (waypoints.Count > 0) {
+            waypoints.RemoveAt(0);
+        }
 
 		//assemble information to return
 		Vector2[] path = new Vector2[waypoints.Count + 1];
