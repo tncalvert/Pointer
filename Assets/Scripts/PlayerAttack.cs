@@ -17,7 +17,13 @@ public class PlayerAttack : MonoBehaviour {
     /// <summary>
     /// Player score
     /// </summary>
-    int playerScore = 0;
+    private int playerScore = 0;
+
+	//Attack Timer
+	float attackTimer = 120;
+
+	//Wilhelm Scream
+	AudioClip scream;
 
     void Start() {
         splatter = gameObject.AddComponent<SplatterScript>();
@@ -25,8 +31,15 @@ public class PlayerAttack : MonoBehaviour {
     }
 
 	void Update () {
+		if(attackTimer != 120)
+		{
+			attackTimer++;
+			if(attackTimer == 120)
+				Debug.Log ("Attack Ready");
+		}
+
         //Kill the victims
-        if (Input.GetKeyDown("space")) {
+        if (attackTimer == 120 && Input.GetKeyDown("space")) {
             Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, attackRange, 1 << LayerMask.NameToLayer("Victims"));
 
             foreach (var n in nearbyVictims) {
@@ -40,6 +53,16 @@ public class PlayerAttack : MonoBehaviour {
                 Debug.Log("Score: " + playerScore);
             }
 
+			if(nearbyVictims.Length != 0)
+				audio.Play ();
+
+			attackTimer = 0;
         }
 	}
+
+	//Return the player score to display
+	//public int getScore()
+	//{
+	//	return playerScore;
+	//}
 }

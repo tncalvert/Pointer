@@ -7,15 +7,15 @@ public class SampleFuzz : MonoBehaviour {
 
 	FuzzySet actions, bravery, peopleAround;
 
-
+	public float braveScore;
 
 	public SampleFuzz(){
 		fBrain = new FuzzyBrain();
 
-		actions = new FuzzySet ("actions");
-		peopleAround = new FuzzySet ("people");
-
-
+		actions = fBrain ["actions"];
+		peopleAround = fBrain["people"];
+		//bravery = new FuzzySet("
+		bravery = fBrain["bravery"];
 	}
 
 	public void refreshAction(FuzzySet actionSet){
@@ -49,11 +49,14 @@ public class SampleFuzz : MonoBehaviour {
 		peopleSet.normalize ();
 	}
 
+
+
 	// Use this for initialization
 	void Start () {
-		fBrain.addFuzzySet (peopleAround);
+		
 		fBrain.setRefreshFunction (peopleAround, refreshPeopleAround);
 		fBrain.setRefreshFunction (actions, refreshAction);
+
 		fBrain.refreshValues (peopleAround, actions);
 		
 		
