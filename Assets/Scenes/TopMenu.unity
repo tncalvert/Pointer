@@ -3912,7 +3912,7 @@ MonoBehaviour:
   creditsButton: {fileID: 8636677}
   quitButton: {fileID: 1746201085}
   mainLookAt: {fileID: 934406843}
-  camera: {fileID: 477008428}
+  ourCamera: {fileID: 477008428}
 --- !u!4 &2116285351
 Transform:
   m_ObjectHideFlags: 0
