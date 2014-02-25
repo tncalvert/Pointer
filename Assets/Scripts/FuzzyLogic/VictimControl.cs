@@ -68,21 +68,21 @@ public class VictimControl : MonoBehaviour {
 		this.brain = new FuzzyBrain ();
 
 		this.actionSet = new FuzzySet ("actionSet");
-		this.brain.addFuzzySet (this.actionSet);
+		//this.brain.addFuzzySet (this.actionSet);
 		this.brain.setRefreshFunction (this.actionSet, refreshActionSet);
 
 
 		this.peopleAround = new FuzzySet ("peopleAround");
-		this.brain.addFuzzySet (this.peopleAround);
+		//this.brain.addFuzzySet (this.peopleAround);
 		this.brain.setRefreshFunction (this.peopleAround, refreshPeopleAroundSet);
 		//this.peopleAround =  
 
 		this.monsterInSight = new FuzzySet ("monsterInSight");
-		this.brain.addFuzzySet (this.monsterInSight);
+		//this.brain.addFuzzySet (this.monsterInSight);
 		this.brain.setRefreshFunction (this.monsterInSight, refreshMonsterInSightSet);
 
 		this.terror = new FuzzySet ("terror");
-		this.brain.addFuzzySet (this.terror);
+		//this.brain.addFuzzySet (this.terror);
 		this.brain.setRefreshFunction (this.terror, refreshTerrorSet);
 
 		//TODO register update functions for sets

@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour {
     /// <summary>
     /// Player score
     /// </summary>
-    int playerScore = 0;
+    private int playerScore = 0;
 
 	//Attack Timer
 	float attackTimer = 120;
@@ -59,4 +59,10 @@ public class PlayerAttack : MonoBehaviour {
 			attackTimer = 0;
         }
 	}
+
+	//Return the player score to display
+	//public int getScore()
+	//{
+	//	return playerScore;
+	//}
 }
