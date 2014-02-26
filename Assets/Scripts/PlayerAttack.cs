@@ -14,21 +14,23 @@ public class PlayerAttack : MonoBehaviour {
     /// </summary>
     int attackRange = 5;
 
-    /// <summary>
-    /// Player score
-    /// </summary>
-    private int playerScore = 0;
-
 	//Attack Timer
 	float attackTimer = 120;
 
 	//Wilhelm Scream
 	AudioClip scream;
 
+	//Score tracker
+	ScoreDisplay score;
+
     void Start() {
         splatter = gameObject.AddComponent<SplatterScript>();
         splatter.bloodSplat = splatterPrefab;
-    }
+
+		//Keep track of score
+		GameObject timer = GameObject.Find ("ScoreCounter");
+		score = timer.GetComponent<ScoreDisplay> ();
+	}
 
 	void Update () {
 		if(attackTimer != 120)
@@ -45,12 +47,10 @@ public class PlayerAttack : MonoBehaviour {
             foreach (var n in nearbyVictims) {
                 if (this.splatter != null) {
                     this.splatter.makeSplat(n.transform.position, new Vector3(0, -1, 0), 10, (1 << LayerMask.NameToLayer("City")));
-                }
+				}
 
                 Destroy(n.gameObject);
-                playerScore++;
-
-                Debug.Log("Score: " + playerScore);
+				score.incrementScore();
             }
 
 			if(nearbyVictims.Length != 0)
@@ -59,10 +59,4 @@ public class PlayerAttack : MonoBehaviour {
 			attackTimer = 0;
         }
 	}
-
-	//Return the player score to display
-	//public int getScore()
-	//{
-	//	return playerScore;
-	//}
 }
