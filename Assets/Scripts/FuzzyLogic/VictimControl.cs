@@ -95,7 +95,7 @@ public class VictimControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		//this.refreshMonsterInSightSet (this.monsterInSight);
 		this.updateColor ();
 
 	}
@@ -223,7 +223,24 @@ public class VictimControl : MonoBehaviour {
 	}
 
 	private void refreshMonsterInSightSet(FuzzySet set){
-		//TODO implement
+
+		//Victim Position
+		Vector2 victim = new Vector2 (this.rigidbody.position.x, this.rigidbody.position.z);
+
+		//Player Position
+		PlayerSteering monster = (PlayerSteering)GameObject.FindObjectOfType (typeof(PlayerSteering));
+		Vector2 player = new Vector2 (monster.rigidbody.position.x, monster.rigidbody.position.z);
+
+		RaycastHit hit;
+
+		if (Physics.Raycast (victim, (player - victim), out hit, (player - victim).magnitude,
+		                     (1 << LayerMask.NameToLayer ("City")) | (1 << LayerMask.NameToLayer ("Sidewalk")))) {
+			Debug.Log ("Here");
+			//if hit is monster
+			set [FuzzyBrain.MANY] += .5f;
+
+			//What about FuzzyBrain.FEW/NONE/SOME?
+		}
 	}
 
 	private void refreshTerrorSet(FuzzySet set){
