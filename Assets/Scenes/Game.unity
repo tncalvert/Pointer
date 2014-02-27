@@ -193,6 +193,7 @@ MonoBehaviour:
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
   pathFinder: {fileID: 212829803}
+  geneticMaster: {fileID: 2008046809}
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
   width: 32
   height: 32
@@ -567,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b02f10e6bffae842a7bcf6e5f56a1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victimPrefab: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
 --- !u!4 &2008046810
 Transform:
   m_ObjectHideFlags: 0
