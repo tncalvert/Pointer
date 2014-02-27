@@ -186,7 +186,61 @@ public class VictimControl : MonoBehaviour {
 
 	private void refreshActionSet(FuzzySet set){
 		set.resetAll ();
-		//TODO add membership statements
+
+
+		string people = this.peopleAround.getFuzzyMax ();
+		string monster = this.monsterInSight.getFuzzyMax ();
+		string terr = this.terror.getFuzzyMax ();
+
+		/*THE MONSTER SHOWS UP!!!!!!!!
+		*/
+		//if I am alone and the monster shows up
+		if (people == FuzzyBrain.NONE && monster == FuzzyBrain.MANY) {
+			set[ACTION_FLEE] += (1-this.bravery)*.8f;
+			set[ACTION_SHOOT] += this.toughness * .4f * (this.hasGun ? 1 : 0);
+		}
+		//should it be
+		//set{ACTION_FLEE] += (this.peopleAround[FuzzyBrain.NONE] * this.monsterInSight[FuzzyBrain.MANY]) * (1 - this.bravery)*.8f;
+		//?
+
+
+
+
+		//if I am in a small group and the monster shows up
+		if (people == FuzzyBrain.FEW && monster == FuzzyBrain.MANY) {
+			set[ACTION_FLEE] += (1-this.bravery)*.6f;
+			set[ACTION_SHOOT] += this.toughness * .6f * (this.hasGun ? 1 : 0);
+		}
+
+		//if I am in a group and the monster shows up
+		if (people == FuzzyBrain.MANY && monster == FuzzyBrain.MANY) {
+			set[ACTION_FLEE] += (1-this.bravery)*.4f;
+			set[ACTION_SHOOT] += this.toughness * .8f * (this.hasGun ? 1 : 0);
+		}
+
+
+		/*I CANNOT SEE THE MONSTER
+		*/
+		//if I am alone and I cant see the monster, I should probably find a group or a resource
+		if (people == FuzzyBrain.NONE && monster != FuzzyBrain.MANY) {
+			set[ACTION_FIND_GROUP] += 1-this.independence; // I want to find a group if I have low independence
+			set[ACTION_FIND_GUN] += this.independence * (this.hasGun ? 0 : 1);//I want to find a gun if I have high independence and don't have a gun
+			set[ACTION_FIND_AMMO] += this.independence * (this.hasGun ? 1 : 0);//I want to find ammo if I have a gun and if I have high independence
+			set[ACTION_FIND_ROOM] += this.sleepyness;//I want to find a room if I am sleepy
+		}
+
+		//if I am in a small group and I cant see the monster
+		if (people == FuzzyBrain.FEW && monster != FuzzyBrain.MANY) {
+			
+		}
+
+
+		set [ACTION_FLEE] /= Mathf.Max (float.Epsilon, 1-this.sleepyness);//more likely to run if you are tired
+		set [ACTION_FLEE] *= 1-this.toughness;//less likely to run if you are tough
+
+		set[ACTION_SHOOT] /= Mathf.Max (float.Epsilon, 1-this.toughness); //more likely to shoot if you are tough
+		set[ACTION_SHOOT] *= 1-this.sleepyness; //less likely to shoot if you are tired
+
 
 		set.normalize ();
 	}
@@ -223,7 +277,7 @@ public class VictimControl : MonoBehaviour {
 	}
 
 	private void refreshMonsterInSightSet(FuzzySet set){
-
+		set.resetAll ();
 		//Victim Position
 		Vector2 victim = new Vector2 (this.rigidbody.position.x, this.rigidbody.position.z);
 
@@ -241,10 +295,14 @@ public class VictimControl : MonoBehaviour {
 
 			//What about FuzzyBrain.FEW/NONE/SOME?
 		}
+		set.normalize ();
 	}
 
 	private void refreshTerrorSet(FuzzySet set){
 		//TODO implement
+		//can I see blood?
+		//how many lights are around?
+		//monster in sight?
 	}
 
 }
