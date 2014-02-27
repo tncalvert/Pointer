@@ -73,14 +73,18 @@ public class VictimControl : MonoBehaviour {
 	/// Updates the values in this instance from the VictimData head.
 	/// </summary>
 	public void updateFromHead(){
-		//TODO implement
+		this.bravery = this.head.AttribBravery;
+		this.independence = this.head.AttribIndependence;
+		this.toughness = this.head.AttribToughness;
 	}
 
 	/// <summary>
 	/// Updates the values in the VictimData head to reflect the values in this instance
 	/// </summary>
 	public void updateHeadValues(){
-		//TODO implement
+		this.head.AttribBravery = this.bravery;
+		this.head.AttribIndependence = this.independence;
+		this.head.AttribToughness = this.toughness;
 	}
 
 
