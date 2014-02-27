@@ -158,7 +158,24 @@ public class GeneticMaster : MonoBehaviour {
     /// </summary>
     public void generateInitialPopulation() {
 
-        // TODO: Define an acceptable initial value for all the values we will be working with
+        // Default ranges for these values. They will be changed after some training.
+        float[] attribRange = { 0.3f, 0.7f };   // Range for bravery, toughness and independence
+        float[] maxV = { 10f, 30f };        // max velocity
+        float[] maxF = { 20f, 60f };        // max force
+        float[] minArriv = { 4f, 16f };    // minimum arrival radius sqrd
+        float[] minComp = { 2f, 9f };     // minimum complete arrival radius sqrd
+        float[] uniqP = { 0.2f, 0.8f };       // unique path probability
+        float[] pathCR = { 6f, 14f };      // path check radius
+        float[] sAlign = { 0.75f, 1.25f };      // steering alignment
+        float[] sCohes = { 0.75f, 1.25f };      // steering cohesion
+        float[] sCollAvoid = { 2f, 4f };  // collision avoidance
+        float[] sFear = { 3f, 5f };       // fear
+        float[] sSeek = { 0.75f, 1.25f };       // seek
+        float[] sSepar = { 1f, 1.4f };      // separation
+        float[] sWallAvoid = { 2.25f, 3.25f };  // wall avoidance
+        float[] sWand = { 0.3f, 0.9f };       // wander
+        float[] sSWL = { 0.75f, 1.25f };        // sidewalk love
+
 
         foreach (Vector2 p in initialPositions) {
             GameObject g = (GameObject)Instantiate(victimPrefab, new Vector3(p.x, 1, p.y), Quaternion.identity);
@@ -167,6 +184,30 @@ public class GeneticMaster : MonoBehaviour {
             VictimData vd = g.GetComponent<VictimData>();
             VictimSteering vs = g.GetComponent<VictimSteering>();
 
+            // Set the head values
+            vd.AttribBravery = Random.Range(attribRange[0], attribRange[1]);
+            vd.AttribIndependence = Random.Range(attribRange[0], attribRange[1]);
+            vd.AttribToughness = Random.Range(attribRange[0], attribRange[1]);
+
+            vd.MaxVelocity = Random.Range(maxV[0], maxV[1]);
+            vd.MaxForce = Random.Range(maxF[0], maxF[1]);
+            vd.MinimumArrivalRadiusSqrd = Random.Range(minArriv[0], minArriv[1]);
+            vd.MinimumCompleteArrivalRadiusSqrd = Random.Range(minComp[0], minComp[1]);
+            vd.UniquePathProbability = Random.Range(uniqP[0], uniqP[1]);
+            vd.PathCheckRadius = Random.Range(pathCR[0], pathCR[1]);
+
+            vd.SteeringAlignment = Random.Range(sAlign[0], sAlign[1]);
+            vd.SteeringCohesion = Random.Range(sCohes[0], sCohes[1]);
+            vd.SteeringCollisionAvoidance = Random.Range(sCollAvoid[0], sCollAvoid[1]);
+            vd.SteeringFear = Random.Range(sFear[0], sFear[1]);
+            vd.SteeringSeek = Random.Range(sSeek[0], sSeek[1]);
+            vd.SteeringSeparation = Random.Range(sSepar[0], sSepar[1]);
+            vd.SteeringWallAvoidance = Random.Range(sWallAvoid[0], sWallAvoid[1]);
+            vd.SteeringWander = Random.Range(sWand[0], sWand[1]);
+            vd.SteeringSideWalkLove = Random.Range(sSWL[0], sSWL[1]);
+            
+
+            // Assign values, and generate a new GeneticVictim for this victim
             vc.head = vd;
             vs.head = vd;
 
