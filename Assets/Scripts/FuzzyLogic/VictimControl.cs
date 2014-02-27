@@ -96,6 +96,7 @@ public class VictimControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//this.refreshMonsterInSightSet (this.monsterInSight);
+		//this.refreshTerrorSet (this.terror);
 		this.updateColor ();
 
 	}
@@ -300,17 +301,87 @@ public class VictimControl : MonoBehaviour {
 			//Debug.Log ("MONSTER IN SIGHT!");
 
 			//What about FuzzyBrain.FEW/NONE/SOME?
-			set [FuzzyBrain.MANY] += .5f;
+			set [FuzzyBrain.MANY] += 1f;
 		}
 
 		set.normalize ();
 	}
 
 	private void refreshTerrorSet(FuzzySet set){
-		//TODO implement
+		set.resetAll ();
+
+		int radius = 50;
 		//can I see blood?
+
+		int bloodCount = 0;
+
+		Collider[] nearbySplatter = Physics.OverlapSphere(rigidbody.position, radius, 1 << LayerMask.NameToLayer("Ground"));
+
+		foreach (var n in nearbySplatter) {
+			if (n.name.Equals ("splatFab(Clone)"))
+				bloodCount++;
+		}
+
+		//Dont really know what i'm doing here
+		if (bloodCount == 0)
+			set [FuzzyBrain.NONE] += 1f;
+		else if (bloodCount == 1) {
+			set [FuzzyBrain.FEW] += 0.7f;
+			set [FuzzyBrain.NONE] += 0.3f;
+		} else if (bloodCount == 2) {
+			set [FuzzyBrain.SOME] += 0.6f;
+			set [FuzzyBrain.FEW] += 0.1f;
+			set [FuzzyBrain.NONE] += 0.1f;
+			set [FuzzyBrain.MANY] += 0.2f;
+		} else {
+			set [FuzzyBrain.MANY] += 0.8f;
+			set[FuzzyBrain.SOME] += 0.2f;
+		}
+
 		//how many lights are around?
+		int lightCount = 0;
+		
+		Collider[] nearbyLights = Physics.OverlapSphere(rigidbody.position, radius, 1 << LayerMask.NameToLayer("City"));
+		
+		foreach (var n in nearbyLights) {
+			if (n.name.Equals ("StreetLight(Clone)"))
+				lightCount++;
+		}
+		
+		//Dont really know what i'm doing here
+		if (lightCount == 0)
+			set [FuzzyBrain.NONE] += 1f;
+		else if (bloodCount == 1) {
+			set [FuzzyBrain.FEW] += 0.7f;
+			set [FuzzyBrain.NONE] += 0.3f;
+		} else if (bloodCount == 2) {
+			set [FuzzyBrain.SOME] += 0.6f;
+			set [FuzzyBrain.FEW] += 0.1f;
+			set [FuzzyBrain.NONE] += 0.1f;
+			set [FuzzyBrain.MANY] += 0.2f;
+		} else {
+			set [FuzzyBrain.MANY] += 0.8f;
+			set[FuzzyBrain.SOME] += 0.2f;
+		}
+
 		//monster in sight?
+
+		//Victim Position
+		Vector3 victim = new Vector3 (this.rigidbody.position.x, this.rigidbody.position.y, this.rigidbody.position.z);
+		
+		//Player Position
+		PlayerSteering monster = (PlayerSteering)GameObject.FindObjectOfType (typeof(PlayerSteering));
+		Vector3 player = new Vector3 (monster.rigidbody.position.x, monster.rigidbody.position.y, monster.rigidbody.position.z);
+		
+		if (!Physics.Raycast (victim, (player - victim), (player - victim).magnitude,
+		                      (1 << LayerMask.NameToLayer ("City")) | (1 << LayerMask.NameToLayer ("Sidewalk")))) {
+			//Debug.Log ("MONSTER IN SIGHT!");
+			
+			//What about FuzzyBrain.FEW/NONE/SOME?
+			set [FuzzyBrain.MANY] += 1f;
+		}
+
+		set.normalize ();
 	}
 
 }
