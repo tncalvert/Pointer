@@ -32,14 +32,14 @@ public class VictimControl : MonoBehaviour {
 	public float independence;
 
 	// The VictimData head of the control. It holds the important data, and should be used carefully.
-	private VictimData head;
-	public VictimData Head {
-		get { return this.head; }
-		set { 
-			this.head = value;
-			this.updateFromHead();		
-		}
-	}
+	public VictimData head;
+    //public VictimData Head {
+    //    get { return this.head; }
+    //    set { 
+    //        this.head = value;
+    //        this.updateFromHead();		
+    //    }
+    //}
 
 	/* VARIABLES OF THE VICTIM
 	 * These variables may change due to game events.
@@ -82,6 +82,10 @@ public class VictimControl : MonoBehaviour {
 		this.bravery = this.head.AttribBravery;
 		this.independence = this.head.AttribIndependence;
 		this.toughness = this.head.AttribToughness;
+        if (!steering) {
+            steering = GetComponent<VictimSteering>();
+        }
+        steering.updateFromHead();
 	}
 
 	/// <summary>
@@ -91,6 +95,7 @@ public class VictimControl : MonoBehaviour {
 		this.head.AttribBravery = this.bravery;
 		this.head.AttribIndependence = this.independence;
 		this.head.AttribToughness = this.toughness;
+        steering.updateHeadValues();
 	}
 
 
@@ -98,17 +103,18 @@ public class VictimControl : MonoBehaviour {
 	void Start () {
 
 		//If no head was given, create one and populate it
-		if (this.head == null) {
-			this.head = new VictimData ();
-			this.updateHeadValues();
-		}
+        //if (this.head == null) {
+        //    this.head = new VictimData ();
+        //    this.updateHeadValues();
+        //}
+        this.head = GetComponent<VictimData>();
 
 		this.steering = this.GetComponent<VictimSteering> ();
-		if (this.steering != null) {
-			this.steering.Head = this.head;
-			//TODO this may cause a logic error in that when the Head is set in steering, it will auto-sest all of steerings weights to the 
-			//values in the Head. This good except if the head comes in as null.
-		}
+        //if (this.steering != null) {
+        //    //this.steering.Head = this.head;
+        //    //TODO this may cause a logic error in that when the Head is set in steering, it will auto-sest all of steerings weights to the 
+        //    //values in the Head. This good except if the head comes in as null.
+        //}
 
 
 		this.material = this.GetComponent<Renderer> ().material;

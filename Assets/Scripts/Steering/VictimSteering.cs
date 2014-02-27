@@ -106,14 +106,15 @@ public class VictimSteering : MonoBehaviour {
 
 
 	// The VictimData head of the control. It holds the important data, and should be used carefully.
-	private VictimData head;
-	public VictimData Head {
-		get { return this.head; }
-		set { 
-			this.head = value;
-			this.updateFromHead();		
-		}
-	}
+	public VictimData head;
+    //public VictimData Head {
+    //    get { return this.head; }
+    //    set { 
+    //        this.head = value;
+    //        this.updateFromHead();		
+    //    }
+    //}
+
     /// <summary>
     /// Weights for behaviors
     /// 0: Alignment
@@ -139,16 +140,56 @@ public class VictimSteering : MonoBehaviour {
 
 	/// <summary>
 	/// Updates the values in this instance from the VictimData head.
+    /// 
+    /// **
+    /// This should only ever be called from the corresponding function
+    /// in VictimControls. DO NOT call this function manually.
+    /// **
 	/// </summary>
 	public void updateFromHead(){
-		//TODO implement
+        maxVelocity = head.MaxVelocity;
+        maxForce = head.MaxForce;
+        minimumArrivalRadiusSqrd = head.MinimumArrivalRadiusSqrd;
+        minimumCompleteArrivalRadiusSqrd = head.MinimumCompleteArrivalRadiusSqrd;
+        uniquePathProbability = head.UniquePathProbability;
+        pathCheckRadius = head.PathCheckRadius;
+
+        behaviorWeights[0] = head.SteeringAlignment;
+        behaviorWeights[1] = head.SteeringCohesion;
+        behaviorWeights[2] = head.SteeringCollisionAvoidance;
+        behaviorWeights[3] = head.SteeringFear;
+        behaviorWeights[4] = head.SteeringSeek;
+        behaviorWeights[5] = head.SteeringSeparation;
+        behaviorWeights[6] = head.SteeringWallAvoidance;
+        behaviorWeights[7] = head.SteeringWander;
+        behaviorWeights[8] = head.SteeringSideWalkLove;
 	}
 	
 	/// <summary>
 	/// Updates the values in the VictimData head to reflect the values in this instance
+    /// 
+    /// **
+    /// This should only ever be called from the corresponding function
+    /// in VictimControls. DO NOT call this function manually.
+    /// **
 	/// </summary>
 	public void updateHeadValues(){
-		//TODO implement
+        head.MaxVelocity = maxVelocity;
+        head.MaxForce = maxForce;
+        head.MinimumArrivalRadiusSqrd = minimumArrivalRadiusSqrd;
+        head.MinimumCompleteArrivalRadiusSqrd = minimumCompleteArrivalRadiusSqrd;
+        head.UniquePathProbability = uniquePathProbability;
+        head.PathCheckRadius = pathCheckRadius;
+
+        head.SteeringAlignment = behaviorWeights[0];
+        head.SteeringCohesion = behaviorWeights[1];
+        head.SteeringCollisionAvoidance = behaviorWeights[2];
+        head.SteeringFear = behaviorWeights[3];
+        head.SteeringSeek = behaviorWeights[4];
+        head.SteeringSeparation = behaviorWeights[5];
+        head.SteeringWallAvoidance = behaviorWeights[6];
+        head.SteeringWander = behaviorWeights[7];
+        head.SteeringSideWalkLove = behaviorWeights[8];
 	}
 
     void Start() {
@@ -183,6 +224,8 @@ public class VictimSteering : MonoBehaviour {
             }
 
             victimMonitor = GetComponent<VictimMonitor>();
+
+            head = GetComponent<VictimData>();
 
             updatesWithNoMovementCount = 0;
             previousPosition = Vector3.zero;
@@ -422,4 +465,5 @@ public class VictimSteering : MonoBehaviour {
     public void updateVariables() {
         // TODO: Implement this
     }
+
 }
