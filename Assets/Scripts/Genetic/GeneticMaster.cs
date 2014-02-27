@@ -47,7 +47,7 @@ public class GeneticMaster : MonoBehaviour {
         /// <summary>
         /// Holds the victim's data, such as steering weights, fuzzly logic weights, etc.
         /// </summary>
-        public VictimMonitor data;
+        public VictimData data;
 
         /// <summary>
         /// Monitor class that holds the success of the object in the game world
@@ -163,13 +163,19 @@ public class GeneticMaster : MonoBehaviour {
         foreach (Vector2 p in initialPositions) {
             GameObject g = (GameObject)Instantiate(victimPrefab, new Vector3(p.x, 1, p.y), Quaternion.identity);
             VictimMonitor vm = g.GetComponent<VictimMonitor>();
+            VictimControl vc = g.GetComponent<VictimControl>();
+            VictimData vd = g.GetComponent<VictimData>();
+            VictimSteering vs = g.GetComponent<VictimSteering>();
+
+            vc.head = vd;
+            vs.head = vd;
 
             GeneticVictim gv = new GeneticVictim();
             gv.victimID = victimIds++;
-            gv.monitor = vm;  // Need to get the data one correct
+            gv.data = vd;
+            gv.monitor = vm;
 
-            // Send out a message to the object to repopulate its fields
-            g.SendMessage("updateVariables", null, SendMessageOptions.DontRequireReceiver);
+            vc.updateFromHead();
 
             vm.victimID = gv.victimID;
             vm.geneticMaster = this;
@@ -185,7 +191,7 @@ public class GeneticMaster : MonoBehaviour {
     /// <param name="vID">The unique ID of the victim</param>
     /// <param name="data">The VictimData class from the victim</param>
     /// <param name="monitor">The VictimMonitor class from the victim</param>
-    public void receiveVictimReport(uint vID, VictimMonitor data, VictimMonitor monitor) {
+    public void receiveVictimReport(uint vID, VictimData data, VictimMonitor monitor) {
         GeneticVictim v = victims.Find(m => m.victimID == vID);
 
         if (v == null) {

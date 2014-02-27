@@ -46,7 +46,7 @@ public class VictimMonitor : MonoBehaviour {
     void OnDestroy() {
         timeSpentAlive = Time.realtimeSinceStartup - startTime;
 
-        geneticMaster.receiveVictimReport(victimID, this, this);  // TODO: fix scripts
+        geneticMaster.receiveVictimReport(victimID, GetComponent<VictimData>(), this);
     }
 
     /// <summary>

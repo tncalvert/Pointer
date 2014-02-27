@@ -5,7 +5,7 @@ using System.Collections;
 /// Victim data that holds all of the crucial information dictating how victims behave. 
 /// The ideal use of this class is to serve as a field of other classes that pull values out of this class.
 /// </summary>
-public class VictimData {
+public class VictimData : MonoBehaviour {
 
 
 	/**************************************
@@ -75,10 +75,7 @@ public class VictimData {
 	//the side walk love weight
 	public float SteeringSideWalkLove{ get; set; }
 
-
-
-	public VictimData(){
-	}
+	public VictimData() { }
 
 
 }
