@@ -8,6 +8,11 @@ using System.Collections;
 public class VictimMonitor : MonoBehaviour {
 
     /// <summary>
+    /// An ID for the victim, making it easier to identify
+    /// </summary>
+    public uint victimID;
+
+    /// <summary>
     /// The survival time of the victim, measured since the level loaded
     /// </summary>
     public float timeSpentAlive;
@@ -22,6 +27,11 @@ public class VictimMonitor : MonoBehaviour {
     /// </summary>
     private float startTime;
 
+    /// <summary>
+    /// The GeneticMaster script, controlling genetic upgrades for victims
+    /// </summary>
+    public GeneticMaster geneticMaster;
+
     void Start() {
         startTime = Time.realtimeSinceStartup;
         damageToPlayer = 0;
@@ -32,6 +42,8 @@ public class VictimMonitor : MonoBehaviour {
     /// </summary>
     void OnDestroy() {
         timeSpentAlive = Time.realtimeSinceStartup - startTime;
+
+        geneticMaster.receiveVictimReport(victimID, this, this);  // TODO: fix scripts
     }
 
     /// <summary>

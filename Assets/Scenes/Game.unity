@@ -193,6 +193,7 @@ MonoBehaviour:
   buildingGenerator: {fileID: 117938557}
   cityGenerator: {fileID: 1813717340}
   pathFinder: {fileID: 212829803}
+  geneticMaster: {fileID: 2008046809}
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
   width: 32
   height: 32
@@ -537,6 +538,45 @@ Transform:
   m_GameObject: {fileID: 1904955188}
   m_LocalRotation: {x: .562783003, y: -.210350901, z: .150797233, w: .7850402}
   m_LocalPosition: {x: -11.1651535, y: 143.644196, z: 13.8824043}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &2008046808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2008046810}
+  - 114: {fileID: 2008046809}
+  m_Layer: 0
+  m_Name: GeneticMaster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2008046809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2008046808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b02f10e6bffae842a7bcf6e5f56a1a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victimPrefab: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
+--- !u!4 &2008046810
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2008046808}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 181.733963, y: 14.8450727, z: 80.5875397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

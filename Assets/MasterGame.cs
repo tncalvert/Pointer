@@ -7,6 +7,7 @@ public class MasterGame : MonoBehaviour {
 	public BuildingGenerator buildingGenerator;
 	public CityGenerator cityGenerator;
 	public PathFinder pathFinder;
+    public GeneticMaster geneticMaster;
 
 	//Uhm, I dont know what I'm doing anymore
 	public GameObject follower;
@@ -121,15 +122,12 @@ public class MasterGame : MonoBehaviour {
 	
 		this.generateFollower (this.streets [0].Position);
 
+        List<Vector2> victimPositions = new List<Vector2>();
+        for (int i = 2; i < 5/*streets.Count/2*/; i++)
+            victimPositions.Add(streets[i].Position);
 
-        for (int i = 2; i < 16/*streets.Count/2*/; i++)
-            generateVictim(streets[i].Position);
+        geneticMaster.initialPositions = victimPositions;
 	}
-
-    private VictimSteering generateVictim(Vector2 position) {
-        VictimSteering v = ((GameObject)Instantiate(this.victim, new Vector3(position.x, 1, position.y), Quaternion.identity)).GetComponent<VictimSteering>();
-        return v;
-    }
 
 	//I am teh unity n00b and I don't know if this is a good way to go about generating people
 	private PlayerSteering generateFollower(Vector2 position){
