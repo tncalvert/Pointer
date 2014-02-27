@@ -14,6 +14,9 @@ public class VictimControl : MonoBehaviour {
 	public const string ACTION_FIND_GROUP = "findGroup";
 	public const string ACTION_SHOOT = "shoot";
 
+
+	public GunControl gunModel;
+
 	/* ATTRIBUTES OF THE VICTIM
 	 * These attributes don't have reason to change through out the game.
 	 * They are the constant factors, and should range from 0 to 1, where
@@ -91,16 +94,21 @@ public class VictimControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+		//If no head was given, create one and populate it
 		if (this.head == null) {
 			this.head = new VictimData ();
 			this.updateHeadValues();
 		}
 
-
-
-
 		this.steering = this.GetComponent<VictimSteering> ();
+		if (this.steering != null) {
+			this.steering.Head = this.head;
+			//TODO this may cause a logic error in that when the Head is set in steering, it will auto-sest all of steerings weights to the 
+			//values in the Head. This good except if the head comes in as null.
+		}
+
+
+
 		this.material = this.GetComponent<Renderer> ().material;
 
 
@@ -127,17 +135,44 @@ public class VictimControl : MonoBehaviour {
 		//TODO register update functions for sets
 
 
+		this.hasGun = true;
+
+		this.generateGun ();
+
 
 		this.toughness = Random.value;
 		this.sleepyness = 0;
 	}
+
+	private void generateGun(){
+		this.gunModel = (GunControl)GameObject.Instantiate (this.gunModel);
 	
+	}
+
 	// Update is called once per frame
 	void Update () {
 		//this.refreshMonsterInSightSet (this.monsterInSight);
 		//this.refreshTerrorSet (this.terror);
 		this.updateColor ();
 
+
+		//update the gun position
+		this.updateGun ();
+	}
+
+	/// <summary>
+	/// Updates the gun position
+	/// </summary>
+	private void updateGun(){
+		if (this.hasGun) {
+			this.gunModel.transform.position = transform.position + new Vector3(0, 0, 0);
+
+			this.gunModel.transform.LookAt(this.transform.position + (steering.rigidbody.velocity*10));
+			this.gunModel.transform.Rotate(0,-90,0);
+
+			this.gunModel.transform.position -= this.gunModel.transform.forward*.55f; //put it at their right side
+			this.gunModel.transform.position += this.gunModel.transform.right*.6f; // move it forward a bit (yes, the unit vectors are named incorrectly)
+		}
 	}
 
 	/// <summary>

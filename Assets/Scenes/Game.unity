@@ -569,6 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   victimPrefab: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
+  initialPositions: []
 --- !u!4 &2008046810
 Transform:
   m_ObjectHideFlags: 0

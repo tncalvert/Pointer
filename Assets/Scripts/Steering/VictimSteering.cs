@@ -247,7 +247,12 @@ public class VictimSteering : MonoBehaviour {
         // Check for movement
         checkMovement();
 
+
+
+
     }
+
+
 
     /// <summary>
     /// Checks that the unit has been moving consistently, and is not stuck in a corner (or similar situation)
