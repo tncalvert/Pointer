@@ -291,7 +291,7 @@ public class VictimSteering : MonoBehaviour {
     /// <summary>
     /// Gets a new path for the victim to follow
     /// </summary>
-    private void getNewPath(Vector2? finalPoint=null) {
+    public void getNewPath(Vector2? finalPoint=null) {
         // Pick a new path, if we don't have one
 
         // If we tried to reset the path, but remained stuck, don't attempt to try again, just find a new destination
@@ -406,6 +406,14 @@ public class VictimSteering : MonoBehaviour {
             }
         }
     }
+
+	/// <summary>
+	/// Gets the path finder.
+	/// </summary>
+	/// <returns>The path finder.</returns>
+	public PathFinder getPathFinder(){
+		return this.pathFinder;
+	}
 
     /// <summary>
     /// Called from GeneticMaster via SendMessage. Informs the script that the variables in

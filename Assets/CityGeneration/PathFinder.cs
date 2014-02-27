@@ -261,6 +261,23 @@ public class PathFinder : MonoBehaviour {
 
 	}
 
+	/// <summary>
+	/// Gets the waypoints visible from the given position
+	/// </summary>
+	/// <returns>The waypoints visible from.</returns>
+	/// <param name="position">Position.</param>
+	public List<Vector2> getWaypointsVisibleFrom(Vector2 position){
+		List<Vector2> visibleWayPoints = new List<Vector2> ();
+
+		//TODO maybe at some point make this not a O(n) alg
+		foreach (WayPoint waypoint in this.wayPoints) {
+			if (this.canSee(position, waypoint.Position)){
+				visibleWayPoints.Add (waypoint.Position);
+			}
+		}
+
+		return visibleWayPoints;
+	}
 
 	/// <summary>
 	/// Add a waypoint to the pathfinder. 

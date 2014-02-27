@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 /// <summary>
 /// The control class handles victim behaviour
 /// </summary>
@@ -72,7 +72,7 @@ public class VictimControl : MonoBehaviour {
 	private VictimSteering steering;
 	private Material material;
 
-	private float planFuzzyCoolDownTime = .5f;
+	private float planFuzzyCoolDownTime = .4f;
 	private float fuzzyPlanTimeLeft = Random.value;
 
 	/// <summary>
@@ -109,7 +109,6 @@ public class VictimControl : MonoBehaviour {
 			//TODO this may cause a logic error in that when the Head is set in steering, it will auto-sest all of steerings weights to the 
 			//values in the Head. This good except if the head comes in as null.
 		}
-
 
 
 		this.material = this.GetComponent<Renderer> ().material;
@@ -225,15 +224,16 @@ public class VictimControl : MonoBehaviour {
 	public void planForAction(string action){
 
 		if (action != null) {
-			Debug.Log ("ACTION: " + action);
+			//Debug.Log ("ACTION: " + action);
 
 			switch (action) {
 			case ACTION_FLEE:
-					break;
+				this.findFleeDestination();
+				break;
 			case ACTION_SHOOT:
 				if (this.hasGun){
 					this.gunModel.fire();
-					Debug.Log("SHOT WAS TAKEN");
+					//Debug.Log("SHOT WAS TAKEN");
 				}
 				break;
 			case ACTION_FIND_AMMO:
@@ -249,6 +249,70 @@ public class VictimControl : MonoBehaviour {
 			}
 		}
 	}
+
+	/// <summary>
+	/// Finds and sets the target path for this victim AWAY from the monster. 
+	/// </summary>
+	private void findFleeDestination(){
+		//Find position of player
+		GameObject fearedObject = GameObject.FindWithTag("feared");
+
+		Vector3 toFear3 = fearedObject.transform.position - this.transform.position;
+		Vector2 toFear = new Vector2 (toFear3.x, toFear3.z);
+
+		//Find a waypoint that is in the most opposite direction
+		List<Vector2> visibleWayPoints = this.steering.getPathFinder ().getWaypointsVisibleFrom (new Vector2(this.transform.position.x, this.transform.position.z));
+		int count = visibleWayPoints.Count;
+		for (int i = visibleWayPoints.Count-1; i >-1; i --) {
+			Vector2 waypoint = visibleWayPoints[i];
+			Vector2 toWayPoint = new Vector2(waypoint.x - this.transform.position.x, waypoint.y - this.transform.position.z);
+
+			//float angle = Vector2.Angle(toFear, toWayPoint);
+			//if (angle < 30){
+			//	visibleWayPoints.Remove(waypoint);
+			//}
+
+			float dot = Vector2.Dot(toFear, toWayPoint);
+			if (dot > 0){
+				visibleWayPoints.Remove(waypoint);
+			}
+
+		}
+
+		int index = Random.Range (0, visibleWayPoints.Count - 1);
+		if (index > -1 && index < visibleWayPoints.Count) {
+			Vector2 target = visibleWayPoints [index];
+
+
+			visibleWayPoints = this.steering.getPathFinder().getWaypointsVisibleFrom(target);
+
+			for (int i = visibleWayPoints.Count-1; i >-1; i --) {
+				Vector2 waypoint = visibleWayPoints[i];
+				Vector2 toWayPoint = new Vector2(waypoint.x - this.transform.position.x, waypoint.y - this.transform.position.z);
+				
+				//float angle = Vector2.Angle(toFear, toWayPoint);
+				//if (angle < 30){
+				//	visibleWayPoints.Remove(waypoint);
+				//}
+				float dot = Vector2.Dot(toWayPoint.normalized, toFear.normalized);
+				if (dot > 0){
+					visibleWayPoints.Remove(waypoint);
+				}
+			}
+
+			index = Random.Range (0, visibleWayPoints.Count - 1);
+			if (index > -1 && index < visibleWayPoints.Count) {
+				target = visibleWayPoints [index];
+
+
+			} 
+			steering.getNewPath (target);
+			//Debug.Log ("running to " + target.x + ", " + target.y);
+		} else {
+			//Debug.Log ("nothing found from " +count);
+		}
+	}
+
 
 	/// <summary>
 	/// returns true if the victim has the capacity to get a gun from the store. This assumes that the victim is physically next to the store
