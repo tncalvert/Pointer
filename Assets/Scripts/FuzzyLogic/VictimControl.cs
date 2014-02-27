@@ -60,7 +60,7 @@ public class VictimControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+		this.bravery = 1;
 		this.steering = this.GetComponent<VictimSteering> ();
 		this.material = this.GetComponent<Renderer> ().material;
 
