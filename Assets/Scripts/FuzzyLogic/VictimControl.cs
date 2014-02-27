@@ -158,6 +158,10 @@ public class VictimControl : MonoBehaviour {
 
 		//update the gun position
 		this.updateGun ();
+
+
+		//this.planForAction (this.computeCurrentAction ());
+
 	}
 
 	/// <summary>
