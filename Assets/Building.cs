@@ -37,10 +37,28 @@ public class Building {
 		if (BuildingType == BUILDINGTYPE.GUNSHOP) {
 			foreach (GameObject block in this.blocks) {
 				block.renderer.material.color = Color.red;
+
+				Inspectible insp = (Inspectible)block.AddComponent("Inspectible");
+				//insp.text = "GUNSHOP";
+
+				insp.getTextFunc = () => {
+					List<string> lines = new List<string>();
+					lines.Add ("GUN SHOP");
+					lines.Add ("INFO");
+					return lines;
+				};
+
 			}
 		} else if (BuildingType == BUILDINGTYPE.HOTEL) {
 			foreach (GameObject block in this.blocks) {
 				block.renderer.material.color = Color.blue;
+				Inspectible insp = (Inspectible)block.AddComponent("Inspectible");
+				insp.getTextFunc = () => {
+					List<string> lines = new List<string>();
+					lines.Add ("HOTEL");
+					lines.Add ("INFO");
+					return lines;
+				};
 			}
 
 		}
