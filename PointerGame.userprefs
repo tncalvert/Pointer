@@ -1,14 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FuzzyLogic\VictimControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inspector.cs">
     <Files>
       <File FileName="Assets\Scripts\FuzzyLogic\SampleFuzz.cs" Line="43" Column="1" />
-      <File FileName="Assets\Scripts\FuzzyLogic\FuzzyBrain.cs" Line="130" Column="1" />
-      <File FileName="Assets\Scripts\FuzzyLogic\FuzzySet.cs" Line="142" Column="1" />
-      <File FileName="Assets\MenuImages\ControllerScript.cs" Line="100" Column="1" />
-      <File FileName="Assets\MasterGame.cs" Line="130" Column="1" />
+      <File FileName="Assets\Scripts\FuzzyLogic\FuzzyBrain.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FuzzyLogic\FuzzySet.cs" Line="1" Column="1" />
+      <File FileName="Assets\MenuImages\ControllerScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\MasterGame.cs" Line="1" Column="1" />
       <File FileName="Assets\splat\SplatterScript.cs" Line="25" Column="1" />
-      <File FileName="Assets\Scripts\FuzzyLogic\VictimControl.cs" Line="241" Column="4" />
+      <File FileName="Assets\Scripts\FuzzyLogic\VictimControl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Building.cs" Line="41" Column="39" />
+      <File FileName="Assets\Scripts\Inspector.cs" Line="22" Column="5" />
+      <File FileName="Assets\Scripts\Steering\PlayerSteering.cs" Line="117" Column="18" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
