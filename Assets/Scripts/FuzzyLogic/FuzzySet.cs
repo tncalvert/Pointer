@@ -119,8 +119,11 @@ public class FuzzySet
 	/// Resets all elements to zero
 	/// </summary>
 	public void resetAll(){
-		
+		List<string> a = new List<string> ();
 		foreach (string key in this.elements.Keys) {
+			a.Add(key);
+		}
+		foreach (string key in a) {
 			this.elements[key] = 0;
 		}
 	}

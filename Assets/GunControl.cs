@@ -23,7 +23,7 @@ public class GunControl : MonoBehaviour {
 	void Update () {
 	
 
-		fire ();
+		fireTimeLeft -= Time.deltaTime;
 	}
 
 	/// <summary>
@@ -47,7 +47,7 @@ public class GunControl : MonoBehaviour {
 			}
 			
 		}
-		fireTimeLeft -= Time.deltaTime;
+
 	}
 
 }

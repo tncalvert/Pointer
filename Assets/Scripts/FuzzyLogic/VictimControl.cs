@@ -72,6 +72,9 @@ public class VictimControl : MonoBehaviour {
 	private VictimSteering steering;
 	private Material material;
 
+	private float planFuzzyCoolDownTime = .5f;
+	private float fuzzyPlanTimeLeft = Random.value;
+
 	/// <summary>
 	/// Updates the values in this instance from the VictimData head.
 	/// </summary>
@@ -159,8 +162,13 @@ public class VictimControl : MonoBehaviour {
 		//update the gun position
 		this.updateGun ();
 
+		if (this.fuzzyPlanTimeLeft <= 0) {
+			this.fuzzyPlanTimeLeft = this.planFuzzyCoolDownTime;
+			this.planForAction (this.computeCurrentAction ());
+		}
+		this.fuzzyPlanTimeLeft -= Time.deltaTime;
 
-		//this.planForAction (this.computeCurrentAction ());
+
 
 	}
 
@@ -215,21 +223,30 @@ public class VictimControl : MonoBehaviour {
 	/// </summary>
 	/// <param name="action">Action. This string should be one of the ACTION_* strings in VictimControl</param>
 	public void planForAction(string action){
-		switch (action) {
-		case ACTION_FLEE:
-			break;
-		case ACTION_SHOOT:
-			break;
-		case ACTION_FIND_AMMO:
-			break;
-		case ACTION_FIND_GROUP:
-			break;
-		case ACTION_FIND_GUN:
-			break;
-		case ACTION_FIND_ROOM:
-			break;
-		default:
-			break;
+
+		if (action != null) {
+			Debug.Log ("ACTION: " + action);
+
+			switch (action) {
+			case ACTION_FLEE:
+					break;
+			case ACTION_SHOOT:
+				if (this.hasGun){
+					this.gunModel.fire();
+					Debug.Log("SHOT WAS TAKEN");
+				}
+				break;
+			case ACTION_FIND_AMMO:
+					break;
+			case ACTION_FIND_GROUP:
+					break;
+			case ACTION_FIND_GUN:
+					break;
+			case ACTION_FIND_ROOM:
+					break;
+			default:
+					break;
+			}
 		}
 	}
 
