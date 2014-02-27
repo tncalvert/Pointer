@@ -34,8 +34,14 @@ public class GeneticMaster : MonoBehaviour {
     List<GeneticVictim> victims;
 
     void Start() {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    void OnLevelWasLoaded(int level) {
         victims = new List<GeneticVictim>();
     }
 
-
+    private float getFitness(GeneticVictim v) {
+        return 0f;
+    }
 }
