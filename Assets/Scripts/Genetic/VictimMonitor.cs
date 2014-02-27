@@ -22,6 +22,8 @@ public class VictimMonitor : MonoBehaviour {
     /// </summary>
     public float damageToPlayer;
 
+    public uint numberOfTimesStuck;
+
     /// <summary>
     /// Time marked at the start of the level
     /// </summary>
@@ -35,6 +37,7 @@ public class VictimMonitor : MonoBehaviour {
     void Start() {
         startTime = Time.realtimeSinceStartup;
         damageToPlayer = 0;
+        numberOfTimesStuck = 0;
     }
 
     /// <summary>
@@ -50,7 +53,15 @@ public class VictimMonitor : MonoBehaviour {
     /// Called when this victim deals damage to the player
     /// </summary>
     /// <param name="damageAmount">The amount of damage done</param>
-    void DealtDamage(float damageAmount) {
+    public void DealtDamage(float damageAmount) {
         damageToPlayer += damageAmount;
+    }
+
+    /// <summary>
+    /// Called when the victim gets stuck, incrementing a counter that is used to
+    /// punish the victim (and deprioritize those weights).
+    /// </summary>
+    public void GotStuck() {
+        numberOfTimesStuck++;
     }
 }

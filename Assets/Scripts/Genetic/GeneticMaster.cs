@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Main class in genetic algorithm.
@@ -21,8 +22,8 @@ using System.Collections.Generic;
 /// We will generate a random population, which will serve as the victims
 /// of the first level. After the level is over, victims are evaulated on
 /// various criteria:
-///     - Survival time         (30%)
-///     - Damage done to player (70%)
+///     - Survival time         (40%)
+///     - Damage done to player (60%)
 /// After the level is completed. We will take a subset of the population
 /// (50%??) and use them to create a new generation of vicitims.
 /// However, we do preserve the other section of the list that has been
@@ -84,6 +85,18 @@ public class GeneticMaster : MonoBehaviour {
     /// </summary>
     private static uint victimIds;
 
+    /// <summary>
+    /// The total time it took for the player to complete the level.
+    /// Found by taking the max of the times in the victim list.
+    /// </summary>
+    private float totalLevelTime;
+
+    /// <summary>
+    /// The total damage the player took.
+    /// Found by summing all the values from the victim list.
+    /// </summary>
+    private float totalDamageToPlayer;
+
     void Start() {
 
         if (victims == null) {
@@ -103,6 +116,9 @@ public class GeneticMaster : MonoBehaviour {
     /// </summary>
     public void calulateFitnessOfVictims() {
 
+        totalLevelTime = victims.Max(m => m.monitor.timeSpentAlive);
+        totalDamageToPlayer = victims.Sum(m => m.monitor.damageToPlayer);
+
         foreach (GeneticVictim v in victims) {
             v.fitness = getFitness(v);
         }
@@ -119,11 +135,10 @@ public class GeneticMaster : MonoBehaviour {
     /// <returns>The fitness of the victim</returns>
     private float getFitness(GeneticVictim v) {
         float fitness = 0f;
-        float survivalTime = v.monitor.timeSpentAlive;
-        float damageDealt = v.monitor.damageToPlayer;
+        float survivalTime = (v.monitor.timeSpentAlive / totalLevelTime) / v.monitor.numberOfTimesStuck;
+        float damageDealt = v.monitor.damageToPlayer / totalDamageToPlayer;
 
-        // TODO: We'll need to find percentages for time and damage and use that for
-        //       success, then weight them.
+        fitness = (survivalTime * 40) + (damageDealt * 60);
 
         return fitness;
     }
@@ -133,6 +148,8 @@ public class GeneticMaster : MonoBehaviour {
     /// from the previous iteration.
     /// </summary>
     private void generateNewPopulation() {
+
+        // Determine the best
 
     }
 
@@ -151,7 +168,8 @@ public class GeneticMaster : MonoBehaviour {
             gv.victimID = victimIds++;
             gv.monitor = vm;  // Need to get the data one correct
 
-            // TODO: Set initial values, then use SendMessage to instruct all files to update if they need to
+            // Send out a message to the object to repopulate its fields
+            g.SendMessage("updateVariables", null, SendMessageOptions.DontRequireReceiver);
 
             vm.victimID = gv.victimID;
             vm.geneticMaster = this;

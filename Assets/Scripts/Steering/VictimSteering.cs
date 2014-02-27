@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Allows the object containing this script to be moved by a series of steering forces
 /// Requires that the object has a rigidbody on it
-/// Class based on demonstrations and code by Prof. Kesselman
+/// Class based on demonstrations and code by Prof. Kessleman
 /// </summary>
 public class VictimSteering : MonoBehaviour {
 
@@ -95,6 +95,11 @@ public class VictimSteering : MonoBehaviour {
     /// </summary>
     private bool hadPathReset;
 
+    /// <summary>
+    /// The monitor for this victim
+    /// </summary>
+    private VictimMonitor victimMonitor;
+
     public Vector2[] publicPath;
 
     private bool DEBUG = true;
@@ -151,6 +156,8 @@ public class VictimSteering : MonoBehaviour {
                     Debug.Log("Master Game Controller does not seem to exist");
                 }
             }
+
+            victimMonitor = GetComponent<VictimMonitor>();
 
             updatesWithNoMovementCount = 0;
             previousPosition = Vector3.zero;
@@ -233,6 +240,7 @@ public class VictimSteering : MonoBehaviour {
                 }
                 getNewPath(newDest);
                 hadPathReset = true;
+                victimMonitor.GotStuck();
             } else {
                 hadPathReset = false;  // If we're moving again, reset the flag
             }
@@ -367,5 +375,13 @@ public class VictimSteering : MonoBehaviour {
                 steeringBehaviors.targetPosition = rigidbody.position;
             }
         }
+    }
+
+    /// <summary>
+    /// Called from GeneticMaster via SendMessage. Informs the script that the variables in
+    /// the VictimHead have been updated and the script should update its variables.
+    /// </summary>
+    public void updateVariables() {
+        // TODO: Implement this
     }
 }

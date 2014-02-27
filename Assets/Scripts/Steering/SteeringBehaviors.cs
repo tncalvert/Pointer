@@ -3,7 +3,7 @@ using System.Collections;
 
 /// <summary>
 /// A series of steering behaviors, accessed as functions
-/// The code is based on code demonstrated by Prof. Kesselman
+/// The code is based on code demonstrated by Prof. Kessleman
 /// This contains code for Fear, Seeking, Collision Avoidance,
 /// Wall Avoidance, Wander, Alignment, Cohesion, Separation
 /// </summary>
