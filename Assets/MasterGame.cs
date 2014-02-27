@@ -14,6 +14,11 @@ public class MasterGame : MonoBehaviour {
 	public int width = 16;
 	public int height = 16;
 
+	public int gunShops = 1;
+	public int hotels = 2;
+
+
+
 	/// <summary>
 	/// All of the streets in the city
 	/// </summary>
@@ -34,6 +39,11 @@ public class MasterGame : MonoBehaviour {
 
     public GameObject victim;
 
+
+
+	private CityGenerator.FILLTYPE[,] gridCity;
+	private float size;
+
 	// Use this for initialization
 	void Start () {
 
@@ -43,12 +53,12 @@ public class MasterGame : MonoBehaviour {
 		this.parks = new List<Park> ();
 
 		//generate city data
-		CityGenerator.FILLTYPE[,] gridCity = this.cityGenerator.buildCity (width, height);
-
+		gridCity = this.cityGenerator.buildCity (width, height);
+		size = 8;
 		//generate visual city. buildings, streets, parks
 		for (int x = 0; x < width; x ++) {
 			for (int y = 0 ; y < height ; y ++){
-				Vector2 position = new Vector2(y * 8, x * 8);
+				Vector2 position = new Vector2(y * size, x * size);
 
 				//fill each cell with something 
 				switch (gridCity[x,y]){
@@ -92,6 +102,16 @@ public class MasterGame : MonoBehaviour {
 		}
 
 
+		//place gunShops
+		this.placeBuildingType (this.gunShops, Building.BUILDINGTYPE.GUNSHOP);
+
+		//place hotels
+		this.placeBuildingType (this.hotels, Building.BUILDINGTYPE.HOTEL);
+
+
+
+
+
 		//generate path graph
 		this.pathFinder.buildPathGraph (this.buildings, this.streets, this.parks);
 
@@ -115,6 +135,39 @@ public class MasterGame : MonoBehaviour {
 	private PlayerSteering generateFollower(Vector2 position){
 		PlayerSteering f = ((GameObject)Instantiate (this.follower, new Vector3(position.x, 1, position.y), Quaternion.identity)).GetComponent<PlayerSteering>();
 		return f;
+	}
+
+
+	private void placeBuildingType(int count, Building.BUILDINGTYPE kind){
+		for (int i = 0; i < count; i ++) {
+			bool selected = false;
+			while (!selected){
+				Building b = this.buildings[Random.Range(0,this.buildings.Count)];
+				int x = (int)(b.Position.x/size);
+				int y = (int)(b.Position.y/size);
+				if (this.isNextTo(y,x,CityGenerator.FILLTYPE.ROAD) && b.BuildingType == Building.BUILDINGTYPE.NONE){
+					selected = true;
+					b.BuildingType = kind;
+				}
+			}
+		}
+	}
+
+	private bool isNextTo(int x, int y, CityGenerator.FILLTYPE type){
+		bool result = false;
+		if (x - 1 > -1) {
+			result |= gridCity[x-1, y] == type;
+		} 
+		if (x + 1 < width) {
+			result |= gridCity[x+1, y] == type;
+		}
+		if (y - 1 > -1) {
+			result |= gridCity[x, y-1] == type;
+		}
+		if (y + 1 < height) {
+			result |= gridCity[x, y+1] == type;
+		}
+		return result;
 	}
 
 	// Update is called once per frame

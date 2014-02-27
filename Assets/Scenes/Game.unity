@@ -195,6 +195,8 @@ MonoBehaviour:
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
   width: 32
   height: 32
+  gunShops: 5
+  hotels: 2
   victim: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
 --- !u!4 &381908261
 Transform:
@@ -235,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8969b539476079f429c3e22c37e1e32f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerScore: 0
 --- !u!132 &838255731
 GUIText:
   m_ObjectHideFlags: 0

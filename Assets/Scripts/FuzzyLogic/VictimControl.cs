@@ -231,9 +231,17 @@ public class VictimControl : MonoBehaviour {
 
 		//if I am in a small group and I cant see the monster
 		if (people == FuzzyBrain.FEW && monster != FuzzyBrain.MANY) {
-			
+			set[ACTION_FIND_GUN] += .8f*this.independence * (this.hasGun ? 0 : 1);//I want to find a gun if I have high independence and don't have a gun
+			set[ACTION_FIND_AMMO] += .8f*this.independence * (this.hasGun ? 1 : 0);//I want to find ammo if I have a gun and if I have high independence
+			set[ACTION_FIND_ROOM] += .8f*this.sleepyness;//I want to find a room if I am sleepy
 		}
 
+		//if I am in a group and I cant see the monster
+		if (people == FuzzyBrain.FEW && monster != FuzzyBrain.MANY) {
+			set[ACTION_FIND_GUN] += .5f*this.independence * (this.hasGun ? 0 : 1);//I want to find a gun if I have high independence and don't have a gun
+			set[ACTION_FIND_AMMO] += .5f*this.independence * (this.hasGun ? 1 : 0);//I want to find ammo if I have a gun and if I have high independence
+			set[ACTION_FIND_ROOM] += .5f*this.sleepyness;//I want to find a room if I am sleepy
+		}
 
 		set [ACTION_FLEE] /= Mathf.Max (float.Epsilon, 1-this.sleepyness);//more likely to run if you are tired
 		set [ACTION_FLEE] *= 1-this.toughness;//less likely to run if you are tough
