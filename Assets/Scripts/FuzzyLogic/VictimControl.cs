@@ -28,7 +28,7 @@ public class VictimControl : MonoBehaviour {
 	//independence factors into how social the victim is
 	public float independence;
 
-
+	public VictimData head;
 
 	/* VARIABLES OF THE VICTIM
 	 * These variables may change due to game events.

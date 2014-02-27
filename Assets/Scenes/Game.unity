@@ -171,6 +171,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 381908261}
   - 114: {fileID: 381908260}
+  - 114: {fileID: 381908262}
   m_Layer: 0
   m_Name: MasterGameObject
   m_TagString: Untagged
@@ -195,8 +196,8 @@ MonoBehaviour:
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
   width: 32
   height: 32
-  gunShops: 5
-  hotels: 2
+  gunShops: 1
+  hotels: 1
   victim: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
 --- !u!4 &381908261
 Transform:
@@ -209,6 +210,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &381908262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381908259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b73985a20f41624ba71376900e780ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &838255729
 GameObject:
   m_ObjectHideFlags: 0
