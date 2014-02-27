@@ -284,25 +284,25 @@ public class VictimControl : MonoBehaviour {
 		set.normalize ();
 	}
 
+	//The victims dont have to looking in the direction of the monster
+	//Works if we can draw a line from the victim to the monster.
 	private void refreshMonsterInSightSet(FuzzySet set){
 		set.resetAll ();
 		//Victim Position
-		Vector2 victim = new Vector2 (this.rigidbody.position.x, this.rigidbody.position.z);
+		Vector3 victim = new Vector3 (this.rigidbody.position.x, this.rigidbody.position.y, this.rigidbody.position.z);
 
 		//Player Position
 		PlayerSteering monster = (PlayerSteering)GameObject.FindObjectOfType (typeof(PlayerSteering));
-		Vector2 player = new Vector2 (monster.rigidbody.position.x, monster.rigidbody.position.z);
+		Vector3 player = new Vector3 (monster.rigidbody.position.x, monster.rigidbody.position.y, monster.rigidbody.position.z);
 
-		RaycastHit hit;
-
-		if (Physics.Raycast (victim, (player - victim), out hit, (player - victim).magnitude,
+		if (!Physics.Raycast (victim, (player - victim), (player - victim).magnitude,
 		                     (1 << LayerMask.NameToLayer ("City")) | (1 << LayerMask.NameToLayer ("Sidewalk")))) {
-			Debug.Log ("Here");
-			//if hit is monster
-			set [FuzzyBrain.MANY] += .5f;
+			//Debug.Log ("MONSTER IN SIGHT!");
 
 			//What about FuzzyBrain.FEW/NONE/SOME?
+			set [FuzzyBrain.MANY] += .5f;
 		}
+
 		set.normalize ();
 	}
 
