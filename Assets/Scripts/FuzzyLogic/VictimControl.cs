@@ -28,14 +28,27 @@ public class VictimControl : MonoBehaviour {
 	//independence factors into how social the victim is
 	public float independence;
 
-	public VictimData head;
+	// The VictimData head of the control. It holds the important data, and should be used carefully.
+	private VictimData head;
+	public VictimData Head {
+		get { return this.head; }
+		set { 
+			this.head = value;
+			this.updateFromHead();		
+		}
+	}
 
 	/* VARIABLES OF THE VICTIM
 	 * These variables may change due to game events.
 	 */
 
+	// how sleepy is the victim? on a scale of 0 to 1, hwere 1 is practically asleep and 0 is as chippy as a bird
 	public float sleepyness;
+
+	// how many shots can the victim shoot 
 	public int ammo;
+
+	// does the victim have a gun. Yes or no?
 	public bool hasGun;
 
 
@@ -56,11 +69,33 @@ public class VictimControl : MonoBehaviour {
 	private VictimSteering steering;
 	private Material material;
 
+	/// <summary>
+	/// Updates the values in this instance from the VictimData head.
+	/// </summary>
+	public void updateFromHead(){
+		//TODO implement
+	}
+
+	/// <summary>
+	/// Updates the values in the VictimData head to reflect the values in this instance
+	/// </summary>
+	public void updateHeadValues(){
+		//TODO implement
+	}
+
 
 	// Use this for initialization
 	void Start () {
 
-		this.bravery = 1;
+
+		if (this.head == null) {
+			this.head = new VictimData ();
+			this.updateHeadValues();
+		}
+
+
+
+
 		this.steering = this.GetComponent<VictimSteering> ();
 		this.material = this.GetComponent<Renderer> ().material;
 

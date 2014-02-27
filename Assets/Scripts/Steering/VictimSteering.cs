@@ -99,6 +99,16 @@ public class VictimSteering : MonoBehaviour {
 
     private bool DEBUG = true;
 
+
+	// The VictimData head of the control. It holds the important data, and should be used carefully.
+	private VictimData head;
+	public VictimData Head {
+		get { return this.head; }
+		set { 
+			this.head = value;
+			this.updateFromHead();		
+		}
+	}
     /// <summary>
     /// Weights for behaviors
     /// 0: Alignment
@@ -120,6 +130,21 @@ public class VictimSteering : MonoBehaviour {
                                                     0.6f,    // Wander
 													1.0f 	//Sidewalk stickyness
     };
+
+
+	/// <summary>
+	/// Updates the values in this instance from the VictimData head.
+	/// </summary>
+	public void updateFromHead(){
+		//TODO implement
+	}
+	
+	/// <summary>
+	/// Updates the values in the VictimData head to reflect the values in this instance
+	/// </summary>
+	public void updateHeadValues(){
+		//TODO implement
+	}
 
     void Start() {
         // Check to see if we have a rigid body
