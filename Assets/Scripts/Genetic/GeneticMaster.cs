@@ -228,7 +228,39 @@ public class GeneticMaster : MonoBehaviour {
             }
         }
 
-        // Determine the best
+        // Sort victims list
+        victims.Sort((m, n) => m.victimID.CompareTo(n.victimID));
+
+        int halfSize = victims.Count / 2;
+        int sizeDiff = victims.Count - halfSize;
+
+        // Copy bad victims to discarded list
+        discardedVictims = victims.Skip(halfSize).ToList();
+        // Remove from original list
+        victims.RemoveRange(halfSize, sizeDiff);
+
+        // Now, [discardedVictims] contain those we consider too bad to continue, and [victims] holds
+        // only those considered good enough with enough space (kind of) to hold [sizeDiff] new
+        // victims created by mixing up the victims still in [victims].
+
+        // Create a weighting for picking random values
+        // We are taking 1 + 2 + ... + [victims.Count] and then each item
+        // is weighted by the opposite of its position in the list (i.e., the last
+        // item is 1/[accum], and the first would be [victims.Count]/[accum]
+        // Then, we generate a random number in [0, 1] and we use the index of
+        // the value that this random number falls closest to (without going over).
+        List<float> weights = new List<float>();
+        float accum = (victims.Count * (victims.Count + 1)) / 2f;
+        for (int i = victims.Count; i > 0; --i) {
+            weights.Add(((float)i) / accum);
+        }
+
+        // Here we'll build all the new victims
+        for (int i = 0; i < sizeDiff; ++i) {
+            int vic1Idx = weights.randomIndex();
+            int vic2Idx = weights.randomIndex();
+            
+        }
 
     }
 
@@ -312,6 +344,42 @@ public class GeneticMaster : MonoBehaviour {
                 }
             }
         }
+    }
+
+}
+
+/// <summary>
+/// Class holding an extension of the List object that I've created.
+/// Assistance in the algorithm from http://stackoverflow.com/questions/1761626/weighted-random-numbers
+/// </summary>
+public static class ListExtension {
+
+    /// <summary>
+    /// Extension method for IEnumerables used in picking a random index of a list
+    /// The list passed in is filled with weights of any manner but *must* sum to 1.
+    /// Then, we pick a random number between 0 and 1 (inclusive) and return the
+    /// index of the number that is closest to this random number without going over.
+    /// </summary>
+    /// <param name="weights">List of weights</param>
+    /// <returns>A random index</returns>
+    public static int randomIndex(this List<float> weights) {
+        // Pick a random number
+
+        float rand = Random.Range(0f, 1f);
+
+        int idx = 0;
+
+        // Iterate the enumerable until the element at [idx] is
+        // strictly smaller than rand
+        for (; idx < weights.Count; ++idx) {
+            if (rand < weights[idx]) {
+                break;
+            }
+            rand -= weights[idx];
+        }
+
+        // Return this index
+        return idx;
     }
 
 }
