@@ -83,10 +83,25 @@ public class PathFinder : MonoBehaviour {
 	/// </summary>
 	private List<WayPoint> wayPoints;
 
+	/// <summary>
+	/// The hotel locations.
+	/// </summary>
+	private List<Vector2> hotelLocations;
+
+
+	/// <summary>
+	/// The gun shop locations.
+	/// </summary>
+	private List<Vector2> gunShopLocations;
+
+	public List<Vector2> HotelLocations { get { return this.hotelLocations; } }
+	public List<Vector2> GunShopLocations { get { return this.gunShopLocations; } }
+
+
 	public PathFinder(){
 
 		this.wayPoints = new List<WayPoint> ();
-
+		this.hotelLocations = new List<Vector2> ();
 		
 
 	}
@@ -261,6 +276,15 @@ public class PathFinder : MonoBehaviour {
 		foreach (Park park in parks) {
 			this.addWaypoint(park.Position);
 		}
+
+		foreach (Building building in buildings) {
+			if (building.BuildingType == Building.BUILDINGTYPE.HOTEL){
+				this.hotelLocations.Add (building.Position);
+			} else if (building.BuildingType == Building.BUILDINGTYPE.GUNSHOP){
+				this.gunShopLocations.Add (building.Position);
+			}
+		}
+
 
 	}
 

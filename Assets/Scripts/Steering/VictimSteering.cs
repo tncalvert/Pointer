@@ -234,6 +234,12 @@ public class VictimSteering : MonoBehaviour {
 
     void FixedUpdate() {
 
+
+		if (Inspector.Inspecting) {
+			this.rigidbody.velocity = Vector3.zero; //TODO remember old velocity when start back up
+			return;
+		}
+
         if (!rigidbody) {
             // If there is no rigidbody, abort
             return;

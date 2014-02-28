@@ -93,6 +93,11 @@ public class PlayerSteering : MonoBehaviour {
 	
 	void FixedUpdate () {
 
+		if (Inspector.Inspecting) {
+			this.rigidbody.velocity -= this.rigidbody.velocity; //TODO remember old velocity when !inspecting
+			return;
+		}
+
         if (!rigidbody) {
             // If there is no rigidbody, abort
             return;

@@ -15,10 +15,11 @@ public class MasterGame : MonoBehaviour {
 	public int width = 16;
 	public int height = 16;
 
-	public int gunShops = 1;
-	public int hotels = 2;
+	public int gunShopCount = 1;
+	public int hotelCount = 2;
 
-
+	//the list of all hotels in the map;
+	private List<Building> hotels;
 
 	/// <summary>
 	/// All of the streets in the city
@@ -52,6 +53,7 @@ public class MasterGame : MonoBehaviour {
 		this.streets = new List<Street> ();
 		this.buildings = new List<Building> ();
 		this.parks = new List<Park> ();
+		this.hotels = new List<Building> ();
 
 		//generate city data
 		gridCity = this.cityGenerator.buildCity (width, height);
@@ -104,10 +106,10 @@ public class MasterGame : MonoBehaviour {
 
 
 		//place gunShops
-		this.placeBuildingType (this.gunShops, Building.BUILDINGTYPE.GUNSHOP);
+		this.hotels = this.placeBuildingType (this.gunShopCount, Building.BUILDINGTYPE.GUNSHOP);
 
 		//place hotels
-		this.placeBuildingType (this.hotels, Building.BUILDINGTYPE.HOTEL);
+		this.placeBuildingType (this.hotelCount, Building.BUILDINGTYPE.HOTEL);
 
 
 
@@ -123,7 +125,7 @@ public class MasterGame : MonoBehaviour {
 		this.generateFollower (this.streets [0].Position);
 
         List<Vector2> victimPositions = new List<Vector2>();
-        for (int i = 2; i < 8/*streets.Count/2*/; i++)
+        for (int i = 2; i < 18/*streets.Count/2*/; i++)
             victimPositions.Add(streets[i].Position);
 
         geneticMaster.initialPositions = victimPositions;
@@ -136,7 +138,8 @@ public class MasterGame : MonoBehaviour {
 	}
 
 
-	private void placeBuildingType(int count, Building.BUILDINGTYPE kind){
+	private List<Building> placeBuildingType(int count, Building.BUILDINGTYPE kind){
+		List<Building> selectedBuildings = new List<Building> ();
 		for (int i = 0; i < count; i ++) {
 			bool selected = false;
 			while (!selected){
@@ -146,9 +149,11 @@ public class MasterGame : MonoBehaviour {
 				if (this.isNextTo(y,x,CityGenerator.FILLTYPE.ROAD) && b.BuildingType == Building.BUILDINGTYPE.NONE){
 					selected = true;
 					b.BuildingType = kind;
+					selectedBuildings.Add (b);
 				}
 			}
 		}
+		return selectedBuildings;
 	}
 
 	private bool isNextTo(int x, int y, CityGenerator.FILLTYPE type){

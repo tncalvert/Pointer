@@ -8,10 +8,10 @@ public class VictimControl : MonoBehaviour {
 
 	// ActionSet elements
 	public const string ACTION_FLEE = "flee";
-	public const string ACTION_FIND_GUN = "findGun";
-	public const string ACTION_FIND_AMMO = "findAmmo";
-	public const string ACTION_FIND_ROOM = "findRoom";
-	public const string ACTION_FIND_GROUP = "findGroup";
+	public const string ACTION_FIND_GUN = "findgun";
+	public const string ACTION_FIND_AMMO = "findammo";
+	public const string ACTION_FIND_ROOM = "findroom";
+	public const string ACTION_FIND_GROUP = "findgroup";
 	public const string ACTION_SHOOT = "shoot";
 
 
@@ -49,6 +49,9 @@ public class VictimControl : MonoBehaviour {
 	// does the victim have a gun. Yes or no?
 	public bool hasGun;
 
+	// the name of the victim
+	public string name;
+
 
 	/* Fuzzy Logic declarations 
 	 */
@@ -69,6 +72,8 @@ public class VictimControl : MonoBehaviour {
 
 	private float planFuzzyCoolDownTime = .4f;
 	private float fuzzyPlanTimeLeft = Random.value;
+
+	private Inspectible insp;
 
 	/// <summary>
 	/// Updates the values in this instance from the VictimData head.
@@ -146,7 +151,23 @@ public class VictimControl : MonoBehaviour {
 
 
 		this.toughness = Random.value;
-		this.sleepyness = 0;
+		this.sleepyness = .5f * Random.value;
+		this.name = "Dave";
+
+		this.insp = (Inspectible)this.gameObject.AddComponent ("Inspectible");
+		insp.getTextFunc = () => {
+			List<string> lines = new List<string>();
+			lines.Add (name);
+			lines.Add ("Toughness  : " + Mathf.Round (100*toughness));
+			lines.Add ("Bravery       : " + Mathf.Round (100*bravery));
+			lines.Add ("Independent: " + Mathf.Round (100*independence));
+			lines.Add ("Sleepyness :" + Mathf.Round (100*sleepyness));
+			lines.Add ( hasGun ? "Has Gun\nAmmo : "+ammo : "Unarmed");
+
+			return lines;
+		};
+
+
 	}
 
 	private void generateGun(){
@@ -156,10 +177,19 @@ public class VictimControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+
+		if (Inspector.Inspecting) {
+
+			return;
+		}
+
 		//this.refreshMonsterInSightSet (this.monsterInSight);
 		//this.refreshTerrorSet (this.terror);
 		this.updateColor ();
 
+		//update how sleepy the victim is
+		this.updateSleepyness ();
 
 		//update the gun position
 		this.updateGun ();
@@ -225,30 +255,55 @@ public class VictimControl : MonoBehaviour {
 	public void planForAction(string action){
 
 		if (action != null) {
-			//Debug.Log ("ACTION: " + action);
+			Debug.Log ("ACTION: " + action);
 
-			switch (action) {
-			case ACTION_FLEE:
+			if (action.Equals(ACTION_FLEE)){
+				Debug.Log ("ACTION_FLEE");
 				this.findFleeDestination();
-				break;
-			case ACTION_SHOOT:
+			} else if (action.Equals(ACTION_SHOOT)){
+				Debug.Log ("ACTION_SHOOT");
 				if (this.hasGun){
 					this.gunModel.fire();
 					//Debug.Log("SHOT WAS TAKEN");
 				}
-				break;
-			case ACTION_FIND_AMMO:
-					break;
-			case ACTION_FIND_GROUP:
-					break;
-			case ACTION_FIND_GUN:
-					break;
-			case ACTION_FIND_ROOM:
-					break;
-			default:
-					break;
+			} else if (action.Equals(ACTION_FIND_AMMO)){
+				this.findGunShop();
+			} else if (action.Equals(ACTION_FIND_GROUP)){
+			
+			} else if (action.Equals(ACTION_FIND_GUN)){
+				this.findGunShop();
+			} else if (action.Equals(ACTION_FIND_ROOM)){
+				Debug.Log ("ACTION_FIND_ROOM");
+				this.findHotel();
 			}
+
+
+
 		}
+	}
+
+	/// <summary>
+	/// Finds and sets the target to the best hotel.
+	/// </summary>
+	private void findHotel(){
+
+		List<Vector2> hotelLocations = this.steering.getPathFinder ().HotelLocations;
+		//Debug.Log ("Hotels : " + hotelLocations.Count);
+		if (hotelLocations.Count > 0) {
+			Vector2 hotelLocation = hotelLocations [Random.Range (0, hotelLocations.Count - 1)];
+			steering.getNewPath(hotelLocation);
+			//Debug.Log("GOING TO HOTEL");
+		}
+
+	}
+
+	private void findGunShop(){
+		List<Vector2> gunShopLocations = this.steering.getPathFinder ().GunShopLocations;
+		if (gunShopLocations.Count > 0) {
+			Vector2 gunShopLocation = gunShopLocations[Random.Range (0, gunShopLocations.Count-1)];
+			steering.getNewPath(gunShopLocation);
+		}
+	
 	}
 
 	/// <summary>

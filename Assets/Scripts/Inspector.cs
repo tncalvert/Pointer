@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 public class Inspector : MonoBehaviour {
 
+
+	private static bool inspecting;
+	public static bool Inspecting { get { return inspecting; } }
+
 	// Use this for initialization
 	void Start () {
 
@@ -18,8 +22,9 @@ public class Inspector : MonoBehaviour {
 
 	void OnGUI(){
 
+		inspecting = false;
 		if (Input.GetKey (KeyCode.LeftShift)) {
-
+			inspecting = true;
 			Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if (Physics.Raycast(cameraRay, out hit)) {
@@ -38,7 +43,7 @@ public class Inspector : MonoBehaviour {
 						text += line + "\n";
 					}
 					
-					GUI.TextArea(new Rect(x - 50,y + 5,100,(1+lines.Count) * 12),text);
+					GUI.TextArea(new Rect(x - 50,y + 5,200,(1+lines.Count) * 18),text);
 					
 				}
 			}
