@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 /// <summary>
 /// Main class in genetic algorithm.
@@ -58,6 +59,36 @@ public class GeneticMaster : MonoBehaviour {
         /// The fitness score of the victim
         /// </summary>
         public float fitness;
+
+        /// <summary>
+        /// Returns a string representing the victim
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() {
+            string temp = "";
+            temp += "Victim " + victimID + " - Fitness: " + fitness + "\n";
+            temp += "\tBravery: " + data.AttribBravery;
+            temp += "\tToughness: " + data.AttribIndependence;
+            temp += "\tIndependence: " + data.AttribToughness + "\n";
+            temp += "\tMax Velocity: " + data.MaxVelocity;
+            temp += "\tMax Force: " + data.MaxForce + "\n";
+            temp += "\tArrival: " + data.MinimumArrivalRadiusSqrd;
+            temp += "\tComplete Arrival: " + data.MinimumCompleteArrivalRadiusSqrd;
+            temp += "\tUnique Path: " + data.UniquePathProbability;
+            temp += "\tPath Check: " + data.PathCheckRadius + "\n";
+            temp += "\tSteering Weights\n";
+            temp += "\t\tAlignment: " + data.SteeringAlignment;
+            temp += "\tCohesion: " + data.SteeringCohesion;
+            temp += "\tCollision Avoidance: " + data.SteeringCollisionAvoidance + "\n";
+            temp += "\t\tFear: " + data.SteeringFear;
+            temp += "\tSeek: " + data.SteeringSeek;
+            temp += "\tSeparation: " + data.SteeringSeparation + "\n";
+            temp += "\t\tWall Avoidance: " + data.SteeringWallAvoidance;
+            temp += "\tWander: " + data.SteeringWander;
+            temp += "\tSidewalk: " + data.SteeringSideWalkLove + "\n\n";
+
+            return temp;
+        }
     }
 
     /// <summary>
@@ -97,7 +128,32 @@ public class GeneticMaster : MonoBehaviour {
     /// </summary>
     private float totalDamageToPlayer;
 
+    /// <summary>
+    /// Used to indicate we should log the results of the genetic algorithm to a file
+    /// </summary>
+    private const bool LOGGING = true;
+
+    /// <summary>
+    /// Log file
+    /// </summary>
+    private StreamWriter logFile;
+
+    /// <summary>
+    /// Relative path to log file, without '.txt'
+    /// </summary>
+    private string logFileName;
+
+    /// <summary>
+    /// An integer that will be appended to the log file name and incremented every level
+    /// </summary>
+    private static uint runCount;
+
     void Start() {
+
+        if (LOGGING) {
+            // Create proper file name
+            logFileName = "genetic_log.txt";
+        }
 
         if (victims == null) {
             // This will only happen on the first time the level is loaded
@@ -108,6 +164,12 @@ public class GeneticMaster : MonoBehaviour {
             // Reload
             calulateFitnessOfVictims();
             generateNewPopulation();
+        }
+    }
+
+    void Update() {
+        foreach (var v in victims) {
+            getFitness(v);
         }
     }
 
@@ -135,8 +197,9 @@ public class GeneticMaster : MonoBehaviour {
     /// <returns>The fitness of the victim</returns>
     private float getFitness(GeneticVictim v) {
         float fitness = 0f;
-        float survivalTime = (v.monitor.timeSpentAlive / totalLevelTime) / v.monitor.numberOfTimesStuck;
-        float damageDealt = v.monitor.damageToPlayer / totalDamageToPlayer;
+        float survivalTime = (v.monitor.timeSpentAlive / (totalLevelTime != 0 ? totalLevelTime : 1)) /
+            (v.monitor.numberOfTimesStuck != 0 ? v.monitor.numberOfTimesStuck : 1);
+        float damageDealt = v.monitor.damageToPlayer / (totalDamageToPlayer != 0 ? totalDamageToPlayer : 1);
 
         fitness = (survivalTime * 40) + (damageDealt * 60);
 
@@ -146,8 +209,24 @@ public class GeneticMaster : MonoBehaviour {
     /// <summary>
     /// Performs the genetic algorithm, generating a new population
     /// from the previous iteration.
+    /// 
+    /// Takes the worst 50% from the victims, and moves them into another list.
+    /// Then generate a new half of the population, by picking random victims
+    /// from the better half (with a weighed preference for better victims)
+    /// and picking random pieces of each. Then we'll add some mutation
+    /// on a random factor to some of the new victims.
     /// </summary>
     private void generateNewPopulation() {
+
+        // Log results from previous level
+        if (LOGGING) {
+            using (logFile = new StreamWriter(logFileName, true, System.Text.Encoding.UTF8)) {
+                logFile.WriteLine("Results of Level " + (runCount - 1) + " (" + System.DateTime.Now + ")\n====================");
+                foreach (GeneticVictim v in victims) {
+                    logFile.Write(v);
+                }
+            }
+        }
 
         // Determine the best
 
@@ -223,26 +302,16 @@ public class GeneticMaster : MonoBehaviour {
 
             victims.Add(gv);
         }
-    }
 
-    /// <summary>
-    /// A function called by the dying victim prior to being destroyed in order to report
-    /// its various successes.
-    /// </summary>
-    /// <param name="vID">The unique ID of the victim</param>
-    /// <param name="data">The VictimData class from the victim</param>
-    /// <param name="monitor">The VictimMonitor class from the victim</param>
-    public void receiveVictimReport(uint vID, VictimData data, VictimMonitor monitor) {
-        GeneticVictim v = victims.Find(m => m.victimID == vID);
-
-        if (v == null) {
-            // No object with that ID
-            Debug.Log("No victim with ID " + vID + " found");
-            return;
+        // If we are logging, print a record of all the victims
+        if (LOGGING) {
+            using (logFile = new StreamWriter(logFileName, false, System.Text.Encoding.UTF8)) {
+                logFile.WriteLine("Level " + (runCount++) + " (" + System.DateTime.Now + ")\n====================");
+                foreach (GeneticVictim v in victims) {
+                    logFile.Write(v);
+                }
+            }
         }
-
-        v.data = data;
-        v.monitor = monitor;
     }
 
 }

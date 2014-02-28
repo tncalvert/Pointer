@@ -107,13 +107,6 @@ public class VictimSteering : MonoBehaviour {
 
 	// The VictimData head of the control. It holds the important data, and should be used carefully.
 	public VictimData head;
-    //public VictimData Head {
-    //    get { return this.head; }
-    //    set { 
-    //        this.head = value;
-    //        this.updateFromHead();		
-    //    }
-    //}
 
     /// <summary>
     /// Weights for behaviors

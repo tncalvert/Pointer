@@ -33,13 +33,8 @@ public class VictimControl : MonoBehaviour {
 
 	// The VictimData head of the control. It holds the important data, and should be used carefully.
 	public VictimData head;
-    //public VictimData Head {
-    //    get { return this.head; }
-    //    set { 
-    //        this.head = value;
-    //        this.updateFromHead();		
-    //    }
-    //}
+
+    public LevelChanger levelChanger;
 
 	/* VARIABLES OF THE VICTIM
 	 * These variables may change due to game events.
@@ -119,6 +114,8 @@ public class VictimControl : MonoBehaviour {
 
 		this.material = this.GetComponent<Renderer> ().material;
 
+        this.levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
+        levelChanger.registerVictim();
 
 		this.brain = new FuzzyBrain ();
 
@@ -172,8 +169,6 @@ public class VictimControl : MonoBehaviour {
 			this.planForAction (this.computeCurrentAction ());
 		}
 		this.fuzzyPlanTimeLeft -= Time.deltaTime;
-
-
 
 	}
 
@@ -548,5 +543,12 @@ public class VictimControl : MonoBehaviour {
 
 		set.normalize ();
 	}
+
+    /// <summary>
+    /// Called when victim is destroyed by player. Informs level changer that a victim has died.
+    /// </summary>
+    void OnDestroy() {
+        levelChanger.victimDied();
+    }
 
 }
