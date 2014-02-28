@@ -243,7 +243,7 @@ public class GeneticMaster : MonoBehaviour {
         // Copy the best of the bad victims to discardedVictims, ignoring the rest
         discardedVictims = sortedVictims.Skip(halfSize).Take(sizeDiff).ToList();
         // Remove the bottom half from victims
-        victims.RemoveRange(halfSize, sizeDiff);
+        victims = sortedVictims.Take(halfSize).ToList();
 
         // Now, [discardedVictims] contain those we consider too bad to continue, and [victims] holds
         // only those considered good enough with enough space (kind of) to hold [sizeDiff] new
