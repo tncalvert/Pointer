@@ -309,6 +309,8 @@ public class GeneticMaster : MonoBehaviour {
             rand = Random.Range(0, 2);
             vd.SteeringWander = (rand == 0 ? vic1.data.SteeringWander : vic2.data.SteeringWander);
 
+            // TODO: MUTATIONS!!!!
+
             newGV.victimID = victimIds++;
             newGV.data = vd;
 
