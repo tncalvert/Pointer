@@ -77,5 +77,27 @@ public class VictimData : MonoBehaviour {
 
 	public VictimData() { }
 
-
+    /// <summary>
+    /// Copies the values from other into this object
+    /// </summary>
+    public void cloneValues(VictimData other) {
+        AttribBravery = other.AttribBravery;
+        AttribIndependence = other.AttribIndependence;
+        AttribToughness = other.AttribToughness;
+        MaxForce = other.MaxForce;
+        MaxVelocity = other.MaxVelocity;
+        MinimumArrivalRadiusSqrd = other.MinimumArrivalRadiusSqrd;
+        MinimumCompleteArrivalRadiusSqrd = other.MinimumCompleteArrivalRadiusSqrd;
+        UniquePathProbability = other.UniquePathProbability;
+        PathCheckRadius = other.PathCheckRadius;
+        SteeringAlignment = other.SteeringAlignment;
+        SteeringCohesion = other.SteeringCohesion;
+        SteeringCollisionAvoidance = other.SteeringCollisionAvoidance;
+        SteeringFear = other.SteeringFear;
+        SteeringSeek = other.SteeringSeek;
+        SteeringSeparation = other.SteeringSeparation;
+        SteeringSideWalkLove = other.SteeringSideWalkLove;
+        SteeringWallAvoidance = other.SteeringWallAvoidance;
+        SteeringWander = other.SteeringWander;
+    }
 }

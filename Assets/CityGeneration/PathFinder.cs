@@ -6,9 +6,11 @@ public class PathFinder : MonoBehaviour {
 
 	private const bool DEBUG = true;
 
-	private class WayPoint {
-		
-		
+// Disable warning for not implementing GetHashCode()
+#pragma warning disable 0659
+
+    private class WayPoint {
+			
 		private Vector2 position;
 		public Vector2 Position { get{ return this.position; } } 
 
@@ -70,12 +72,13 @@ public class PathFinder : MonoBehaviour {
 		public override string ToString(){
 			return "WAYPOINT{" + this.position.x + "," + this.position.y+"}";
 		}
-		
-	}
 	
+	}
+
+#pragma warning restore 0659
 
 
-	/// <summary>
+    /// <summary>
 	/// The way points.
 	/// </summary>
 	private List<WayPoint> wayPoints;

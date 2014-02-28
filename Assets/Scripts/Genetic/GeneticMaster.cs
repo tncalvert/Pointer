@@ -61,6 +61,16 @@ public class GeneticMaster : MonoBehaviour {
         public float fitness;
 
         /// <summary>
+        /// Override of Equals
+        /// </summary>
+        /// <param name="obj">Other object</param>
+        /// <returns>True if equals (id is equal)</returns>
+        public override bool Equals(object obj) {
+            GeneticVictim gv = (GeneticVictim)obj;
+            return this.victimID == gv.victimID;
+        }
+
+        /// <summary>
         /// Returns a string representing the victim
         /// </summary>
         /// <returns></returns>
@@ -228,15 +238,16 @@ public class GeneticMaster : MonoBehaviour {
             }
         }
 
-        // Sort victims list
-        victims.Sort((m, n) => m.victimID.CompareTo(n.victimID));
-
         int halfSize = victims.Count / 2;
         int sizeDiff = victims.Count - halfSize;
 
-        // Copy bad victims to discarded list
-        discardedVictims = victims.Skip(halfSize).ToList();
-        // Remove from original list
+        // Combine victims and discardedVictims and sort them
+        List<GeneticVictim> sortedVictims = victims.Union(discardedVictims).ToList();
+        sortedVictims.Sort((m, n) => m.fitness.CompareTo(n.fitness));
+
+        // Copy the best of the bad victims to discardedVictims, ignoring the rest
+        discardedVictims = sortedVictims.Skip(halfSize).Take(sizeDiff).ToList();
+        // Remove the bottom half from victims
         victims.RemoveRange(halfSize, sizeDiff);
 
         // Now, [discardedVictims] contain those we consider too bad to continue, and [victims] holds
@@ -257,11 +268,91 @@ public class GeneticMaster : MonoBehaviour {
 
         // Here we'll build all the new victims
         for (int i = 0; i < sizeDiff; ++i) {
-            int vic1Idx = weights.randomIndex();
-            int vic2Idx = weights.randomIndex();
+            // Pick two random victims to breed
+            GeneticVictim vic1 = victims[weights.randomIndex()];
+            GeneticVictim vic2 = victims[weights.randomIndex()];
             
+            // Create a VictimData for the new victim and then randomly pick a value from one of the old victims
+            GeneticVictim newGV = new GeneticVictim();
+            VictimData vd = new VictimData();
+            int rand = Random.Range(0, 1);
+            vd.AttribBravery = (rand == 0 ? vic1.data.AttribBravery : vic2.data.AttribBravery);
+            rand = Random.Range(0, 1);
+            vd.AttribIndependence = (rand == 0 ? vic1.data.AttribIndependence : vic2.data.AttribIndependence);
+            rand = Random.Range(0, 1);
+            vd.AttribToughness = (rand == 0 ? vic1.data.AttribToughness : vic2.data.AttribToughness);
+
+            rand = Random.Range(0, 1);
+            vd.MaxForce = (rand == 0 ? vic1.data.MaxForce : vic2.data.MaxForce);
+            rand = Random.Range(0, 1);
+            vd.MaxVelocity = (rand == 0 ? vic1.data.MaxVelocity : vic2.data.MaxVelocity);
+            rand = Random.Range(0, 1);
+            vd.MinimumArrivalRadiusSqrd = (rand == 0 ? vic1.data.MinimumArrivalRadiusSqrd : vic2.data.MinimumArrivalRadiusSqrd);
+            rand = Random.Range(0, 1);
+            vd.MinimumCompleteArrivalRadiusSqrd = (rand == 0 ? vic1.data.MinimumCompleteArrivalRadiusSqrd : vic2.data.MinimumCompleteArrivalRadiusSqrd);
+            rand = Random.Range(0, 1);
+            vd.UniquePathProbability = (rand == 0 ? vic1.data.UniquePathProbability : vic2.data.UniquePathProbability);
+            rand = Random.Range(0, 1);
+            vd.PathCheckRadius = (rand == 0 ? vic1.data.PathCheckRadius : vic2.data.PathCheckRadius);
+
+            rand = Random.Range(0, 1);
+            vd.SteeringAlignment = (rand == 0 ? vic1.data.SteeringAlignment : vic2.data.SteeringAlignment);
+            rand = Random.Range(0, 1);
+            vd.SteeringCohesion = (rand == 0 ? vic1.data.SteeringCohesion : vic2.data.SteeringCohesion);
+            rand = Random.Range(0, 1);
+            vd.SteeringCollisionAvoidance = (rand == 0 ? vic1.data.SteeringCollisionAvoidance : vic2.data.SteeringCollisionAvoidance);
+            rand = Random.Range(0, 1);
+            vd.SteeringFear = (rand == 0 ? vic1.data.SteeringFear : vic2.data.SteeringFear);
+            rand = Random.Range(0, 1);
+            vd.SteeringSeek = (rand == 0 ? vic1.data.SteeringSeek : vic2.data.SteeringSeek);
+            rand = Random.Range(0, 1);
+            vd.SteeringSeparation = (rand == 0 ? vic1.data.SteeringSeparation : vic2.data.SteeringSeparation);
+            rand = Random.Range(0, 1);
+            vd.SteeringSideWalkLove = (rand == 0 ? vic1.data.SteeringSideWalkLove : vic2.data.SteeringSideWalkLove);
+            rand = Random.Range(0, 1);
+            vd.SteeringWallAvoidance = (rand == 0 ? vic1.data.SteeringWallAvoidance : vic2.data.SteeringWallAvoidance);
+            rand = Random.Range(0, 1);
+            vd.SteeringWander = (rand == 0 ? vic1.data.SteeringWander : vic2.data.SteeringWander);
+
+            newGV.victimID = victimIds++;
+            newGV.data = vd;
+
+            victims.Add(newGV);
         }
 
+        // Now we have a list of new GeneticVictims, but no actual victims yet, so we have to instantiate them
+        int sIdx = 0;
+        foreach (GeneticVictim v in victims) {
+            GameObject g = (GameObject)Instantiate(victimPrefab, new Vector3(initialPositions[sIdx].x, 1, initialPositions[sIdx].y), Quaternion.identity);
+            VictimMonitor vm = g.GetComponent<VictimMonitor>();
+            VictimControl vc = g.GetComponent<VictimControl>();
+            VictimData vd = g.GetComponent<VictimData>();
+            VictimSteering vs = g.GetComponent<VictimSteering>();
+
+            // Clone over values we created earlier
+            vd.cloneValues(v.data);
+
+            // Assign necessary values
+            vc.head = vd;
+            vs.head = vd;
+            vm.victimID = v.victimID;
+            vm.geneticMaster = this;
+
+            v.data = vd;
+            v.monitor = vm;
+
+            // Propagate values from head into other components
+            vc.updateFromHead();
+        }
+
+        if (LOGGING) {
+            using (logFile = new StreamWriter(logFileName, true, System.Text.Encoding.UTF8)) {
+                logFile.WriteLine("Level " + (runCount++) + " (" + System.DateTime.Now + ")\n====================");
+                foreach (GeneticVictim v in victims) {
+                    logFile.Write(v);
+                }
+            }
+        }
     }
 
     /// <summary>
