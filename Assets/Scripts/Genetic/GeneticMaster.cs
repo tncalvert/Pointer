@@ -177,12 +177,6 @@ public class GeneticMaster : MonoBehaviour {
         }
     }
 
-    void Update() {
-        foreach (var v in victims) {
-            getFitness(v);
-        }
-    }
-
     /// <summary>
     /// Calculates the fitness of all the victims that were in play during the last level
     /// </summary>
@@ -242,8 +236,9 @@ public class GeneticMaster : MonoBehaviour {
         int sizeDiff = victims.Count - halfSize;
 
         // Combine victims and discardedVictims and sort them
-        List<GeneticVictim> sortedVictims = victims.Union(discardedVictims).ToList();
-        sortedVictims.Sort((m, n) => m.fitness.CompareTo(n.fitness));
+        Debug.Log(discardedVictims);
+        List<GeneticVictim> sortedVictims = victims.Concat(discardedVictims).ToList();
+        sortedVictims = sortedVictims.OrderByDescending(m => m.fitness).ToList();
 
         // Copy the best of the bad victims to discardedVictims, ignoring the rest
         discardedVictims = sortedVictims.Skip(halfSize).Take(sizeDiff).ToList();
@@ -425,6 +420,8 @@ public class GeneticMaster : MonoBehaviour {
 
             victims.Add(gv);
         }
+
+        discardedVictims = new List<GeneticVictim>();
 
         // If we are logging, print a record of all the victims
         if (LOGGING) {
