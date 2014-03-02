@@ -17,15 +17,17 @@ public class GunControl : MonoBehaviour {
 	//which victim is holding this gun
 	public VictimControl victim;
 
+    public VictimMonitor victimMonitor;
+
 	// Use this for initialization
 	void Start () {
-	
+        victimMonitor = victim.gameObject.GetComponent<VictimMonitor>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 
+        
 		fireTimeLeft -= Time.deltaTime;
 	}
 
@@ -47,6 +49,8 @@ public class GunControl : MonoBehaviour {
 			Vector3 direction = new Vector3(muzzleFlash.transform.forward.x, 0, muzzleFlash.transform.forward.z);
 			if (Physics.Raycast(this.transform.position,direction,out hit,9999,~(1<<LayerMask.NameToLayer("Victims")))){
 				//Debug.DrawLine(this.transform.position, hit.collider.transform.position,Color.cyan, 1);
+                // Inform the monitor of a hit
+                victimMonitor.DealtDamage(1f);
 			}
 			
 		}

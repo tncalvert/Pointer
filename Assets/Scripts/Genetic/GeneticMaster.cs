@@ -184,6 +184,7 @@ public class GeneticMaster : MonoBehaviour {
 
         totalLevelTime = victims.Max(m => m.monitor.timeSpentAlive);
         totalDamageToPlayer = victims.Sum(m => m.monitor.damageToPlayer);
+        Debug.Log(totalDamageToPlayer);
 
         foreach (GeneticVictim v in victims) {
             v.fitness = getFitness(v);

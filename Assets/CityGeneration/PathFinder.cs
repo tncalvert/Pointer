@@ -102,7 +102,7 @@ public class PathFinder : MonoBehaviour {
 
 		this.wayPoints = new List<WayPoint> ();
 		this.hotelLocations = new List<Vector2> ();
-		
+        this.gunShopLocations = new List<Vector2>();
 
 	}
 
