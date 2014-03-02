@@ -14,6 +14,9 @@ public class GunControl : MonoBehaviour {
 
 	private float fireTimeLeft = 0;
 
+	//which victim is holding this gun
+	public VictimControl victim;
+
 	// Use this for initialization
 	void Start () {
 	

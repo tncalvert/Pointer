@@ -172,7 +172,7 @@ public class VictimControl : MonoBehaviour {
 
 	private void generateGun(){
 		this.gunModel = (GunControl)GameObject.Instantiate (this.gunModel);
-	
+		this.gunModel.victim = this;
 	}
 
 	// Update is called once per frame
