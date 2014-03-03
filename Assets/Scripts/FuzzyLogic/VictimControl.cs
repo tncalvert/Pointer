@@ -48,7 +48,7 @@ public class VictimControl : MonoBehaviour {
 
 	// does the victim have a gun. Yes or no?
 	private bool hasGun;
-
+	public bool HasGun{ get { return this.hasGun; } }
 	// the probability that this victim will spawn with a gun
 	public float hasGunProbability = .4f;
 
@@ -199,11 +199,13 @@ public class VictimControl : MonoBehaviour {
 		//update the gun position
 		this.updateGun ();
 
+		/* REMOVED IN FAVOR OF PUTTING THIS IN THE VICTIMEVENTPLANNING SCRIPT
 		if (this.fuzzyPlanTimeLeft <= 0) {
 			this.fuzzyPlanTimeLeft = this.planFuzzyCoolDownTime;
 			this.planForAction (this.computeCurrentAction ());
 		}
 		this.fuzzyPlanTimeLeft -= Time.deltaTime;
+		*/
 
 	}
 
