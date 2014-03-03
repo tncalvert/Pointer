@@ -47,7 +47,10 @@ public class VictimControl : MonoBehaviour {
 	public int ammo;
 
 	// does the victim have a gun. Yes or no?
-	public bool hasGun;
+	private bool hasGun;
+
+	// the probability that this victim will spawn with a gun
+	public float hasGunProbability = .4f;
 
 	// the name of the victim
 	public string name;
@@ -145,10 +148,10 @@ public class VictimControl : MonoBehaviour {
 		//TODO register update functions for sets
 
 
-		this.hasGun = true;
-
-		this.generateGun ();
-
+		//Randomly decide if this victim should have a gun from the start
+		if (this.hasGunProbability >= Random.value) {
+			this.generateGun ();
+		}
 
 		this.toughness = Random.value;
 		this.sleepyness = .5f * Random.value;
@@ -171,6 +174,7 @@ public class VictimControl : MonoBehaviour {
 	}
 
 	private void generateGun(){
+		this.hasGun = true;
 		this.gunModel = (GunControl)GameObject.Instantiate (this.gunModel);
 		this.gunModel.victim = this;
         this.gunModel.player = GameObject.Find("PlayerModel(Clone)");
