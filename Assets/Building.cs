@@ -44,7 +44,8 @@ public class Building {
 				insp.getTextFunc = () => {
 					List<string> lines = new List<string>();
 					lines.Add ("GUN SHOP");
-					lines.Add ("INFO");
+					lines.Add ("People will come here to");
+					lines.Add ("pick up guns and ammo.");
 					return lines;
 				};
 
@@ -56,7 +57,8 @@ public class Building {
 				insp.getTextFunc = () => {
 					List<string> lines = new List<string>();
 					lines.Add ("HOTEL");
-					lines.Add ("INFO");
+					lines.Add ("People will come here to");
+					lines.Add ("sleep and restore energy");
 					return lines;
 				};
 			}
