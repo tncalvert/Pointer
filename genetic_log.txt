@@ -1,438 +1,146 @@
-﻿Level 0 (3/2/2014 5:38:22 PM)
+﻿Level 0 (3/3/2014 10:57:00 AM)
 ====================
 Victim 0 - Fitness: 0
-	Bravery: 0.6078758	Toughness: 0.565707	Independence: 0.6812391
-	Max Velocity: 19.01066	Max Force: 41.26704
-	Arrival: 5.484269	Complete Arrival: 7.410785	Unique Path: 0.5718597	Path Check: 13.21038
+	Bravery: 0.6608707	Toughness: 0.6185888	Independence: 0.4489381
+	Max Velocity: 26.3158	Max Force: 37.22401
+	Arrival: 15.17986	Complete Arrival: 2.908388	Unique Path: 0.7750064	Path Check: 13.85929
 	Steering Weights
-		Alignment: 0.9645123	Cohesion: 0.9638137	Collision Avoidance: 2.444427
-		Fear: 3.810997	Seek: 0.9114224	Separation: 1.322744
-		Wall Avoidance: 3.213327	Wander: 0.5476848	Sidewalk: 1.15388
+		Alignment: 1.15359	Cohesion: 1.023317	Collision Avoidance: 2.9202
+		Fear: 3.00715	Seek: 1.161125	Separation: 1.133056
+		Wall Avoidance: 2.930192	Wander: 0.8408566	Sidewalk: 0.898325
 
 Victim 1 - Fitness: 0
-	Bravery: 0.5862627	Toughness: 0.3496248	Independence: 0.6324666
-	Max Velocity: 20.36054	Max Force: 52.44885
-	Arrival: 9.766894	Complete Arrival: 3.655556	Unique Path: 0.647733	Path Check: 13.57896
+	Bravery: 0.5375754	Toughness: 0.344613	Independence: 0.4009399
+	Max Velocity: 29.41449	Max Force: 24.93168
+	Arrival: 6.129608	Complete Arrival: 6.254181	Unique Path: 0.5468546	Path Check: 12.60624
 	Steering Weights
-		Alignment: 0.890111	Cohesion: 0.8910697	Collision Avoidance: 2.328011
-		Fear: 4.993635	Seek: 0.8122801	Separation: 1.336187
-		Wall Avoidance: 3.113507	Wander: 0.4426423	Sidewalk: 0.8017334
+		Alignment: 1.014518	Cohesion: 0.8595707	Collision Avoidance: 2.988986
+		Fear: 3.986619	Seek: 1.129412	Separation: 1.003922
+		Wall Avoidance: 3.247459	Wander: 0.3405699	Sidewalk: 1.096403
 
 Victim 2 - Fitness: 0
-	Bravery: 0.5759259	Toughness: 0.5520923	Independence: 0.5117975
-	Max Velocity: 17.03471	Max Force: 31.56843
-	Arrival: 4.00946	Complete Arrival: 4.225057	Unique Path: 0.6589552	Path Check: 12.35841
+	Bravery: 0.4099264	Toughness: 0.335622	Independence: 0.380648
+	Max Velocity: 15.33148	Max Force: 58.51188
+	Arrival: 5.291381	Complete Arrival: 3.612424	Unique Path: 0.4365522	Path Check: 6.105529
 	Steering Weights
-		Alignment: 0.9154292	Cohesion: 1.127966	Collision Avoidance: 3.344447
-		Fear: 4.652837	Seek: 1.044719	Separation: 1.167573
-		Wall Avoidance: 2.478677	Wander: 0.7008614	Sidewalk: 0.9834701
+		Alignment: 1.165932	Cohesion: 0.7723841	Collision Avoidance: 2.50622
+		Fear: 3.777175	Seek: 0.8318375	Separation: 1.045927
+		Wall Avoidance: 2.808853	Wander: 0.6308562	Sidewalk: 0.8751823
 
 Victim 3 - Fitness: 0
-	Bravery: 0.4207158	Toughness: 0.5994864	Independence: 0.3392698
-	Max Velocity: 16.11162	Max Force: 44.02221
-	Arrival: 9.774167	Complete Arrival: 7.275648	Unique Path: 0.4607139	Path Check: 6.847395
+	Bravery: 0.4725481	Toughness: 0.6628201	Independence: 0.6855974
+	Max Velocity: 14.07127	Max Force: 45.80762
+	Arrival: 4.462989	Complete Arrival: 4.092302	Unique Path: 0.5437935	Path Check: 9.15424
 	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.950892	Seek: 0.7783048	Separation: 1.102558
-		Wall Avoidance: 2.882005	Wander: 0.6887182	Sidewalk: 1.240172
+		Alignment: 1.191929	Cohesion: 1.176744	Collision Avoidance: 3.221857
+		Fear: 4.146804	Seek: 1.243793	Separation: 1.374854
+		Wall Avoidance: 3.228388	Wander: 0.8995615	Sidewalk: 1.024852
 
 Victim 4 - Fitness: 0
-	Bravery: 0.4093053	Toughness: 0.5272311	Independence: 0.376558
-	Max Velocity: 16.40119	Max Force: 48.0268
-	Arrival: 7.540976	Complete Arrival: 4.9987	Unique Path: 0.7348842	Path Check: 6.874945
+	Bravery: 0.4721253	Toughness: 0.4239317	Independence: 0.6253091
+	Max Velocity: 19.49602	Max Force: 43.99092
+	Arrival: 13.17634	Complete Arrival: 3.496112	Unique Path: 0.311796	Path Check: 7.035265
 	Steering Weights
-		Alignment: 0.9801619	Cohesion: 1.199351	Collision Avoidance: 3.957509
-		Fear: 3.154744	Seek: 1.159502	Separation: 1.200283
-		Wall Avoidance: 2.855838	Wander: 0.3883093	Sidewalk: 0.9493506
+		Alignment: 0.9852686	Cohesion: 0.9669333	Collision Avoidance: 3.109244
+		Fear: 3.576959	Seek: 0.8501394	Separation: 1.142827
+		Wall Avoidance: 3.001704	Wander: 0.4838753	Sidewalk: 0.8144321
 
 Victim 5 - Fitness: 0
-	Bravery: 0.5156363	Toughness: 0.6392705	Independence: 0.6775053
-	Max Velocity: 24.65718	Max Force: 54.82556
-	Arrival: 9.513319	Complete Arrival: 6.948999	Unique Path: 0.7488074	Path Check: 13.48861
+	Bravery: 0.5291836	Toughness: 0.5649414	Independence: 0.5851141
+	Max Velocity: 16.45713	Max Force: 59.44635
+	Arrival: 9.294258	Complete Arrival: 5.397653	Unique Path: 0.3462813	Path Check: 9.009159
 	Steering Weights
-		Alignment: 1.047054	Cohesion: 1.173961	Collision Avoidance: 3.230586
-		Fear: 3.851249	Seek: 0.772938	Separation: 1.023502
-		Wall Avoidance: 2.322864	Wander: 0.778831	Sidewalk: 0.9102889
+		Alignment: 1.077958	Cohesion: 1.235378	Collision Avoidance: 3.125649
+		Fear: 3.539382	Seek: 0.9225343	Separation: 1.211586
+		Wall Avoidance: 3.11081	Wander: 0.8593303	Sidewalk: 0.815272
 
 Victim 6 - Fitness: 0
-	Bravery: 0.4277312	Toughness: 0.4948848	Independence: 0.599216
-	Max Velocity: 28.3192	Max Force: 28.24062
-	Arrival: 4.887296	Complete Arrival: 7.264687	Unique Path: 0.6361538	Path Check: 10.63103
+	Bravery: 0.4552343	Toughness: 0.4145315	Independence: 0.5045005
+	Max Velocity: 19.53471	Max Force: 51.89169
+	Arrival: 7.084488	Complete Arrival: 5.703937	Unique Path: 0.6683656	Path Check: 6.796803
 	Steering Weights
-		Alignment: 1.121541	Cohesion: 0.9409792	Collision Avoidance: 3.165144
-		Fear: 4.94609	Seek: 1.200953	Separation: 1.039638
-		Wall Avoidance: 2.364941	Wander: 0.7278211	Sidewalk: 0.9241585
+		Alignment: 0.8572174	Cohesion: 0.9473925	Collision Avoidance: 2.066516
+		Fear: 4.596661	Seek: 1.023806	Separation: 1.32988
+		Wall Avoidance: 2.305925	Wander: 0.8627329	Sidewalk: 0.9584875
 
 Victim 7 - Fitness: 0
-	Bravery: 0.4543926	Toughness: 0.6032334	Independence: 0.6788598
-	Max Velocity: 13.07299	Max Force: 39.97653
-	Arrival: 6.235472	Complete Arrival: 6.918337	Unique Path: 0.7313195	Path Check: 6.265862
+	Bravery: 0.6516789	Toughness: 0.3256753	Independence: 0.311785
+	Max Velocity: 11.05707	Max Force: 40.2127
+	Arrival: 7.772002	Complete Arrival: 5.540441	Unique Path: 0.7045606	Path Check: 8.08156
 	Steering Weights
-		Alignment: 0.9491655	Cohesion: 1.079412	Collision Avoidance: 2.003454
-		Fear: 4.675526	Seek: 0.7617886	Separation: 1.184139
-		Wall Avoidance: 3.236198	Wander: 0.8777122	Sidewalk: 0.8266736
+		Alignment: 0.7989384	Cohesion: 1.028956	Collision Avoidance: 2.913653
+		Fear: 4.201343	Seek: 1.082155	Separation: 1.24149
+		Wall Avoidance: 2.844508	Wander: 0.8449559	Sidewalk: 1.125874
 
 Victim 8 - Fitness: 0
-	Bravery: 0.5308858	Toughness: 0.4675016	Independence: 0.5866686
-	Max Velocity: 22.85463	Max Force: 21.47576
-	Arrival: 13.04971	Complete Arrival: 8.300565	Unique Path: 0.6511261	Path Check: 13.20417
+	Bravery: 0.6333543	Toughness: 0.3839528	Independence: 0.384845
+	Max Velocity: 27.69087	Max Force: 59.88052
+	Arrival: 4.041519	Complete Arrival: 2.381639	Unique Path: 0.6506162	Path Check: 10.95456
 	Steering Weights
-		Alignment: 1.013404	Cohesion: 1.223196	Collision Avoidance: 3.576931
-		Fear: 4.636849	Seek: 1.160832	Separation: 1.04829
-		Wall Avoidance: 3.160844	Wander: 0.6620454	Sidewalk: 0.9698831
+		Alignment: 0.8345773	Cohesion: 0.7950085	Collision Avoidance: 3.225802
+		Fear: 4.459569	Seek: 0.7935454	Separation: 1.317015
+		Wall Avoidance: 3.189151	Wander: 0.662581	Sidewalk: 0.7952005
 
 Victim 9 - Fitness: 0
-	Bravery: 0.536597	Toughness: 0.3132071	Independence: 0.5924737
-	Max Velocity: 29.79724	Max Force: 23.22473
-	Arrival: 11.95304	Complete Arrival: 6.903237	Unique Path: 0.7398354	Path Check: 7.434768
+	Bravery: 0.3431377	Toughness: 0.6922445	Independence: 0.5081418
+	Max Velocity: 26.55259	Max Force: 38.58049
+	Arrival: 7.31758	Complete Arrival: 4.223168	Unique Path: 0.2856836	Path Check: 6.540088
 	Steering Weights
-		Alignment: 1.160294	Cohesion: 1.207928	Collision Avoidance: 3.165935
-		Fear: 3.682954	Seek: 0.9049217	Separation: 1.23596
-		Wall Avoidance: 2.968068	Wander: 0.506237	Sidewalk: 1.192101
+		Alignment: 0.9797479	Cohesion: 1.177204	Collision Avoidance: 3.857841
+		Fear: 3.795935	Seek: 1.219031	Separation: 1.39536
+		Wall Avoidance: 2.904461	Wander: 0.6275053	Sidewalk: 0.9373592
 
 Victim 10 - Fitness: 0
-	Bravery: 0.3439039	Toughness: 0.351302	Independence: 0.4462297
-	Max Velocity: 13.66907	Max Force: 23.54417
-	Arrival: 4.435227	Complete Arrival: 8.076569	Unique Path: 0.551201	Path Check: 6.281275
+	Bravery: 0.4507611	Toughness: 0.4126708	Independence: 0.5433586
+	Max Velocity: 26.63679	Max Force: 30.57729
+	Arrival: 13.27324	Complete Arrival: 7.604341	Unique Path: 0.4860798	Path Check: 13.24737
 	Steering Weights
-		Alignment: 1.158811	Cohesion: 1.155792	Collision Avoidance: 2.056774
-		Fear: 4.100797	Seek: 1.232289	Separation: 1.074646
-		Wall Avoidance: 3.130407	Wander: 0.5603438	Sidewalk: 1.186564
+		Alignment: 1.225547	Cohesion: 1.13139	Collision Avoidance: 3.728391
+		Fear: 4.613313	Seek: 1.051256	Separation: 1.329656
+		Wall Avoidance: 2.861966	Wander: 0.404857	Sidewalk: 1.196333
 
 Victim 11 - Fitness: 0
-	Bravery: 0.5804227	Toughness: 0.4676324	Independence: 0.3942553
-	Max Velocity: 29.53928	Max Force: 52.76204
-	Arrival: 9.390082	Complete Arrival: 4.117512	Unique Path: 0.6692393	Path Check: 12.76968
+	Bravery: 0.3190956	Toughness: 0.4047734	Independence: 0.6560407
+	Max Velocity: 26.00489	Max Force: 23.57266
+	Arrival: 13.20862	Complete Arrival: 3.888334	Unique Path: 0.5150138	Path Check: 8.527912
 	Steering Weights
-		Alignment: 0.9954985	Cohesion: 1.189659	Collision Avoidance: 2.648143
-		Fear: 3.979197	Seek: 0.9528372	Separation: 1.016629
-		Wall Avoidance: 3.247985	Wander: 0.6901718	Sidewalk: 1.111934
+		Alignment: 0.9088074	Cohesion: 1.108766	Collision Avoidance: 2.299568
+		Fear: 4.79672	Seek: 0.8285549	Separation: 1.034616
+		Wall Avoidance: 2.618179	Wander: 0.5473191	Sidewalk: 0.7764508
 
 Victim 12 - Fitness: 0
-	Bravery: 0.3166652	Toughness: 0.342138	Independence: 0.6820233
-	Max Velocity: 13.68526	Max Force: 39.9399
-	Arrival: 6.193491	Complete Arrival: 5.583575	Unique Path: 0.585946	Path Check: 13.39069
+	Bravery: 0.5285214	Toughness: 0.6828365	Independence: 0.3504319
+	Max Velocity: 13.75995	Max Force: 28.79063
+	Arrival: 8.031175	Complete Arrival: 8.172347	Unique Path: 0.7561932	Path Check: 7.241012
 	Steering Weights
-		Alignment: 0.8693877	Cohesion: 1.084506	Collision Avoidance: 2.749072
-		Fear: 3.265578	Seek: 1.06608	Separation: 1.105531
-		Wall Avoidance: 3.073353	Wander: 0.6853685	Sidewalk: 1.10499
+		Alignment: 1.006801	Cohesion: 1.103042	Collision Avoidance: 2.904317
+		Fear: 3.032783	Seek: 1.039891	Separation: 1.135569
+		Wall Avoidance: 2.446505	Wander: 0.8465362	Sidewalk: 0.8078449
 
 Victim 13 - Fitness: 0
-	Bravery: 0.3117847	Toughness: 0.6956016	Independence: 0.6739253
-	Max Velocity: 23.52044	Max Force: 41.80983
-	Arrival: 10.97608	Complete Arrival: 6.441802	Unique Path: 0.5551271	Path Check: 6.555425
+	Bravery: 0.3556912	Toughness: 0.5037699	Independence: 0.3434097
+	Max Velocity: 22.01877	Max Force: 28.41923
+	Arrival: 10.84381	Complete Arrival: 2.15639	Unique Path: 0.72674	Path Check: 12.40453
 	Steering Weights
-		Alignment: 1.169352	Cohesion: 0.8330497	Collision Avoidance: 2.080558
-		Fear: 3.263955	Seek: 1.084112	Separation: 1.163149
-		Wall Avoidance: 2.526197	Wander: 0.3830168	Sidewalk: 1.070022
+		Alignment: 0.7571469	Cohesion: 1.210377	Collision Avoidance: 2.457015
+		Fear: 4.653898	Seek: 0.7995988	Separation: 1.253615
+		Wall Avoidance: 3.059231	Wander: 0.7562733	Sidewalk: 0.9432589
 
 Victim 14 - Fitness: 0
-	Bravery: 0.4355681	Toughness: 0.4279954	Independence: 0.6744901
-	Max Velocity: 15.36146	Max Force: 34.68675
-	Arrival: 7.710742	Complete Arrival: 8.767701	Unique Path: 0.2447594	Path Check: 10.13965
+	Bravery: 0.3122849	Toughness: 0.65847	Independence: 0.6171227
+	Max Velocity: 16.55233	Max Force: 41.05824
+	Arrival: 8.108591	Complete Arrival: 8.81021	Unique Path: 0.4675082	Path Check: 9.339746
 	Steering Weights
-		Alignment: 0.8603522	Cohesion: 1.017135	Collision Avoidance: 3.158535
-		Fear: 4.756226	Seek: 1.156061	Separation: 1.279521
-		Wall Avoidance: 2.774534	Wander: 0.3635656	Sidewalk: 1.056718
+		Alignment: 0.931964	Cohesion: 0.8545584	Collision Avoidance: 3.529337
+		Fear: 4.455028	Seek: 1.097932	Separation: 1.165153
+		Wall Avoidance: 2.394548	Wander: 0.7794129	Sidewalk: 1.110144
 
 Victim 15 - Fitness: 0
-	Bravery: 0.6519427	Toughness: 0.6601668	Independence: 0.5202706
-	Max Velocity: 11.84558	Max Force: 22.79518
-	Arrival: 6.550801	Complete Arrival: 4.074303	Unique Path: 0.2479532	Path Check: 10.36341
+	Bravery: 0.5128295	Toughness: 0.5958939	Independence: 0.6993751
+	Max Velocity: 25.37451	Max Force: 34.53736
+	Arrival: 10.89774	Complete Arrival: 8.190997	Unique Path: 0.6529563	Path Check: 6.072224
 	Steering Weights
-		Alignment: 1.018939	Cohesion: 1.039685	Collision Avoidance: 3.638104
-		Fear: 4.506441	Seek: 0.8635655	Separation: 1.242274
-		Wall Avoidance: 2.531924	Wander: 0.5268979	Sidewalk: 0.8591068
-
-Results of Level 0 (3/2/2014 5:40:59 PM)
-====================
-Victim 0 - Fitness: 3.779757
-	Bravery: 0.6078758	Toughness: 0.565707	Independence: 0.6812391
-	Max Velocity: 19.01066	Max Force: 41.26704
-	Arrival: 5.484269	Complete Arrival: 7.410785	Unique Path: 0.5718597	Path Check: 13.21038
-	Steering Weights
-		Alignment: 0.9645123	Cohesion: 0.9638137	Collision Avoidance: 2.444427
-		Fear: 3.810997	Seek: 0.9114224	Separation: 1.322744
-		Wall Avoidance: 3.213327	Wander: 0.5476848	Sidewalk: 1.15388
-
-Victim 1 - Fitness: 4.780863
-	Bravery: 0.5862627	Toughness: 0.3496248	Independence: 0.6324666
-	Max Velocity: 20.36054	Max Force: 52.44885
-	Arrival: 9.766894	Complete Arrival: 3.655556	Unique Path: 0.647733	Path Check: 13.57896
-	Steering Weights
-		Alignment: 0.890111	Cohesion: 0.8910697	Collision Avoidance: 2.328011
-		Fear: 4.993635	Seek: 0.8122801	Separation: 1.336187
-		Wall Avoidance: 3.113507	Wander: 0.4426423	Sidewalk: 0.8017334
-
-Victim 2 - Fitness: 6.304958
-	Bravery: 0.5759259	Toughness: 0.5520923	Independence: 0.5117975
-	Max Velocity: 17.03471	Max Force: 31.56843
-	Arrival: 4.00946	Complete Arrival: 4.225057	Unique Path: 0.6589552	Path Check: 12.35841
-	Steering Weights
-		Alignment: 0.9154292	Cohesion: 1.127966	Collision Avoidance: 3.344447
-		Fear: 4.652837	Seek: 1.044719	Separation: 1.167573
-		Wall Avoidance: 2.478677	Wander: 0.7008614	Sidewalk: 0.9834701
-
-Victim 3 - Fitness: 15.29821
-	Bravery: 0.4207158	Toughness: 0.5994864	Independence: 0.3392698
-	Max Velocity: 16.11162	Max Force: 44.02221
-	Arrival: 9.774167	Complete Arrival: 7.275648	Unique Path: 0.4607139	Path Check: 6.847395
-	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.950892	Seek: 0.7783048	Separation: 1.102558
-		Wall Avoidance: 2.882005	Wander: 0.6887182	Sidewalk: 1.240172
-
-Victim 4 - Fitness: 6.006997
-	Bravery: 0.4093053	Toughness: 0.5272311	Independence: 0.376558
-	Max Velocity: 16.40119	Max Force: 48.0268
-	Arrival: 7.540976	Complete Arrival: 4.9987	Unique Path: 0.7348842	Path Check: 6.874945
-	Steering Weights
-		Alignment: 0.9801619	Cohesion: 1.199351	Collision Avoidance: 3.957509
-		Fear: 3.154744	Seek: 1.159502	Separation: 1.200283
-		Wall Avoidance: 2.855838	Wander: 0.3883093	Sidewalk: 0.9493506
-
-Victim 5 - Fitness: 12.78014
-	Bravery: 0.5156363	Toughness: 0.6392705	Independence: 0.6775053
-	Max Velocity: 24.65718	Max Force: 54.82556
-	Arrival: 9.513319	Complete Arrival: 6.948999	Unique Path: 0.7488074	Path Check: 13.48861
-	Steering Weights
-		Alignment: 1.047054	Cohesion: 1.173961	Collision Avoidance: 3.230586
-		Fear: 3.851249	Seek: 0.772938	Separation: 1.023502
-		Wall Avoidance: 2.322864	Wander: 0.778831	Sidewalk: 0.9102889
-
-Victim 6 - Fitness: 10.10507
-	Bravery: 0.4277312	Toughness: 0.4948848	Independence: 0.599216
-	Max Velocity: 28.3192	Max Force: 28.24062
-	Arrival: 4.887296	Complete Arrival: 7.264687	Unique Path: 0.6361538	Path Check: 10.63103
-	Steering Weights
-		Alignment: 1.121541	Cohesion: 0.9409792	Collision Avoidance: 3.165144
-		Fear: 4.94609	Seek: 1.200953	Separation: 1.039638
-		Wall Avoidance: 2.364941	Wander: 0.7278211	Sidewalk: 0.9241585
-
-Victim 7 - Fitness: 3.313676
-	Bravery: 0.4543926	Toughness: 0.6032334	Independence: 0.6788598
-	Max Velocity: 13.07299	Max Force: 39.97653
-	Arrival: 6.235472	Complete Arrival: 6.918337	Unique Path: 0.7313195	Path Check: 6.265862
-	Steering Weights
-		Alignment: 0.9491655	Cohesion: 1.079412	Collision Avoidance: 2.003454
-		Fear: 4.675526	Seek: 0.7617886	Separation: 1.184139
-		Wall Avoidance: 3.236198	Wander: 0.8777122	Sidewalk: 0.8266736
-
-Victim 8 - Fitness: 10.69343
-	Bravery: 0.5308858	Toughness: 0.4675016	Independence: 0.5866686
-	Max Velocity: 22.85463	Max Force: 21.47576
-	Arrival: 13.04971	Complete Arrival: 8.300565	Unique Path: 0.6511261	Path Check: 13.20417
-	Steering Weights
-		Alignment: 1.013404	Cohesion: 1.223196	Collision Avoidance: 3.576931
-		Fear: 4.636849	Seek: 1.160832	Separation: 1.04829
-		Wall Avoidance: 3.160844	Wander: 0.6620454	Sidewalk: 0.9698831
-
-Victim 9 - Fitness: 2.486751
-	Bravery: 0.536597	Toughness: 0.3132071	Independence: 0.5924737
-	Max Velocity: 29.79724	Max Force: 23.22473
-	Arrival: 11.95304	Complete Arrival: 6.903237	Unique Path: 0.7398354	Path Check: 7.434768
-	Steering Weights
-		Alignment: 1.160294	Cohesion: 1.207928	Collision Avoidance: 3.165935
-		Fear: 3.682954	Seek: 0.9049217	Separation: 1.23596
-		Wall Avoidance: 2.968068	Wander: 0.506237	Sidewalk: 1.192101
-
-Victim 10 - Fitness: 8.682016
-	Bravery: 0.3439039	Toughness: 0.351302	Independence: 0.4462297
-	Max Velocity: 13.66907	Max Force: 23.54417
-	Arrival: 4.435227	Complete Arrival: 8.076569	Unique Path: 0.551201	Path Check: 6.281275
-	Steering Weights
-		Alignment: 1.158811	Cohesion: 1.155792	Collision Avoidance: 2.056774
-		Fear: 4.100797	Seek: 1.232289	Separation: 1.074646
-		Wall Avoidance: 3.130407	Wander: 0.5603438	Sidewalk: 1.186564
-
-Victim 11 - Fitness: 14.53184
-	Bravery: 0.5804227	Toughness: 0.4676324	Independence: 0.3942553
-	Max Velocity: 29.53928	Max Force: 52.76204
-	Arrival: 9.390082	Complete Arrival: 4.117512	Unique Path: 0.6692393	Path Check: 12.76968
-	Steering Weights
-		Alignment: 0.9954985	Cohesion: 1.189659	Collision Avoidance: 2.648143
-		Fear: 3.979197	Seek: 0.9528372	Separation: 1.016629
-		Wall Avoidance: 3.247985	Wander: 0.6901718	Sidewalk: 1.111934
-
-Victim 12 - Fitness: 12.63674
-	Bravery: 0.3166652	Toughness: 0.342138	Independence: 0.6820233
-	Max Velocity: 13.68526	Max Force: 39.9399
-	Arrival: 6.193491	Complete Arrival: 5.583575	Unique Path: 0.585946	Path Check: 13.39069
-	Steering Weights
-		Alignment: 0.8693877	Cohesion: 1.084506	Collision Avoidance: 2.749072
-		Fear: 3.265578	Seek: 1.06608	Separation: 1.105531
-		Wall Avoidance: 3.073353	Wander: 0.6853685	Sidewalk: 1.10499
-
-Victim 13 - Fitness: 3.918427
-	Bravery: 0.3117847	Toughness: 0.6956016	Independence: 0.6739253
-	Max Velocity: 23.52044	Max Force: 41.80983
-	Arrival: 10.97608	Complete Arrival: 6.441802	Unique Path: 0.5551271	Path Check: 6.555425
-	Steering Weights
-		Alignment: 1.169352	Cohesion: 0.8330497	Collision Avoidance: 2.080558
-		Fear: 3.263955	Seek: 1.084112	Separation: 1.163149
-		Wall Avoidance: 2.526197	Wander: 0.3830168	Sidewalk: 1.070022
-
-Victim 14 - Fitness: 7.693781
-	Bravery: 0.4355681	Toughness: 0.4279954	Independence: 0.6744901
-	Max Velocity: 15.36146	Max Force: 34.68675
-	Arrival: 7.710742	Complete Arrival: 8.767701	Unique Path: 0.2447594	Path Check: 10.13965
-	Steering Weights
-		Alignment: 0.8603522	Cohesion: 1.017135	Collision Avoidance: 3.158535
-		Fear: 4.756226	Seek: 1.156061	Separation: 1.279521
-		Wall Avoidance: 2.774534	Wander: 0.3635656	Sidewalk: 1.056718
-
-Victim 15 - Fitness: 14.75908
-	Bravery: 0.6519427	Toughness: 0.6601668	Independence: 0.5202706
-	Max Velocity: 11.84558	Max Force: 22.79518
-	Arrival: 6.550801	Complete Arrival: 4.074303	Unique Path: 0.2479532	Path Check: 10.36341
-	Steering Weights
-		Alignment: 1.018939	Cohesion: 1.039685	Collision Avoidance: 3.638104
-		Fear: 4.506441	Seek: 0.8635655	Separation: 1.242274
-		Wall Avoidance: 2.531924	Wander: 0.5268979	Sidewalk: 0.8591068
-
-Level 1 (3/2/2014 5:40:59 PM)
-====================
-Victim 3 - Fitness: 15.29821
-	Bravery: 0.4207158	Toughness: 0.5994864	Independence: 0.3392698
-	Max Velocity: 16.11162	Max Force: 44.02221
-	Arrival: 9.774167	Complete Arrival: 7.275648	Unique Path: 0.4607139	Path Check: 6.847395
-	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.950892	Seek: 0.7783048	Separation: 1.102558
-		Wall Avoidance: 2.882005	Wander: 0.6887182	Sidewalk: 1.240172
-
-Victim 15 - Fitness: 14.75908
-	Bravery: 0.6519427	Toughness: 0.6601668	Independence: 0.5202706
-	Max Velocity: 11.84558	Max Force: 22.79518
-	Arrival: 6.550801	Complete Arrival: 4.074303	Unique Path: 0.2479532	Path Check: 10.36341
-	Steering Weights
-		Alignment: 1.018939	Cohesion: 1.039685	Collision Avoidance: 3.638104
-		Fear: 4.506441	Seek: 0.8635655	Separation: 1.242274
-		Wall Avoidance: 2.531924	Wander: 0.5268979	Sidewalk: 0.8591068
-
-Victim 11 - Fitness: 14.53184
-	Bravery: 0.5804227	Toughness: 0.4676324	Independence: 0.3942553
-	Max Velocity: 29.53928	Max Force: 52.76204
-	Arrival: 9.390082	Complete Arrival: 4.117512	Unique Path: 0.6692393	Path Check: 12.76968
-	Steering Weights
-		Alignment: 0.9954985	Cohesion: 1.189659	Collision Avoidance: 2.648143
-		Fear: 3.979197	Seek: 0.9528372	Separation: 1.016629
-		Wall Avoidance: 3.247985	Wander: 0.6901718	Sidewalk: 1.111934
-
-Victim 5 - Fitness: 12.78014
-	Bravery: 0.5156363	Toughness: 0.6392705	Independence: 0.6775053
-	Max Velocity: 24.65718	Max Force: 54.82556
-	Arrival: 9.513319	Complete Arrival: 6.948999	Unique Path: 0.7488074	Path Check: 13.48861
-	Steering Weights
-		Alignment: 1.047054	Cohesion: 1.173961	Collision Avoidance: 3.230586
-		Fear: 3.851249	Seek: 0.772938	Separation: 1.023502
-		Wall Avoidance: 2.322864	Wander: 0.778831	Sidewalk: 0.9102889
-
-Victim 12 - Fitness: 12.63674
-	Bravery: 0.3166652	Toughness: 0.342138	Independence: 0.6820233
-	Max Velocity: 13.68526	Max Force: 39.9399
-	Arrival: 6.193491	Complete Arrival: 5.583575	Unique Path: 0.585946	Path Check: 13.39069
-	Steering Weights
-		Alignment: 0.8693877	Cohesion: 1.084506	Collision Avoidance: 2.749072
-		Fear: 3.265578	Seek: 1.06608	Separation: 1.105531
-		Wall Avoidance: 3.073353	Wander: 0.6853685	Sidewalk: 1.10499
-
-Victim 8 - Fitness: 10.69343
-	Bravery: 0.5308858	Toughness: 0.4675016	Independence: 0.5866686
-	Max Velocity: 22.85463	Max Force: 21.47576
-	Arrival: 13.04971	Complete Arrival: 8.300565	Unique Path: 0.6511261	Path Check: 13.20417
-	Steering Weights
-		Alignment: 1.013404	Cohesion: 1.223196	Collision Avoidance: 3.576931
-		Fear: 4.636849	Seek: 1.160832	Separation: 1.04829
-		Wall Avoidance: 3.160844	Wander: 0.6620454	Sidewalk: 0.9698831
-
-Victim 6 - Fitness: 10.10507
-	Bravery: 0.4277312	Toughness: 0.4948848	Independence: 0.599216
-	Max Velocity: 28.3192	Max Force: 28.24062
-	Arrival: 4.887296	Complete Arrival: 7.264687	Unique Path: 0.6361538	Path Check: 10.63103
-	Steering Weights
-		Alignment: 1.121541	Cohesion: 0.9409792	Collision Avoidance: 3.165144
-		Fear: 4.94609	Seek: 1.200953	Separation: 1.039638
-		Wall Avoidance: 2.364941	Wander: 0.7278211	Sidewalk: 0.9241585
-
-Victim 10 - Fitness: 8.682016
-	Bravery: 0.3439039	Toughness: 0.351302	Independence: 0.4462297
-	Max Velocity: 13.66907	Max Force: 23.54417
-	Arrival: 4.435227	Complete Arrival: 8.076569	Unique Path: 0.551201	Path Check: 6.281275
-	Steering Weights
-		Alignment: 1.158811	Cohesion: 1.155792	Collision Avoidance: 2.056774
-		Fear: 4.100797	Seek: 1.232289	Separation: 1.074646
-		Wall Avoidance: 3.130407	Wander: 0.5603438	Sidewalk: 1.186564
-
-Victim 16 - Fitness: 0
-	Bravery: 0.3166652	Toughness: 0.342138	Independence: 0.6820233
-	Max Velocity: 13.68526	Max Force: 54.82556
-	Arrival: 6.193491	Complete Arrival: 5.583575	Unique Path: 0.585946	Path Check: 13.39069
-	Steering Weights
-		Alignment: 0.8693877	Cohesion: 1.173961	Collision Avoidance: 2.749072
-		Fear: 3.265578	Seek: 1.06608	Separation: 1.023502
-		Wall Avoidance: 2.322864	Wander: 0.6853685	Sidewalk: 1.10499
-
-Victim 17 - Fitness: 0
-	Bravery: 0.4277312	Toughness: 0.4948848	Independence: 0.599216
-	Max Velocity: 16.11162	Max Force: 28.24062
-	Arrival: 9.774167	Complete Arrival: 7.264687	Unique Path: 0.6361538	Path Check: 10.63103
-	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.94609	Seek: 0.7783048	Separation: 1.039638
-		Wall Avoidance: 2.364941	Wander: 0.6887182	Sidewalk: 1.240172
-
-Victim 18 - Fitness: 0
-	Bravery: 0.4207158	Toughness: 0.5994864	Independence: 0.3392698
-	Max Velocity: 16.11162	Max Force: 44.02221
-	Arrival: 9.774167	Complete Arrival: 7.275648	Unique Path: 0.4607139	Path Check: 6.847395
-	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.950892	Seek: 0.7783048	Separation: 1.102558
-		Wall Avoidance: 2.882005	Wander: 0.6887182	Sidewalk: 1.240172
-
-Victim 19 - Fitness: 0
-	Bravery: 0.4207158	Toughness: 0.5994864	Independence: 0.3392698
-	Max Velocity: 16.11162	Max Force: 44.02221
-	Arrival: 9.774167	Complete Arrival: 7.275648	Unique Path: 0.4607139	Path Check: 6.847395
-	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.950892	Seek: 0.7783048	Separation: 1.102558
-		Wall Avoidance: 2.882005	Wander: 0.6887182	Sidewalk: 1.240172
-
-Victim 20 - Fitness: 0
-	Bravery: 0.5804227	Toughness: 0.342138	Independence: 0.3942553
-	Max Velocity: 13.68526	Max Force: 39.9399
-	Arrival: 9.390082	Complete Arrival: 5.583575	Unique Path: 0.6692393	Path Check: 12.76968
-	Steering Weights
-		Alignment: 0.9954985	Cohesion: 1.084506	Collision Avoidance: 2.648143
-		Fear: 3.265578	Seek: 1.06608	Separation: 1.016629
-		Wall Avoidance: 3.073353	Wander: 0.6901718	Sidewalk: 1.10499
-
-Victim 21 - Fitness: 0
-	Bravery: 0.5804227	Toughness: 0.342138	Independence: 0.3942553
-	Max Velocity: 13.68526	Max Force: 39.9399
-	Arrival: 6.193491	Complete Arrival: 5.583575	Unique Path: 0.585946	Path Check: 13.39069
-	Steering Weights
-		Alignment: 0.8693877	Cohesion: 1.084506	Collision Avoidance: 2.648143
-		Fear: 3.979197	Seek: 0.9528372	Separation: 1.016629
-		Wall Avoidance: 3.073353	Wander: 0.6901718	Sidewalk: 1.111934
-
-Victim 22 - Fitness: 0
-	Bravery: 0.4207158	Toughness: 0.5994864	Independence: 0.3392698
-	Max Velocity: 16.11162	Max Force: 44.02221
-	Arrival: 9.774167	Complete Arrival: 7.275648	Unique Path: 0.4607139	Path Check: 6.847395
-	Steering Weights
-		Alignment: 0.7521336	Cohesion: 0.8250721	Collision Avoidance: 3.020989
-		Fear: 4.950892	Seek: 0.7783048	Separation: 1.102558
-		Wall Avoidance: 2.882005	Wander: 0.6887182	Sidewalk: 1.240172
-
-Victim 23 - Fitness: 0
-	Bravery: 0.5156363	Toughness: 0.6392705	Independence: 0.5202706
-	Max Velocity: 11.84558	Max Force: 22.79518
-	Arrival: 6.550801	Complete Arrival: 4.074303	Unique Path: 0.7488074	Path Check: 13.48861
-	Steering Weights
-		Alignment: 1.018939	Cohesion: 1.173961	Collision Avoidance: 3.638104
-		Fear: 3.851249	Seek: 0.772938	Separation: 1.242274
-		Wall Avoidance: 2.531924	Wander: 0.5268979	Sidewalk: 0.9102889
+		Alignment: 1.031365	Cohesion: 1.130728	Collision Avoidance: 2.597197
+		Fear: 4.477106	Seek: 0.9982176	Separation: 1.214118
+		Wall Avoidance: 2.429437	Wander: 0.5759545	Sidewalk: 1.20369
 

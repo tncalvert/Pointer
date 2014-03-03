@@ -70,7 +70,7 @@ public class VictimControl : MonoBehaviour {
 	private VictimSteering steering;
 	private Material material;
 
-	private float planFuzzyCoolDownTime = .4f;
+	private float planFuzzyCoolDownTime = 1.4f;
 	private float fuzzyPlanTimeLeft = Random.value;
 
 	private Inspectible insp;
@@ -603,6 +603,10 @@ public class VictimControl : MonoBehaviour {
     /// Called when victim is destroyed by player. Informs level changer that a victim has died.
     /// </summary>
     void OnDestroy() {
+		if (this.hasGun && this.gunModel != null) {
+			Destroy(this.gunModel.gameObject);
+			this.hasGun = false;
+		}
         levelChanger.victimDied();
     }
 

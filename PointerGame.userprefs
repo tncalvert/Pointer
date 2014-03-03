@@ -6,18 +6,18 @@
       <File FileName="Assets\Scripts\FuzzyLogic\FuzzyBrain.cs" Line="110" Column="5" />
       <File FileName="Assets\Scripts\FuzzyLogic\FuzzySet.cs" Line="114" Column="4" />
       <File FileName="Assets\MenuImages\ControllerScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\MasterGame.cs" Line="129" Column="28" />
+      <File FileName="Assets\MasterGame.cs" Line="186" Column="1" />
       <File FileName="Assets\splat\SplatterScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\FuzzyLogic\VictimControl.cs" Line="248" Column="12" />
+      <File FileName="Assets\Scripts\FuzzyLogic\VictimControl.cs" Line="171" Column="3" />
       <File FileName="Assets\Building.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inspector.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Steering\PlayerSteering.cs" Line="117" Column="18" />
+      <File FileName="Assets\Scripts\Inspector.cs" Line="57" Column="1" />
+      <File FileName="Assets\Scripts\Steering\PlayerSteering.cs" Line="161" Column="1" />
       <File FileName="Assets\Scripts\Inspectible.cs" Line="12" Column="3" />
-      <File FileName="Assets\Scripts\VictimData.cs" Line="82" Column="1" />
-      <File FileName="Assets\Scripts\Steering\VictimSteering.cs" Line="77" Column="18" />
-      <File FileName="Assets\GunControl.cs" Line="35" Column="36" />
+      <File FileName="Assets\Scripts\VictimData.cs" Line="104" Column="1" />
+      <File FileName="Assets\Scripts\Steering\VictimSteering.cs" Line="469" Column="1" />
+      <File FileName="Assets\GunControl.cs" Line="20" Column="32" />
       <File FileName="Assets\Scripts\Steering\SteeringBehaviors.cs" Line="310" Column="1" />
-      <File FileName="Assets\CityGeneration\PathFinder.cs" Line="269" Column="19" />
+      <File FileName="Assets\CityGeneration\PathFinder.cs" Line="367" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
