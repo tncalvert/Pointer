@@ -19,6 +19,8 @@ public class GunControl : MonoBehaviour {
 
     public VictimMonitor victimMonitor;
 
+    public GameObject player;
+
 	// Use this for initialization
 	void Start () {
         victimMonitor = victim.gameObject.GetComponent<VictimMonitor>();
@@ -50,7 +52,9 @@ public class GunControl : MonoBehaviour {
 			if (Physics.Raycast(this.transform.position,direction,out hit,9999,~(1<<LayerMask.NameToLayer("Victims")))){
 				//Debug.DrawLine(this.transform.position, hit.collider.transform.position,Color.cyan, 1);
                 // Inform the monitor of a hit
-                victimMonitor.DealtDamage(1f);
+                if (hit.collider.gameObject == player) {
+                    victimMonitor.DealtDamage(1f);
+                }
 			}
 			
 		}

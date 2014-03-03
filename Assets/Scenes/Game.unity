@@ -195,10 +195,10 @@ MonoBehaviour:
   pathFinder: {fileID: 212829803}
   geneticMaster: {fileID: 2008046809}
   follower: {fileID: 100000, guid: e34b69c2e07c11f4ba247bf1dcbabc7c, type: 2}
-  width: 32
-  height: 32
-  gunShops: 1
-  hotels: 1
+  width: 20
+  height: 20
+  gunShopCount: 1
+  hotelCount: 2
   victim: {fileID: 100000, guid: f272abe91d4ef7b48b0269c91339db5e, type: 2}
 --- !u!4 &381908261
 Transform:

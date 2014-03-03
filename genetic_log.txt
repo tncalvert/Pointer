@@ -1,5 +1,4 @@
-﻿Level 0 (3/3/2014 10:57:00 AM)
-====================
+Level 0 (3/3/2014 10:57:00 AM)
 Victim 0 - Fitness: 0
 	Bravery: 0.6608707	Toughness: 0.6185888	Independence: 0.4489381
 	Max Velocity: 26.3158	Max Force: 37.22401
@@ -143,4 +142,3 @@ Victim 15 - Fitness: 0
 		Alignment: 1.031365	Cohesion: 1.130728	Collision Avoidance: 2.597197
 		Fear: 4.477106	Seek: 0.9982176	Separation: 1.214118
 		Wall Avoidance: 2.429437	Wander: 0.5759545	Sidewalk: 1.20369
-
