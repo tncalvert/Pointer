@@ -40,8 +40,9 @@ public class VictimEventPlanner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
-		this.control = this.GetComponent<VictimControl> ();
-		this.steering = this.GetComponent<VictimSteering> ();
+
+		this.control = this.gameObject.GetComponent<VictimControl> ();
+		this.steering = this.gameObject.GetComponent<VictimSteering> ();
 
 
 		this.valid = this.control != null && this.steering != null;
@@ -51,6 +52,8 @@ public class VictimEventPlanner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!this.valid) {
+
+			Debug.LogError("Invalid EventPlanner: control null " + (this.control == null) + "   steering null " + (this.steering == null) );
 			return; //exit if not valid
 		}
 
@@ -68,9 +71,16 @@ public class VictimEventPlanner : MonoBehaviour {
 		if (this.isMonsterNewlyVisible () 
 		    || this.completedCurrentAction () 
 		    || this.hasEnoughTimePassed ()) {
+
+
+
 			this.timePassed = 0;
 			this.runningAction = this.control.computeCurrentAction();
+			Debug.Log ("Plan! " + this.runningAction);
 			this.control.planForAction(this.runningAction);
+
+
+
 			this.initialAmmo = this.control.ammo;
 			this.initialSleepy = this.control.sleepyness;
 			this.initialGroupSize = this.control.PeopleInGroup;
@@ -86,18 +96,18 @@ public class VictimEventPlanner : MonoBehaviour {
 	/// <returns><c>true</c>, if monster newly visible was ised, <c>false</c> otherwise.</returns>
 	private bool isMonsterNewlyVisible(){
 
-		if (this.monsterWasInSight) {
-			return false; //the victim already knows about the monster
-		}
 
 		GameObject fearedObject = GameObject.FindWithTag("feared");
 		bool monsterCurrentlyInSight = !Physics.Raycast (this.transform.position,
 		                                               (fearedObject.transform.position - this.transform.position).normalized,
 		                                               (fearedObject.transform.position - this.transform.position).magnitude,
-		                                               ~(1 << LayerMask.NameToLayer ("city")));
-
+		                                               (1 << LayerMask.NameToLayer ("City")));
+		if (this.monsterWasInSight && monsterCurrentlyInSight) {
+			return false; //the victim already knows about the monster
+		}
 		if (monsterCurrentlyInSight) {
 			this.monsterWasInSight = true;
+			Debug.Log ("See monster");
 			return true; //we can see the monster now. Eep.
 		} else {
 			this.monsterWasInSight = false;
