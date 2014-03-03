@@ -14,6 +14,10 @@ public class GunControl : MonoBehaviour {
 
 	private float fireTimeLeft = 0;
 
+
+	private bool justFired;
+	public bool JustFired{ get { return this.justFired; } }
+
 	//which victim is holding this gun
 	public VictimControl victim;
 
@@ -31,6 +35,9 @@ public class GunControl : MonoBehaviour {
 
         
 		fireTimeLeft -= Time.deltaTime;
+		if (fireTimeLeft <= this.fireCoolDownTime * .75f) {
+			this.justFired = false;
+		}
 	}
 
 	/// <summary>
@@ -39,6 +46,7 @@ public class GunControl : MonoBehaviour {
 	public void fire(){
 
 		if (fireTimeLeft <= 0) {
+			this.justFired = true;
 			fireTimeLeft = fireCoolDownTime;
 			ParticleSystem muzzleFlash = this.GetComponentInChildren<ParticleSystem> ();
 

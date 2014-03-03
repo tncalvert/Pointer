@@ -26,6 +26,8 @@ public class VictimEventPlanner : MonoBehaviour {
 	private bool monsterWasInSight;
 	private int initialAmmo;
 	private float initialSleepy;
+	private int initialGroupSize;
+	private Vector2 initialTarget;
 
 	private float timePassed;
 
@@ -71,6 +73,8 @@ public class VictimEventPlanner : MonoBehaviour {
 			this.control.planForAction(this.runningAction);
 			this.initialAmmo = this.control.ammo;
 			this.initialSleepy = this.control.sleepyness;
+			this.initialGroupSize = this.control.PeopleInGroup;
+			this.initialTarget = this.steering.destination;
 		}
 
 
@@ -115,6 +119,7 @@ public class VictimEventPlanner : MonoBehaviour {
 			return this.control.ammo > this.initialAmmo;
 			break;
 		case VictimControl.ACTION_FIND_GROUP: //If I am searching for a group, this task is done when the number of people goes up. 
+			return this.initialGroupSize > this.control.getPeopleAround();
 			break;
 		case VictimControl.ACTION_FIND_GUN: //If I am searching for a gun, this is task is done when I have one
 			return this.control.HasGun;
@@ -122,9 +127,11 @@ public class VictimEventPlanner : MonoBehaviour {
 		case VictimControl.ACTION_FIND_ROOM: //If I am searching for rest, this task is done when my sleepness goes down
 			return this.initialSleepy > this.control.sleepyness;
 			break;
-		case VictimControl.ACTION_FLEE:
+		case VictimControl.ACTION_FLEE: //If I am running away, I have run away once I am at my flee target
+			return (this.initialTarget - new Vector2(this.transform.position.x, this.transform.position.z)).sqrMagnitude < 9;
 			break;
-		case VictimControl.ACTION_SHOOT:
+		case VictimControl.ACTION_SHOOT: //If I am attacking, I have attacked once I have shot my gun
+			return this.control.gunModel.JustFired;
 			break;
 		default:
 			break;
@@ -148,4 +155,6 @@ public class VictimEventPlanner : MonoBehaviour {
 			return false;
 		}
 	}
+
+
 }

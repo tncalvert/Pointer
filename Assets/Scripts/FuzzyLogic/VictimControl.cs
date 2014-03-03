@@ -55,6 +55,8 @@ public class VictimControl : MonoBehaviour {
 	// the name of the victim
 	public string name;
 
+	private int peopleInGroup;
+	public int PeopleInGroup{get{return this.peopleInGroup;}}
 
 	/* Fuzzy Logic declarations 
 	 */
@@ -476,25 +478,34 @@ public class VictimControl : MonoBehaviour {
 		set.normalize ();
 	}
 
-	private void refreshPeopleAroundSet(FuzzySet set){
-		set.resetAll ();
-
+	/// <summary>
+	/// Gets the people around.
+	/// </summary>
+	/// <returns>The people around.</returns>
+	public int getPeopleAround(){
 		Collider[] colliders = Physics.OverlapSphere (this.steering.transform.position, 10, (1 << LayerMask.NameToLayer ("Victims")));
 		RaycastHit hit = new RaycastHit ();
 		int count = 0;
 		foreach (Collider collider in colliders) {
 			if (!Physics.Raycast(this.steering.transform.position,
-			                    (collider.transform.position - this.steering.transform.position).normalized, 
-			                    (collider.transform.position - this.steering.transform.position).magnitude,
-			                    (1 << LayerMask.NameToLayer("City")))){
+			                     (collider.transform.position - this.steering.transform.position).normalized, 
+			                     (collider.transform.position - this.steering.transform.position).magnitude,
+			                     (1 << LayerMask.NameToLayer("City")))){
 				count += 1;
 			}
 		}
+		return count;
+	}
 
-		if (count < 2) {
+	private void refreshPeopleAroundSet(FuzzySet set){
+		set.resetAll ();
+		this.peopleInGroup = 0;
+
+		this.peopleInGroup = this.getPeopleAround();
+		if (peopleInGroup < 2) {
 			set [FuzzyBrain.NONE] += .8f;
 			set [FuzzyBrain.FEW] += .2f;
-		} else if (count < 6) {
+		} else if (peopleInGroup < 6) {
 			set [FuzzyBrain.NONE] += .2f;
 			set [FuzzyBrain.FEW] += .5f;
 			set [FuzzyBrain.MANY] += .3f;
@@ -605,6 +616,8 @@ public class VictimControl : MonoBehaviour {
 
 		set.normalize ();
 	}
+
+
 
     /// <summary>
     /// Called when victim is destroyed by player. Informs level changer that a victim has died.
