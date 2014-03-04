@@ -1,11 +1,22 @@
-﻿Level 0 (3/3/2014 2:40:51 PM)
+﻿Level 0 (3/3/2014 8:03:21 PM)
 ====================
 Victim 0 - Fitness: 0
-	Bravery: 0.4278458	Toughness: 0.4193151	Independence: 0.5777156
-	Max Velocity: 16.31558	Max Force: 25.62267
-	Arrival: 6.936498	Complete Arrival: 6.572045	Unique Path: 0.5661372	Path Check: 11.33008
+	Bravery: 0.4187164	Toughness: 0.625253	Independence: 0.3118961
+	Max Velocity: 18.6801	Max Force: 46.17578
+	Arrival: 15.55769	Complete Arrival: 5.409324	Unique Path: 0.3773586	Path Check: 8.14823
 	Steering Weights
-		Alignment: 0.7943515	Cohesion: 1.124534	Collision Avoidance: 2.377495
-		Fear: 4.936332	Seek: 1.217014	Separation: 1.004083
-		Wall Avoidance: 2.411627	Wander: 0.5048062	Sidewalk: 0.9853283
+		Alignment: 1.205994	Cohesion: 0.7526523	Collision Avoidance: 3.903662
+		Fear: 3.983823	Seek: 1.179364	Separation: 1.056708
+		Wall Avoidance: 3.129025	Wander: 0.8028235	Sidewalk: 0.8652231
+
+Results of Level 0 (3/3/2014 8:03:32 PM)
+====================
+Victim 0 - Fitness: 40
+	Bravery: 0.4187164	Toughness: 0.625253	Independence: 0.3118961
+	Max Velocity: 18.6801	Max Force: 46.17578
+	Arrival: 15.55769	Complete Arrival: 5.409324	Unique Path: 0.3773586	Path Check: 8.14823
+	Steering Weights
+		Alignment: 1.205994	Cohesion: 0.7526523	Collision Avoidance: 3.903662
+		Fear: 3.983823	Seek: 1.179364	Separation: 1.056708
+		Wall Avoidance: 3.129025	Wander: 0.8028235	Sidewalk: 0.8652231
 

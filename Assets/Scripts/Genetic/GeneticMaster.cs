@@ -233,6 +233,36 @@ public class GeneticMaster : MonoBehaviour {
             }
         }
 
+        if (victims.Count <= 1) {
+            // If we can't split the list, just make the new victims and return
+            int sIdx = 0;
+            foreach (GeneticVictim v in victims) {
+                GameObject g = (GameObject)Instantiate(victimPrefab,
+                new Vector3(initialPositions[sIdx].x, 1, initialPositions[sIdx].y), Quaternion.identity);
+                sIdx++;
+                VictimMonitor vm = g.GetComponent<VictimMonitor>();
+                VictimControl vc = g.GetComponent<VictimControl>();
+                VictimData vd = g.GetComponent<VictimData>();
+                VictimSteering vs = g.GetComponent<VictimSteering>();
+
+                // Clone over values we created earlier
+                vd.cloneValues(v.data);
+
+                // Assign necessary values
+                vc.head = vd;
+                vs.head = vd;
+                vm.victimID = v.victimID;
+                vm.geneticMaster = this;
+
+                v.data = vd;
+                v.monitor = vm;
+
+                // Propagate values from head into other components
+                vc.updateFromHead();
+            }
+            return;
+        }
+
         int halfSize = victims.Count / 2;
         int sizeDiff = victims.Count - halfSize;
 
@@ -262,15 +292,25 @@ public class GeneticMaster : MonoBehaviour {
             weights.Add(((float)i) / accum);
         }
 
+        int streetIdx = 0;
+
         // Here we'll build all the new victims
         for (int i = 0; i < sizeDiff; ++i) {
             // Pick two random victims to breed
             GeneticVictim vic1 = victims[weights.randomIndex()];
             GeneticVictim vic2 = victims[weights.randomIndex()];
+
+            GameObject g = (GameObject)Instantiate(victimPrefab,
+                new Vector3(initialPositions[streetIdx].x, 1, initialPositions[streetIdx].y), Quaternion.identity);
+            streetIdx++;
             
             // Create a VictimData for the new victim and then randomly pick a value from one of the old victims
-            GeneticVictim newGV = new GeneticVictim();
-            VictimData vd = new VictimData();
+            GeneticVictim v = new GeneticVictim();
+            VictimMonitor vm = g.GetComponent<VictimMonitor>();
+            VictimControl vc = g.GetComponent<VictimControl>();
+            VictimData vd = g.GetComponent<VictimData>();
+            VictimSteering vs = g.GetComponent<VictimSteering>();
+
             int rand = Random.Range(0, 2);
             vd.AttribBravery = (rand == 0 ? vic1.data.AttribBravery : vic2.data.AttribBravery);
             rand = Random.Range(0, 2);
@@ -312,16 +352,30 @@ public class GeneticMaster : MonoBehaviour {
 
             // TODO: MUTATIONS!!!!
 
-            newGV.victimID = victimIds++;
-            newGV.data = vd;
+            v.victimID = victimIds++;
+            v.data = vd;
+            v.monitor = vm;
 
-            victims.Add(newGV);
+            // Assign necessary values
+            vc.head = vd;
+            vs.head = vd;
+            vm.victimID = v.victimID;
+            vm.geneticMaster = this;
+
+            // Propagate values from head into other components
+            vc.updateFromHead();
+
+            victims.Add(v);
         }
 
         // Now we have a list of new GeneticVictims, but no actual victims yet, so we have to instantiate them
-        int sIdx = 0;
-        foreach (GeneticVictim v in victims) {
-            GameObject g = (GameObject)Instantiate(victimPrefab, new Vector3(initialPositions[sIdx].x, 1, initialPositions[sIdx].y), Quaternion.identity);
+        // Now place the old victims in their spots
+        for (int i = 0; i < halfSize; ++i) {
+            GeneticVictim v = victims[i];
+
+            GameObject g = (GameObject)Instantiate(victimPrefab,
+                new Vector3(initialPositions[streetIdx].x, 1, initialPositions[streetIdx].y), Quaternion.identity);
+            streetIdx++;
             VictimMonitor vm = g.GetComponent<VictimMonitor>();
             VictimControl vc = g.GetComponent<VictimControl>();
             VictimData vd = g.GetComponent<VictimData>();
