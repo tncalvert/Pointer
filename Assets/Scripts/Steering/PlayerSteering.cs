@@ -113,7 +113,8 @@ public class PlayerSteering : MonoBehaviour {
             if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(0)) {
                 Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(cameraRay, out hit)) {
+                if (Physics.Raycast(cameraRay, out hit,
+                    ((1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Sidewalk"))))) {
                     Vector2 start = new Vector2(this.rigidbody.position.x, this.rigidbody.position.z);
                     Vector2 end = new Vector2(hit.point.x, hit.point.z);
                     path = new Queue<Vector2>(pathFinder.getPath(start, end));
