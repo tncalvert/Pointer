@@ -157,7 +157,7 @@ public class VictimControl : MonoBehaviour {
 
 		this.toughness = Random.value;
 		this.sleepyness = .5f * Random.value;
-		this.name = "Dave";
+		this.name = VictimNames.getRandomName();
 
 		this.insp = (Inspectible)this.gameObject.AddComponent ("Inspectible");
 		insp.getTextFunc = () => {
