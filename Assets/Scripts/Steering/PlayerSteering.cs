@@ -84,6 +84,8 @@ public class PlayerSteering : MonoBehaviour {
                 }
             }
 
+            Camera.main.GetComponent<CameraFollow>().setup(this.gameObject.transform);
+
         } catch {
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
             rb.freezeRotation = true;
