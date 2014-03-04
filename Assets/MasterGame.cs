@@ -125,8 +125,9 @@ public class MasterGame : MonoBehaviour {
 		this.generateFollower (this.streets [0].Position);
 
         List<Vector2> victimPositions = new List<Vector2>();
-        for (int i = 2; i < 8/*streets.Count/2*/; i++)
-            victimPositions.Add(streets[i].Position);
+        int streetIdx = streets.Count - 1;  // Index into street array, post decremented in index call
+        for (int i = 0; i < 6; ++i) // Swap 6 for the number of victims you want (** should never be longer than [streets.Count] **)
+            victimPositions.Add(streets[streetIdx--].Position);
 
         geneticMaster.initialPositions = victimPositions;
 	}
