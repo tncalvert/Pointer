@@ -9,6 +9,7 @@ using System.Collections.Generic;
 /// </summary>
 public class PlayerSteering : MonoBehaviour {
 
+
     /// <summary>
     /// The maximum forces that the steering behaviors can exert on the object
     /// </summary>
@@ -104,6 +105,7 @@ public class PlayerSteering : MonoBehaviour {
             // If there is no rigidbody, abort
             return;
         }
+
 
         // Keep object rotated in the correct direction
         // *** BUGGY ***

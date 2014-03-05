@@ -497,13 +497,13 @@ public class VictimControl : MonoBehaviour {
 		//if I am in a small group and the monster shows up
 		if (people == FuzzyBrain.FEW && monster == FuzzyBrain.MANY) {
 			set[ACTION_FLEE] += (1-this.bravery)*.6f;
-			set[ACTION_SHOOT] += this.toughness * .6f * (this.hasGun ? 1 : 0);
+			set[ACTION_SHOOT] += this.toughness * .6f * (this.hasGun && this.ammo >0 ? 1 : 0);
 		}
 
 		//if I am in a group and the monster shows up
 		if (people == FuzzyBrain.MANY && monster == FuzzyBrain.MANY) {
 			set[ACTION_FLEE] += (1-this.bravery)*.4f;
-			set[ACTION_SHOOT] += this.toughness * .8f * (this.hasGun ? 1 : 0);
+			set[ACTION_SHOOT] += this.toughness * .8f * (this.hasGun && this.ammo >0 ? 1 : 0);
 		}
 
 

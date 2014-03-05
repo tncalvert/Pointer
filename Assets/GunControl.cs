@@ -84,7 +84,7 @@ public class GunControl : MonoBehaviour {
 				this.lineRend.SetWidth(.2f,.15f);
 
 				lineRendAlpha = 1;
-				Debug.DrawRay(this.transform.position, direction, Color.red, 1);
+
 			}
 
 
