@@ -22,6 +22,9 @@ public class LevelChanger : MonoBehaviour {
 	//Victim Counter
 	VictimCount victim;
 
+	//Time Tracker
+	LevelTime time;
+
 	// Use this for initialization
 	void Start () {
         numberOfVictims = 0;
@@ -34,10 +37,17 @@ public class LevelChanger : MonoBehaviour {
 		//Keep track of victims
 		GameObject victimObj = GameObject.Find ("VictimCounter");
 		victim = victimObj.GetComponent<VictimCount> ();
+
+		//Keep track of time
+		GameObject timeObj = GameObject.Find ("TimeCounter");
+		time = timeObj.GetComponent<LevelTime> ();
 	}
 
     void OnGUI() {
         if (allVictimsDead) {
+			
+			time.stopCounting();
+
             if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 37, 100, 75), "Next Level")) {
 
 				score.incrementScore();
