@@ -79,7 +79,8 @@ public class VictimControl : MonoBehaviour {
 	private float fuzzyPlanTimeLeft = Random.value;
 
 	private Inspectible insp;
-
+	private bool turningToShoot;
+	private GameObject fearedObject ;
 	/// <summary>
 	/// Updates the values in this instance from the VictimData head.
 	/// </summary>
@@ -155,7 +156,7 @@ public class VictimControl : MonoBehaviour {
 			this.generateGun ();
 		}
 
-		this.toughness = Random.value;
+		this.toughness = Random.value; 
 		this.sleepyness = .5f * Random.value;
 		this.name = VictimNames.getRandomName();
 
@@ -172,7 +173,11 @@ public class VictimControl : MonoBehaviour {
 			return lines;
 		};
 
+		// LOWER WEIGHT OF FEER IF I AM TOUGH
+		this.head.SteeringFear *= (1 - this.toughness);
+		this.steering.updateFromHead ();
 
+		fearedObject = GameObject.FindWithTag("feared");
 	}
 
 	private void generateGun(){
@@ -208,6 +213,25 @@ public class VictimControl : MonoBehaviour {
 		}
 		this.fuzzyPlanTimeLeft -= Time.deltaTime;
 		*/
+
+		//hacky way to achieve goal
+		if (this.turningToShoot) {
+			Vector3 toFear3 = fearedObject.transform.position - this.transform.position;
+
+			//If I am not already facing the monster...
+			//Then set my target to face the monster
+			Vector2 myGunDirection = new Vector2(this.gunModel.MuzzleFlash.transform.forward.x, this.gunModel.MuzzleFlash.transform.forward.z);
+			Vector2 toMonsterDirection = new Vector2(toFear3.x, toFear3.z);
+		
+			float angleToMonster = Vector2.Angle (myGunDirection.normalized, toMonsterDirection.normalized);
+			if (Mathf.Abs (angleToMonster) < 5) {
+				this.gunModel.fire();
+				this.turningToShoot = false;
+			} else {
+				Vector3 spot = this.transform.position + 2*toFear3.normalized;
+				this.steering.getNewPath(new Vector2(spot.x, spot.z));
+			}
+		}
 
 	}
 
@@ -254,6 +278,7 @@ public class VictimControl : MonoBehaviour {
 		                          this.terror);
 
 		this.brain.refreshValues (this.actionSet);
+
 		return this.actionSet.getFuzzyMax();
 	}
 
@@ -264,15 +289,18 @@ public class VictimControl : MonoBehaviour {
 	public void planForAction(string action){
 
 		if (action != null) {
-			Debug.Log ("ACTION: " + action);
+			this.turningToShoot = false;
+			//Debug.Log ("ACTION: " + action);
 
 			if (action.Equals(ACTION_FLEE)){
-				Debug.Log ("ACTION_FLEE");
+
 				this.findFleeDestination();
 			} else if (action.Equals(ACTION_SHOOT)){
-				Debug.Log ("ACTION_SHOOT");
+				//Debug.Log ("ACTION_SHOOT");
 				if (this.hasGun){
-					this.gunModel.fire();
+
+					turnToFaceMonster();
+					//this.gunModel.fire();
 					//Debug.Log("SHOT WAS TAKEN");
 				}
 			} else if (action.Equals(ACTION_FIND_AMMO)){
@@ -282,7 +310,7 @@ public class VictimControl : MonoBehaviour {
 			} else if (action.Equals(ACTION_FIND_GUN)){
 				this.findGunShop();
 			} else if (action.Equals(ACTION_FIND_ROOM)){
-				Debug.Log ("ACTION_FIND_ROOM");
+
 				this.findHotel();
 			}
 
@@ -290,6 +318,39 @@ public class VictimControl : MonoBehaviour {
 
 		}
 	}
+
+	/// <summary>
+	/// Sets the target direction to be towards the monster. THis is a very clunky way of getting this done, but
+	/// WE ARE OUT OF TIME.
+	/// Only works if the victim has a gun
+	/// </summary>
+	private void turnToFaceMonster(){
+
+		if (!this.hasGun || this.gunModel == null) {
+			return;
+		}
+
+		GameObject fearedObject = GameObject.FindWithTag("feared");
+		Vector3 toFear3 = fearedObject.transform.position - this.transform.position;
+
+		//If I am not already facing the monster...
+		//Then set my target to face the monster
+		Vector2 myGunDirection = new Vector2(this.gunModel.MuzzleFlash.transform.forward.x, this.gunModel.MuzzleFlash.transform.forward.z);
+		Vector2 toMonsterDirection = new Vector2(toFear3.x, toFear3.z);
+
+		float angleToMonster = Vector2.Angle (myGunDirection.normalized, toFear3.normalized);
+
+		if (Mathf.Abs (angleToMonster) > 3) {
+			Vector3 spot = this.transform.position + 5*toFear3.normalized;
+			this.steering.getNewPath(new Vector2(spot.x, spot.z));
+
+		}
+		this.turningToShoot = true;
+
+
+	}
+
+
 
 	/// <summary>
 	/// Finds and sets the target to the best hotel.
@@ -385,7 +446,7 @@ public class VictimControl : MonoBehaviour {
 	/// <returns><c>true</c>, If the victim can get the gun, <c>false</c> otherwise.</returns>
 	public bool canGetGun(){
 		//TODO implement
-		return false;
+		return true;
 	}
 
 	/// <summary>
@@ -394,7 +455,7 @@ public class VictimControl : MonoBehaviour {
 	/// <returns><c>true</c>, If the victim can get the gun, <c>false</c> otherwise.</returns>
 	public bool canGetAmmo(){
 		//TODO implement
-		return false;
+		return true;
 	}
 
 	/// <summary>
@@ -403,7 +464,7 @@ public class VictimControl : MonoBehaviour {
 	/// <returns><c>true</c>, if the victim can rest <c>false</c> otherwise.</returns>
 	public bool canGetRest(){
 		//TODO implement
-		return false;
+		return true;
 	}
 
 
@@ -471,9 +532,10 @@ public class VictimControl : MonoBehaviour {
 		set [ACTION_FLEE] /= Mathf.Max (float.Epsilon, 1-this.sleepyness);//more likely to run if you are tired
 		set [ACTION_FLEE] *= 1-this.toughness;//less likely to run if you are tough
 
-		set[ACTION_SHOOT] /= Mathf.Max (float.Epsilon, 1-this.toughness); //more likely to shoot if you are tough
+		set[ACTION_SHOOT] /= Mathf.Max (float.Epsilon,  .2f*(1-this.toughness)); //more likely to shoot if you are tough
 		set[ACTION_SHOOT] *= 1-this.sleepyness; //less likely to shoot if you are tired
 
+		set [ACTION_FIND_AMMO] /= this.ammo == 0 ? Mathf.Max (float.Epsilon, (1 - this.toughness)) : 0; //if I am out of ammo, I need some!
 
 		set.normalize ();
 	}
@@ -516,6 +578,7 @@ public class VictimControl : MonoBehaviour {
 		}
 
 		set.normalize ();
+
 	}
 
 	//The victims dont have to looking in the direction of the monster

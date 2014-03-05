@@ -126,7 +126,7 @@ public class MasterGame : MonoBehaviour {
 
         List<Vector2> victimPositions = new List<Vector2>();
         int streetIdx = streets.Count - 1;  // Index into street array, post decremented in index call
-        for (int i = 0; i < 6; ++i) // Swap 6 for the number of victims you want (** should never be longer than [streets.Count] **)
+        for (int i = 0; i < 10; ++i) // Swap 6 for the number of victims you want (** should never be longer than [streets.Count] **)
             victimPositions.Add(streets[streetIdx--].Position);
 
         geneticMaster.initialPositions = victimPositions;

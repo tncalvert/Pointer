@@ -25,9 +25,14 @@ public class GunControl : MonoBehaviour {
 
     public GameObject player;
 
+	private ParticleSystem muzzleFlash;
+	public ParticleSystem MuzzleFlash {get{return this.muzzleFlash;}}
+
 	// Use this for initialization
 	void Start () {
         victimMonitor = victim.gameObject.GetComponent<VictimMonitor>();
+		 muzzleFlash = this.GetComponentInChildren<ParticleSystem> ();
+
 	}
 	
 	// Update is called once per frame
@@ -48,7 +53,6 @@ public class GunControl : MonoBehaviour {
 		if (fireTimeLeft <= 0) {
 			this.justFired = true;
 			fireTimeLeft = fireCoolDownTime;
-			ParticleSystem muzzleFlash = this.GetComponentInChildren<ParticleSystem> ();
 
 			if (muzzleFlash != null){
 				muzzleFlash.Play();
@@ -58,9 +62,10 @@ public class GunControl : MonoBehaviour {
 			//Debug.DrawLine(muzzleFlash.transform.position,muzzleFlash.transform.position +  muzzleFlash.transform.forward * 100, Color.cyan,1);
 			Vector3 direction = new Vector3(muzzleFlash.transform.forward.x, 0, muzzleFlash.transform.forward.z);
 			if (Physics.Raycast(this.transform.position,direction,out hit,9999,~(1<<LayerMask.NameToLayer("Victims")))){
-				//Debug.DrawLine(this.transform.position, hit.collider.transform.position,Color.cyan, 1);
+				Debug.DrawLine(this.transform.position, hit.collider.transform.position,Color.cyan, 1);
                 // Inform the monitor of a hit
                 if (hit.collider.gameObject == player) {
+					Debug.Log ("THE PLAYER GOT HIT!");
                     victimMonitor.DealtDamage(1f);
                 }
 			}

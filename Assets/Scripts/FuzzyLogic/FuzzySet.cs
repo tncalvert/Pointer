@@ -51,7 +51,7 @@ public class FuzzySet
 	/// <returns>The element.</returns>
 	/// <param name="name">Name. Note that case does not matter</param>
 	public float getElement(string name){
-		return (this.elements.ContainsKey (name.ToLower ()) ? this.elements [name.ToLower ()] : float.NaN);
+		return (this.elements.ContainsKey (name.ToLower ()) ? this.elements [name.ToLower ()] : 0);
 	}
 
 	/// <summary>
@@ -95,6 +95,16 @@ public class FuzzySet
 		}
 		return max;
 	}
+
+	public string getMaxKey(){
+		float max = float.NegativeInfinity;
+		string k = "";
+		foreach (string key in this.elements.Keys) {
+			max = Mathf.Max (max, this.elements [key]);
+			k = key;
+		}
+		return k;
+	}
 	
 	/// <summary>
 	/// Gets the element with max value, fuzzified. This weights each answer by its value and rolls a die
@@ -112,7 +122,8 @@ public class FuzzySet
 				prev += this.elements[key];
 			}
 		}
-		return null;
+
+		return this.getMaxKey ();
 	}
 
 	/// <summary>
