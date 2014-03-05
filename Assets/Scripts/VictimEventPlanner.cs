@@ -108,7 +108,7 @@ public class VictimEventPlanner : MonoBehaviour {
 
 			this.control.planForAction(this.runningAction);
 
-			Debug.Log (this.runningAction);
+			//Debug.Log (this.runningAction);
 
 			this.initialAmmo = this.control.ammo;
 			this.initialSleepy = this.control.sleepyness;

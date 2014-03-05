@@ -44,9 +44,10 @@ public class PlayerAttack : MonoBehaviour {
         if (attackTimer == 120 && Input.GetKeyDown("space")) {
             Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, attackRange, 1 << LayerMask.NameToLayer("Victims"));
 
-            foreach (var n in nearbyVictims) {
+			foreach (Collider n in nearbyVictims) {
                 if (this.splatter != null) {
-                    this.splatter.makeSplat(n.transform.position, new Vector3(0, -1, 0), 10, (1 << LayerMask.NameToLayer("City")));
+					this.splatter.makeBigSplat(n.transform.position, Vector3.down + (n.transform.position - this.transform.position).normalized, 10, 5, (1<<LayerMask.NameToLayer("City")));
+					//this.splatter.makeSplat(n.transform.position, new Vector3(0, -1, 0), 10, (1 << LayerMask.NameToLayer("City")));
 				}
 
                 Destroy(n.gameObject);

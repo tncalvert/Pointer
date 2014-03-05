@@ -224,12 +224,14 @@ public class VictimControl : MonoBehaviour {
 			Vector2 toMonsterDirection = new Vector2(toFear3.x, toFear3.z);
 		
 			float angleToMonster = Vector2.Angle (myGunDirection.normalized, toMonsterDirection.normalized);
-			if (Mathf.Abs (angleToMonster) < 5) {
+
+			if (Mathf.Abs (angleToMonster) < .5f) {
 				this.gunModel.fire();
 				this.turningToShoot = false;
 			} else {
 				Vector3 spot = this.transform.position + 2*toFear3.normalized;
 				this.steering.getNewPath(new Vector2(spot.x, spot.z));
+				this.rigidbody.velocity = toFear3.normalized;
 			}
 		}
 
@@ -329,7 +331,7 @@ public class VictimControl : MonoBehaviour {
 		if (!this.hasGun || this.gunModel == null) {
 			return;
 		}
-
+		this.rigidbody.velocity = Vector3.zero;
 		GameObject fearedObject = GameObject.FindWithTag("feared");
 		Vector3 toFear3 = fearedObject.transform.position - this.transform.position;
 
@@ -340,10 +342,10 @@ public class VictimControl : MonoBehaviour {
 
 		float angleToMonster = Vector2.Angle (myGunDirection.normalized, toFear3.normalized);
 
-		if (Mathf.Abs (angleToMonster) > 3) {
+		if (Mathf.Abs (angleToMonster) > 1) {
 			Vector3 spot = this.transform.position + 5*toFear3.normalized;
 			this.steering.getNewPath(new Vector2(spot.x, spot.z));
-
+			this.rigidbody.velocity = toFear3.normalized;
 		}
 		this.turningToShoot = true;
 
@@ -535,7 +537,7 @@ public class VictimControl : MonoBehaviour {
 		set[ACTION_SHOOT] /= Mathf.Max (float.Epsilon,  .2f*(1-this.toughness)); //more likely to shoot if you are tough
 		set[ACTION_SHOOT] *= 1-this.sleepyness; //less likely to shoot if you are tired
 
-		set [ACTION_FIND_AMMO] /= this.ammo == 0 ? Mathf.Max (float.Epsilon, (1 - this.toughness)) : 0; //if I am out of ammo, I need some!
+		//set [ACTION_FIND_AMMO] /= this.ammo == 0 ? Mathf.Max (float.Epsilon, (1 - this.toughness)) : 0; //if I am out of ammo, I need some!
 
 		set.normalize ();
 	}

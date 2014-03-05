@@ -30,7 +30,7 @@ public class SplatScript : MonoBehaviour {
 			Vector3 d = Vector3.Cross (normal, Vector3.down);
 			d = Quaternion.AngleAxis (-90, normal) * d;
 
-			transform.position += d.normalized * this.sludgeRate;
+			//transform.position += d.normalized * this.sludgeRate;
 
 			this.sludgeLeft -= this.sludgeRate;
 		}
