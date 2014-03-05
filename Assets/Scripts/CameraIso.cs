@@ -1,107 +1,134 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Camera class to follow player and allow orbit movement around the player
+/// Code from http://wiki.unity3d.com/index.php?title=MouseOrbitImproved
+/// </summary>
 public class CameraIso : MonoBehaviour {
 
-    public float smooth = 1.5f;         // The relative speed at which the camera will catch up.
+    /// <summary>
+    /// The object we are following (player)
+    /// </summary>
+    private Transform target;
 
+    /// <summary>
+    /// Adjustment of mouse movement speed in the x direction
+    /// </summary>
+    private float xSpeed = 120.0f;
 
-    private Transform player;           // Reference to the player's transform.
-    private Vector3 relCameraPos;       // The relative position of the camera from the player.
-    private float relCameraPosMag;      // The distance of the camera from the player.
-    private Vector3 newPos;             // The position the camera is trying to reach.
+    /// <summary>
+    /// Adjustment of mouse movement speed in the y direction
+    /// </summary>
+    private float ySpeed = 120.0f;
 
+    /// <summary>
+    /// Minimum allowed angle along the y axis (seen as x in Unity inspector)
+    /// </summary>
+    private float yMinLimit = 0f;
 
-    public void setup(Transform pTransform) {
-        // Setting up the reference.
-        player = pTransform;
+    /// <summary>
+    /// Maximum allowed angle along the y axis (seen as y in Unity inspector)
+    /// </summary>
+    private float yMaxLimit = 80f;
 
-        // Setting the relative position as the initial relative position of the camera in the scene.
-        relCameraPos = transform.position - player.position;
-        relCameraPosMag = relCameraPos.magnitude - 0.5f;
+    /// <summary>
+    /// The distance from the player that the camera start at
+    /// </summary>
+    private float distance = 15.0f;
+
+    /// <summary>
+    /// The minimum distance possible from the player
+    /// </summary>
+    private float distanceMin = 5f;
+
+    /// <summary>
+    /// The maximum distance possible from the player
+    /// </summary>
+    private float distanceMax = 25f;
+    
+    /// <summary>
+    /// A variable to hold rotation along the x axis
+    /// </summary>
+    private float x = 0.0f;
+
+    /// <summary>
+    /// A variable to hold rotation along the y axis
+    /// </summary>
+    private float y = 0.0f;
+
+    // Use this for initialization
+    void Start() {
+        Vector3 angles = transform.eulerAngles;
+        x = angles.y;
+        y = angles.x;
     }
 
+    /// <summary>
+    /// Called by the player script to hand in the player transform
+    /// </summary>
+    /// <param name="player">Player's transform</param>
+    public void setup(Transform player) {
+        target = player;
+    }
 
-    void FixedUpdate() {
+    void LateUpdate() {
 
-        if (!player) {
-            return;
+        if (target) {
+            
+            if (Input.GetMouseButton(1)) { // Right mouse button
+
+                // Get input along both axii and modify them to move more cleanly around the player
+                x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.01f;
+                y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
+                y = ClampAngle(y, yMinLimit, yMaxLimit);
+            }
+
+            // Check for page up and down to modify zoom level (scroll doesn't work for me, and might not for others)
+            if (Input.GetKey(KeyCode.PageUp)) {
+                distance -= 0.5f;
+            }
+
+            if (Input.GetKey(KeyCode.PageDown)) {
+                distance += 0.5f;
+            }
+
+            // Adjust distance from camera on scrolling
+            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
+
+            // Create a rotation from our current position
+            Quaternion rotation = Quaternion.Euler(y, x, 0);
+
+            distance = Mathf.Clamp(distance, distanceMin, distanceMax);
+
+            // Get the distance from the player that we should be at
+            Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
+            // Create a new position taking in account the position of the
+            // target, our distance from it, and the new rotation
+            Vector3 position = rotation * negDistance + target.position;
+
+            transform.rotation = rotation;
+            transform.position = position;
+            
         }
 
-        // Rotate camera with mouse movement if the right (middle maybe?) is held down
-        if (Input.GetMouseButton(1)) {
+    }
 
-            float horizRotation = Input.GetAxis("Mouse X");
-            float vertRotation = Input.GetAxis("Mouse Y");
-
-            this.transform.RotateAround(player.position, Vector3.up, horizRotation);
-            this.transform.RotateAround(player.position, Vector3.right, vertRotation);
-
-            relCameraPos = transform.position - player.position;
-        }
-
-        // The standard position of the camera is the relative position of the camera from the player.
-        //Vector3 standardPos = player.position + relCameraPos;
-
-        //// The abovePos is directly above the player at the same distance as the standard position.
-        //Vector3 abovePos = player.position + Vector3.up * relCameraPosMag;
-
-        //// An array of 5 points to check if the camera can see the player.
-        //Vector3[] checkPoints = new Vector3[5];
-
-        //// The first is the standard position of the camera.
-        //checkPoints[0] = standardPos;
-
-        //// The next three are 25%, 50% and 75% of the distance between the standard position and abovePos.
-        //checkPoints[1] = Vector3.Lerp(standardPos, abovePos, 0.25f);
-        //checkPoints[2] = Vector3.Lerp(standardPos, abovePos, 0.5f);
-        //checkPoints[3] = Vector3.Lerp(standardPos, abovePos, 0.75f);
-
-        //// The last is the abovePos.
-        //checkPoints[4] = abovePos;
-
-        //// Run through the check points...
-        //for (int i = 0; i < checkPoints.Length; i++) {
-        //    // ... if the camera can see the player...
-        //    if (ViewingPosCheck(checkPoints[i]))
-        //        // ... break from the loop.
-        //        break;
-        //}
-
-        newPos = new Vector3(player.position.x + relCameraPos.x, this.transform.position.y, player.position.z + relCameraPos.z);
-
-        // Lerp the camera's position between it's current position and it's new position.
-        transform.position = Vector3.Lerp(transform.position, newPos, smooth * Time.deltaTime);
-
-        // Make sure the camera is looking at the player.
-        //SmoothLookAt();
+    /// <summary>
+    /// Clamps an angle between two values
+    /// Also keeps it between -360 and 360 in general
+    /// </summary>
+    /// <param name="angle">The angle to clamp</param>
+    /// <param name="min">The minimum allowed value</param>
+    /// <param name="max">The maximum allowed value</param>
+    /// <returns>The angle clamped with the supplied range</returns>
+    public static float ClampAngle(float angle, float min, float max) {
+        if (angle < -360F)
+            angle += 360F;
+        if (angle > 360F)
+            angle -= 360F;
+        return Mathf.Clamp(angle, min, max);
     }
 
 
-    bool ViewingPosCheck(Vector3 checkPos) {
-        RaycastHit hit;
-
-        // If a raycast from the check position to the player hits something...
-        if (Physics.Raycast(checkPos, player.position - checkPos, out hit, relCameraPosMag))
-            // ... if it is not the player...
-            if (hit.transform != player)
-                // This position isn't appropriate.
-                return false;
-
-        // If we haven't hit anything or we've hit the player, this is an appropriate position.
-        newPos = checkPos;
-        return true;
-    }
-
-
-    void SmoothLookAt() {
-        // Create a vector from the camera towards the player.
-        Vector3 relPlayerPosition = player.position - transform.position;
-
-        // Create a rotation based on the relative position of the player being the forward vector.
-        Quaternion lookAtRotation = Quaternion.LookRotation(relPlayerPosition, Vector3.up);
-
-        // Lerp the camera's rotation between it's current rotation and the rotation that looks at the player.
-        transform.rotation = Quaternion.Lerp(transform.rotation, lookAtRotation, smooth * Time.deltaTime);
-    }
 }
