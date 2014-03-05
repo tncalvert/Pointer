@@ -20,16 +20,9 @@ public class PlayerAttack : MonoBehaviour {
 	//Wilhelm Scream
 	AudioClip scream;
 
-	//Score tracker
-	ScoreDisplay score;
-
     void Start() {
         splatter = gameObject.AddComponent<SplatterScript>();
         splatter.bloodSplat = splatterPrefab;
-
-		//Keep track of score
-		GameObject timer = GameObject.Find ("ScoreCounter");
-		score = timer.GetComponent<ScoreDisplay> ();
 	}
 
 	void Update () {
@@ -50,7 +43,6 @@ public class PlayerAttack : MonoBehaviour {
 				}
 
                 Destroy(n.gameObject);
-				score.incrementScore();
             }
 
 			if(nearbyVictims.Length != 0)

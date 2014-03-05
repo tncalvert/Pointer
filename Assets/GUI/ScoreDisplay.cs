@@ -7,7 +7,7 @@ public class ScoreDisplay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		playerScore = 0;
+		playerScore = PlayerPrefs.GetInt ("Score");
 	}
 	
 	// Update is called once per frame
@@ -18,6 +18,8 @@ public class ScoreDisplay : MonoBehaviour {
 	//Increments the score
 	public void incrementScore()
 	{
-		playerScore++;
+		PlayerPrefs.SetInt("Score",playerScore+1);
+
+		playerScore = PlayerPrefs.GetInt ("Score");
 	}
 }

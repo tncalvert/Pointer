@@ -16,15 +16,25 @@ public class LevelChanger : MonoBehaviour {
     /// </summary>
     private bool allVictimsDead;
 
+	//Score tracker
+	ScoreDisplay score;
+
 	// Use this for initialization
 	void Start () {
         numberOfVictims = 0;
         allVictimsDead = false;
+
+		//Keep track of score
+		GameObject timer = GameObject.Find ("ScoreCounter");
+		score = timer.GetComponent<ScoreDisplay> ();
 	}
 
     void OnGUI() {
         if (allVictimsDead) {
             if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 37, 100, 75), "Next Level")) {
+
+				score.incrementScore();
+
                 Application.LoadLevel("Game");
             }
         }

@@ -64,6 +64,7 @@ public class ControllerScript : MonoBehaviour {
 				//this.angleChangeToCredits = 0;
 			} else {
 				Application.LoadLevel("Game");
+				PlayerPrefs.SetInt("Score",0);
 			}
 
 		}
