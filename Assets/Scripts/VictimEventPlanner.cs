@@ -48,7 +48,9 @@ public class VictimEventPlanner : MonoBehaviour {
 		this.valid = this.control != null && this.steering != null;
 
 	}
-	
+
+
+
 	// Update is called once per frame
 	void Update () {
 		if (!this.valid) {
@@ -57,6 +59,33 @@ public class VictimEventPlanner : MonoBehaviour {
 			return; //exit if not valid
 		}
 
+		if (this.runningAction == VictimControl.ACTION_FIND_ROOM) {
+			Vector2 us = new Vector2(this.transform.position.x, this.transform.position.z);
+			Vector2 d = this.steering.getPathFinder().getClosestHotel(us);
+			d -= us;
+
+			if (d.sqrMagnitude < 92){
+				this.control.sleepyness *= .5f;
+				Debug.Log ("Slept");
+			}
+
+		}
+		if (this.runningAction == VictimControl.ACTION_FIND_GUN || this.runningAction == VictimControl.ACTION_FIND_AMMO) {
+			Vector2 us = new Vector2(this.transform.position.x, this.transform.position.z);
+			Vector2 d = this.steering.getPathFinder().getClosestGunShop(us);
+			d -= us;
+			if (d.sqrMagnitude < 92){
+				this.control.ammo += 4;
+				Debug.Log ("Got Supply");
+			}
+			
+		}
+
+		if (this.runningAction == VictimControl.ACTION_FLEE) {
+			if (Random.value > .9f) { //ugh
+				this.control.planForAction(VictimControl.ACTION_FLEE);
+			}
+		}
 		/* Do a new fuzzy computation 
 		 * IF
 		 * 	monster is newly visible
@@ -76,10 +105,10 @@ public class VictimEventPlanner : MonoBehaviour {
 
 			this.timePassed = 0;
 			this.runningAction = this.control.computeCurrentAction();
-			Debug.Log ("Plan! " + this.runningAction);
+
 			this.control.planForAction(this.runningAction);
 
-
+			Debug.Log (this.runningAction);
 
 			this.initialAmmo = this.control.ammo;
 			this.initialSleepy = this.control.sleepyness;
@@ -107,7 +136,7 @@ public class VictimEventPlanner : MonoBehaviour {
 		}
 		if (monsterCurrentlyInSight) {
 			this.monsterWasInSight = true;
-			Debug.Log ("See monster");
+
 			return true; //we can see the monster now. Eep.
 		} else {
 			this.monsterWasInSight = false;

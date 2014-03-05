@@ -258,6 +258,24 @@ public class PathFinder : MonoBehaviour {
 		}
 	}
 
+	public Vector2 getClosestHotel(Vector2 position){
+		Vector2 mv = Vector2.zero;
+		foreach (Vector2 b in this.hotelLocations){
+			if ( mv == Vector2.zero || (b-position).sqrMagnitude < (mv-position).sqrMagnitude){
+				mv = b;
+			}
+		}
+		return mv;
+	}
+	public Vector2 getClosestGunShop(Vector2 position){
+		Vector2 mv = Vector2.one * 999;
+		foreach (Vector2 b in this.gunShopLocations){
+			if ( (b-position).sqrMagnitude < (mv-position).sqrMagnitude){
+				mv = b;
+			}
+		}
+		return mv;
+	}
 	/// <summary>
 	/// Builds the path graph. 
 	/// </summary>
