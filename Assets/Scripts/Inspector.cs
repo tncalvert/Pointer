@@ -10,11 +10,18 @@ public class Inspector : MonoBehaviour {
 	//Time Tracker
 	LevelTime time;
 
+	//Level tracker
+	LevelChanger level;
+
 	// Use this for initialization
 	void Start () {
 		//Keep track of time
 		GameObject timeObj = GameObject.Find ("TimeCounter");
 		time = timeObj.GetComponent<LevelTime> ();
+
+		//Keep track of the level
+		GameObject levelObj = GameObject.Find ("LevelChanger");
+		level = levelObj.GetComponent<LevelChanger> ();
 	}
 	
 	// Update is called once per frame
@@ -59,7 +66,10 @@ public class Inspector : MonoBehaviour {
 		{
 			//Resume counter
 			inspecting = false;
-			time.startCounting();
+
+			//Only continue counting if the level hasnt ended
+			if(level.getLevelEnd() == 0)
+				time.startCounting();
 		}
 
 	}
