@@ -19,14 +19,21 @@ public class LevelChanger : MonoBehaviour {
 	//Score tracker
 	ScoreDisplay score;
 
+	//Victim Counter
+	VictimCount victim;
+
 	// Use this for initialization
 	void Start () {
         numberOfVictims = 0;
         allVictimsDead = false;
 
 		//Keep track of score
-		GameObject timer = GameObject.Find ("ScoreCounter");
-		score = timer.GetComponent<ScoreDisplay> ();
+		GameObject scoreObj = GameObject.Find ("ScoreCounter");
+		score = scoreObj.GetComponent<ScoreDisplay> ();
+
+		//Keep track of victims
+		GameObject victimObj = GameObject.Find ("VictimCounter");
+		victim = victimObj.GetComponent<VictimCount> ();
 	}
 
     void OnGUI() {
@@ -45,6 +52,9 @@ public class LevelChanger : MonoBehaviour {
     /// </summary>
     public void registerVictim() {
         ++numberOfVictims;
+
+		//Display the victim count
+		victim.setVictimsLeft(numberOfVictims);
     }
 
     /// <summary>
@@ -55,5 +65,8 @@ public class LevelChanger : MonoBehaviour {
         if (numberOfVictims == 0) {
             allVictimsDead = true;
         }
+
+		//Display the victim count
+		victim.setVictimsLeft(numberOfVictims);
     }
 }

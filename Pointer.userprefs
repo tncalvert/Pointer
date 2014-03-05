@@ -1,11 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FuzzyLogic\VictimControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GUI\ScoreDisplay.cs">
     <Files>
-      <File FileName="Assets\Scripts\FuzzyLogic\VictimControl.cs" Line="234" Column="18" />
-      <File FileName="Assets\Scripts\Steering\PlayerSteering.cs" Line="110" Column="24" />
-      <File FileName="Assets\Scripts\Steering\VictimSteering.cs" Line="297" Column="25" />
-      <File FileName="Assets\Scripts\Steering\SteeringBehaviors.cs" Line="76" Column="16" />
+      <File FileName="Assets\GUI\ScoreDisplay.cs" Line="16" Column="3" />
+      <File FileName="Assets\Scripts\LevelChanger.cs" Line="33" Column="30" />
+      <File FileName="Assets\MenuImages\ControllerScript.cs" Line="101" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
