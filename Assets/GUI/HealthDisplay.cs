@@ -7,12 +7,15 @@ public class HealthDisplay : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		health = 9;
+		health = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		guiText.text = "Health: " + health;
+
+		if(health <= 0)
+			Application.LoadLevel("GameOver");
 	}
 	
 	//Increments the score
