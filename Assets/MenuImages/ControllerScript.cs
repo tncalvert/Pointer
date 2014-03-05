@@ -18,6 +18,10 @@ public class ControllerScript : MonoBehaviour {
 	private float angleChangeToCredits = 0.0f;
 	private float transSpeed = 10f;
 
+
+	private bool inTransitionToHelp = false;
+	private float distToHelp = 0.0f;
+
 	// Use this for initialization
 	void Start () {
 		this.ourCamera.transform.LookAt (this.mainLookAt.transform.position);
@@ -26,6 +30,14 @@ public class ControllerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+
+		if (this.inTransitionToHelp) {
+			if (this.distToHelp < 8){
+				this.ourCamera.transform.position += Vector3.up * this.transSpeed*.2f;
+				this.distToHelp += this.transSpeed*.2f;
+			}
+		}
+
 		if (this.inTransitionToCredits) {
 			if (this.angleChangeToCredits <110f) {
 				this.ourCamera.transform.Rotate (Vector3.up * transSpeed);
@@ -63,8 +75,12 @@ public class ControllerScript : MonoBehaviour {
 				this.inTransitionToCredits = true;
 				//this.angleChangeToCredits = 0;
 			} else {
-				Application.LoadLevel("Game");
-				PlayerPrefs.SetInt("Score",0);
+				if (this.inTransitionToHelp){
+					Application.LoadLevel("Game");
+					PlayerPrefs.SetInt("Score",0);
+				}
+				this.inTransitionToHelp = true;
+
 			}
 
 		}
