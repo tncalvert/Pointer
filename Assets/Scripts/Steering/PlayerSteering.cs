@@ -84,7 +84,7 @@ public class PlayerSteering : MonoBehaviour {
                 }
             }
 
-            Camera.main.GetComponent<CameraFollow>().setup(this.gameObject.transform);
+            Camera.main.GetComponent<CameraIso>().setup(this.gameObject.transform);
 
         } catch {
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
@@ -112,7 +112,7 @@ public class PlayerSteering : MonoBehaviour {
         Vector3 force = new Vector3(0, 0, 0);
 
         if (pathFinder) {
-            if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(0)) {
+            if (Input.GetMouseButtonDown(0)) {
                 Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(cameraRay, out hit,
