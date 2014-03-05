@@ -112,7 +112,7 @@ public class PlayerSteering : MonoBehaviour {
         Vector3 force = new Vector3(0, 0, 0);
 
         if (pathFinder) {
-            if (Input.GetMouseButtonDown(0)) {
+            if (Input.GetMouseButton(0)) {
                 Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(cameraRay, out hit,
