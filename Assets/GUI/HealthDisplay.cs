@@ -7,7 +7,7 @@ public class HealthDisplay : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		health = 1;
+		health = 9;
 	}
 	
 	// Update is called once per frame
