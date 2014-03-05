@@ -7,23 +7,34 @@ public class Inspector : MonoBehaviour {
 	private static bool inspecting;
 	public static bool Inspecting { get { return inspecting; } }
 
+	//Time Tracker
+	LevelTime time;
+
+	//Level tracker
+	LevelChanger level;
+
 	// Use this for initialization
 	void Start () {
+		//Keep track of time
+		GameObject timeObj = GameObject.Find ("TimeCounter");
+		time = timeObj.GetComponent<LevelTime> ();
 
+		//Keep track of the level
+		GameObject levelObj = GameObject.Find ("LevelChanger");
+		level = levelObj.GetComponent<LevelChanger> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-
-
 
 	}
 
 	void OnGUI(){
 
-		inspecting = false;
-		if (Input.GetKey (KeyCode.LeftShift)) {
+		//If the user is holding the left shift
+		if (Input.GetKey(KeyCode.LeftShift)) {
+			time.stopCounting();
+
 			inspecting = true;
 			Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
@@ -49,6 +60,16 @@ public class Inspector : MonoBehaviour {
 			}
 			
 			
+		}
+		//Else the user is not holding down shift
+		else
+		{
+			//Resume counter
+			inspecting = false;
+
+			//Only continue counting if the level hasnt ended
+			if(level.getLevelEnd() == 0)
+				time.startCounting();
 		}
 
 	}

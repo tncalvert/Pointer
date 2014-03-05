@@ -34,10 +34,17 @@ public class VictimMonitor : MonoBehaviour {
     /// </summary>
     public GeneticMaster geneticMaster;
 
+	//Health Tracker
+	HealthDisplay health;
+
     void Start() {
         startTime = Time.realtimeSinceStartup;
         damageToPlayer = 0;
         numberOfTimesStuck = 0;
+
+		//Keep track of score
+		GameObject healthObj = GameObject.Find ("HealthCounter");
+		health = healthObj.GetComponent<HealthDisplay> ();
     }
 
     /// <summary>
@@ -53,6 +60,8 @@ public class VictimMonitor : MonoBehaviour {
     /// <param name="damageAmount">The amount of damage done</param>
     public void DealtDamage(float damageAmount) {
         damageToPlayer += damageAmount;
+
+		health.doDamage(damageAmount);
     }
 
     /// <summary>

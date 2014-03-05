@@ -20,28 +20,42 @@ public class PlayerAttack : MonoBehaviour {
 	//Wilhelm Scream
 	AudioClip scream;
 
-	//Score tracker
-	ScoreDisplay score;
+	//Attack Tracker
+	AttackTracker attack;
 
     void Start() {
         splatter = gameObject.AddComponent<SplatterScript>();
         splatter.bloodSplat = splatterPrefab;
 
-		//Keep track of score
-		GameObject timer = GameObject.Find ("ScoreCounter");
-		score = timer.GetComponent<ScoreDisplay> ();
+		//Keep track of victims
+		GameObject attackObj = GameObject.Find ("AttackTimer");
+		attack = attackObj.GetComponent<AttackTracker> ();
 	}
 
 	void Update () {
 		if(attackTimer != 120)
 		{
 			attackTimer++;
+
+			if(attackTimer == 30)
+				attack.setText("3");
+
+			if(attackTimer == 60)
+				attack.setText("2");
+
+			if(attackTimer == 90)
+				attack.setText("1");
+
 			if(attackTimer == 120)
-				Debug.Log ("Attack Ready");
+				attack.setText ("Attack Ready!");
 		}
 
         //Kill the victims
         if (attackTimer == 120 && Input.GetKeyDown("space")) {
+			
+			attackTimer = 0;
+			attack.setText("4");
+
             Collider[] nearbyVictims = Physics.OverlapSphere(rigidbody.position, attackRange, 1 << LayerMask.NameToLayer("Victims"));
 
 			foreach (Collider n in nearbyVictims) {
@@ -51,13 +65,10 @@ public class PlayerAttack : MonoBehaviour {
 				}
 
                 Destroy(n.gameObject);
-				score.incrementScore();
             }
 
 			if(nearbyVictims.Length != 0)
 				audio.Play ();
-
-			attackTimer = 0;
         }
 	}
 }

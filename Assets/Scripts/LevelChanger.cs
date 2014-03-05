@@ -16,15 +16,47 @@ public class LevelChanger : MonoBehaviour {
     /// </summary>
     private bool allVictimsDead;
 
+	//Score tracker
+	ScoreDisplay score;
+
+	//Victim Counter
+	VictimCount victim;
+
+	//Time Tracker
+	LevelTime time;
+
+	//Signals that the level ended
+	private int levelEnd;
+
 	// Use this for initialization
 	void Start () {
         numberOfVictims = 0;
         allVictimsDead = false;
+		levelEnd = 0;
+
+		//Keep track of score
+		GameObject scoreObj = GameObject.Find ("ScoreCounter");
+		score = scoreObj.GetComponent<ScoreDisplay> ();
+
+		//Keep track of victims
+		GameObject victimObj = GameObject.Find ("VictimCounter");
+		victim = victimObj.GetComponent<VictimCount> ();
+
+		//Keep track of time
+		GameObject timeObj = GameObject.Find ("TimeCounter");
+		time = timeObj.GetComponent<LevelTime> ();
 	}
 
     void OnGUI() {
         if (allVictimsDead) {
+
+			levelEnd = 1;
+			time.stopCounting();
+
             if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 37, 100, 75), "Next Level")) {
+
+				score.incrementScore();
+
                 Application.LoadLevel("Game");
             }
         }
@@ -35,6 +67,9 @@ public class LevelChanger : MonoBehaviour {
     /// </summary>
     public void registerVictim() {
         ++numberOfVictims;
+
+		//Display the victim count
+		victim.setVictimsLeft(numberOfVictims);
     }
 
     /// <summary>
@@ -45,5 +80,14 @@ public class LevelChanger : MonoBehaviour {
         if (numberOfVictims == 0) {
             allVictimsDead = true;
         }
+
+		//Display the victim count
+		victim.setVictimsLeft(numberOfVictims);
     }
+
+	//Return whether the level has ended or not
+	public int getLevelEnd()
+	{
+		return levelEnd;
+	}
 }
