@@ -7,6 +7,8 @@ public class Inspector : MonoBehaviour {
 	private static bool inspecting;
 	public static bool Inspecting { get { return inspecting; } }
 
+    private bool masterPause;
+
 	//Time Tracker
 	LevelTime time;
 
@@ -24,12 +26,11 @@ public class Inspector : MonoBehaviour {
 		level = levelObj.GetComponent<LevelChanger> ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-	}
-
 	void OnGUI(){
+
+        if (masterPause) { // If we're in the escape menu
+            return;
+        }
 
 		//If the user is holding the left shift
 		if (Input.GetKey(KeyCode.LeftShift)) {
@@ -73,5 +74,21 @@ public class Inspector : MonoBehaviour {
 		}
 
 	}
+
+    /// <summary>
+    /// Sets a master pause for the escape menu
+    /// We don't want shift to accidentally override this
+    /// so there needs to be a higher control
+    /// </summary>
+    /// <param name="pause"></param>
+    public void setEscapePause(bool pause) {
+        inspecting = pause;
+        masterPause = pause;
+        if (pause) {
+            time.stopCounting();
+        } else {
+            time.startCounting();
+        }
+    }
 
 }
