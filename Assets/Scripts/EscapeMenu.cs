@@ -24,6 +24,8 @@ public class EscapeMenu : MonoBehaviour {
 	void OnGUI () {
         if (showMenu) {
             if (GUI.Button(new Rect(Screen.width / 2 - 75, Screen.height / 2 - 50, 150, 50), "Back to Main Menu")) {
+                GeneticMaster.victims = null;
+                GeneticMaster.discardedVictims = null;
                 Application.LoadLevel("TopMenu");
             } else if (GUI.Button(new Rect(Screen.width / 2 - 75, Screen.height / 2 + 25, 150, 50), "Resume")) {
                 showMenu = false;

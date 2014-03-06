@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerAttack : MonoBehaviour {
 
+
     //// <summary>
     /// The splatter. Squishy.
     /// </summary>
@@ -15,27 +16,38 @@ public class PlayerAttack : MonoBehaviour {
     /// </summary>
     int attackRange = 5;
 
+
 	//Attack Timer
 	float attackTimer = 120;
-
+	
 	//Wilhelm Scream
 	AudioClip scream;
-
+	
 	//Attack Tracker
 	AttackTracker attack;
-
-    void Start() {
-        splatter = gameObject.AddComponent<SplatterScript>();
-        splatter.bloodSplat = splatterPrefab;
-
+	
+	//Level tracker
+	Inspector inspect;
+	
+	void Start() {
+		splatter = gameObject.AddComponent<SplatterScript>();
+		splatter.bloodSplat = splatterPrefab;
+		
 		//Keep track of victims
 		GameObject attackObj = GameObject.Find ("AttackTimer");
 		attack = attackObj.GetComponent<AttackTracker> ();
 
-		attackEffect = (ParticleSystem)Instantiate (this.attackEffect);
-	}
 
+		attackEffect = (ParticleSystem)Instantiate (this.attackEffect);
+
+		
+		GameObject inspectObj = GameObject.Find ("MasterGameObject");
+		inspect = inspectObj.GetComponent<Inspector> ();
+
+	}
+	
 	void Update () {
+
 		if(attackTimer != 120)
 		{
 			attackTimer++;
@@ -68,13 +80,13 @@ public class PlayerAttack : MonoBehaviour {
                 if (this.splatter != null) {
 					this.splatter.makeBigSplat(n.transform.position, Vector3.down + (n.transform.position - this.transform.position).normalized, 10, 5, (1<<LayerMask.NameToLayer("City")));
 					//this.splatter.makeSplat(n.transform.position, new Vector3(0, -1, 0), 10, (1 << LayerMask.NameToLayer("City")));
+
 				}
-
-                Destroy(n.gameObject);
-            }
-
-			if(nearbyVictims.Length != 0)
-				audio.Play ();
-        }
+				
+				if (nearbyVictims.Length != 0)
+					audio.Play ();
+			}
+		}
 	}
 }
+
