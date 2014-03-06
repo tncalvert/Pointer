@@ -229,7 +229,7 @@ public class VictimControl : MonoBehaviour {
 			if (Mathf.Abs (angleToMonster) < .5f) {
 				this.gunModel.fire();
 				this.turningToShoot = false;
-				this.ammo --;
+				this.ammo =0;
 			} else {
 				Vector3 spot = this.transform.position + 2*toFear3.normalized;
 				this.steering.getNewPath(new Vector2(spot.x, spot.z));
@@ -333,6 +333,10 @@ public class VictimControl : MonoBehaviour {
 		if (!this.hasGun || this.gunModel == null) {
 			return;
 		}
+		if (this.gunModel.MuzzleFlash == null) {
+			return;
+		}
+
 		this.rigidbody.velocity = Vector3.zero;
 		GameObject fearedObject = GameObject.FindWithTag("feared");
 		Vector3 toFear3 = fearedObject.transform.position - this.transform.position;
