@@ -156,10 +156,11 @@ public class VictimControl : MonoBehaviour {
 			this.generateGun ();
 		}
 
+		/* this gets set by genetic alg
 		this.toughness = Random.value; 
+		*/
 		this.sleepyness = .5f * Random.value;
 		this.name = VictimNames.getRandomName();
-
 		this.insp = (Inspectible)this.gameObject.AddComponent ("Inspectible");
 		insp.getTextFunc = () => {
 			List<string> lines = new List<string>();
@@ -176,7 +177,7 @@ public class VictimControl : MonoBehaviour {
 		// LOWER WEIGHT OF FEER IF I AM TOUGH
 		this.head.SteeringFear *= (1 - this.toughness);
 		this.steering.updateFromHead ();
-
+		this.ammo = 3;
 		fearedObject = GameObject.FindWithTag("feared");
 	}
 
@@ -228,6 +229,7 @@ public class VictimControl : MonoBehaviour {
 			if (Mathf.Abs (angleToMonster) < .5f) {
 				this.gunModel.fire();
 				this.turningToShoot = false;
+				this.ammo --;
 			} else {
 				Vector3 spot = this.transform.position + 2*toFear3.normalized;
 				this.steering.getNewPath(new Vector2(spot.x, spot.z));
@@ -299,7 +301,7 @@ public class VictimControl : MonoBehaviour {
 				this.findFleeDestination();
 			} else if (action.Equals(ACTION_SHOOT)){
 				//Debug.Log ("ACTION_SHOOT");
-				if (this.hasGun){
+				if (this.hasGun && ammo>0){
 
 					turnToFaceMonster();
 					//this.gunModel.fire();
