@@ -25,6 +25,8 @@ public class GunControl : MonoBehaviour {
 
     public GameObject player;
 
+	private SplatterScript splatter;
+	public GameObject splatterPrefab;
 
 
 	private ParticleSystem muzzleFlash;
@@ -41,6 +43,10 @@ public class GunControl : MonoBehaviour {
         victimMonitor = victim.gameObject.GetComponent<VictimMonitor>();
 		 muzzleFlash = this.GetComponentInChildren<ParticleSystem> ();
 		 lineRend = this.GetComponent<LineRenderer> ();
+
+
+		splatter = gameObject.AddComponent<SplatterScript>();
+		splatter.bloodSplat = splatterPrefab;
 	}
 	
 	// Update is called once per frame
@@ -95,6 +101,8 @@ public class GunControl : MonoBehaviour {
                 if (hit.collider.gameObject == player) {
 					Debug.Log ("THE PLAYER GOT HIT!");
                     victimMonitor.DealtDamage(1f);
+
+					splatter.makeBigSplat(hit.collider.transform.position, Vector3.down,7,3, 1<<LayerMask.NameToLayer("City"));
                 }
 			}
 			

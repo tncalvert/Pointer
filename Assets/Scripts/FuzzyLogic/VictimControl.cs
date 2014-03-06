@@ -531,8 +531,27 @@ public class VictimControl : MonoBehaviour {
 			set[ACTION_FIND_ROOM] += .5f*this.sleepyness;//I want to find a room if I am sleepy
 		}
 
+		switch (terr) {
+		case FuzzyBrain.NONE:
+			set[ACTION_FLEE] += 0;
+			break;
+		case FuzzyBrain.FEW:
+			set[ACTION_FLEE] += .3f;
+			break;
+		case FuzzyBrain.SOME:
+			set[ACTION_FLEE] += .4f;
+			break;
+		case FuzzyBrain.MANY:
+			set[ACTION_FLEE] += .5f;
+			break;
+		default:
+			break;
+		}
+
 		set [ACTION_FLEE] /= Mathf.Max (float.Epsilon, 1-this.sleepyness);//more likely to run if you are tired
 		set [ACTION_FLEE] *= 1-this.toughness;//less likely to run if you are tough
+
+
 
 		set[ACTION_SHOOT] /= Mathf.Max (float.Epsilon,  .2f*(1-this.toughness)); //more likely to shoot if you are tough
 		set[ACTION_SHOOT] *= 1-this.sleepyness; //less likely to shoot if you are tired
@@ -688,6 +707,10 @@ public class VictimControl : MonoBehaviour {
     /// Called when victim is destroyed by player. Informs level changer that a victim has died.
     /// </summary>
     void OnDestroy() {
+
+
+
+
 		if (this.hasGun && this.gunModel != null) {
 			Destroy(this.gunModel.gameObject);
 			this.hasGun = false;

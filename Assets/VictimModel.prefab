@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39944d5c62aaf146b930b320a8c90a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exclaimSprite: {fileID: 100000, guid: 8b490512a065de94da54d222551a8ada, type: 2}
   timeUntilNewFuzzyCall: 20
 --- !u!135 &13500000
 SphereCollider:

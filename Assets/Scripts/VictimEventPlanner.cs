@@ -16,6 +16,8 @@ public class VictimEventPlanner : MonoBehaviour {
 	/// </summary>
 	private VictimSteering steering;
 
+	public GameObject exclaimSprite;
+
 	/// <summary>
 	/// boolean to keep track of if this script should run
 	/// </summary>
@@ -49,7 +51,11 @@ public class VictimEventPlanner : MonoBehaviour {
 
 	}
 
-
+	private void makeExclaimation(){
+		GameObject e = (GameObject)Instantiate (this.exclaimSprite);
+		e.transform.position = this.transform.position + Vector3.up * 3;
+		e.transform.LookAt (Camera.main.transform.position);
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -107,6 +113,12 @@ public class VictimEventPlanner : MonoBehaviour {
 			this.runningAction = this.control.computeCurrentAction();
 
 			this.control.planForAction(this.runningAction);
+
+
+			if (this.runningAction == VictimControl.ACTION_FLEE){
+				this.makeExclaimation();
+			}
+
 
 			//Debug.Log (this.runningAction);
 
