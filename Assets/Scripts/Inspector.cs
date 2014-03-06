@@ -91,4 +91,10 @@ public class Inspector : MonoBehaviour {
         }
     }
 
+	//Returns whether the user is inspecting or not
+	public bool isInspecting()
+	{
+		return inspecting;
+	}
+
 }
