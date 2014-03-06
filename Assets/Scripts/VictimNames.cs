@@ -13,7 +13,7 @@ public static class VictimNames {
     /// <summary>
     /// An array of names read from the file of names
     /// </summary>
-    private static string[] names = File.ReadAllLines(Application.dataPath + "\\Victim_Names.txt");
+    private static string[] names = Resources.Load<TextAsset>("Victim_Names").text.Split('\n');
 
     /// <summary>
     /// Picks a random name from the list and returns it
