@@ -81,6 +81,7 @@ public class GunControl : MonoBehaviour {
 			Vector3 direction = new Vector3(muzzleFlash.transform.forward.x, 0, muzzleFlash.transform.forward.z);
 			Vector2 n = new Vector2(-direction.z, direction.x).normalized;
 			bool playerHit = false;
+			audio.Play();
 			for (int i = 0 ; i < 60 ; i ++){
 				Vector3 randomness = .05f*(Random.value-.5f)*new Vector3(n.x, 0, n.y);
 				playerHit |= (Physics.Raycast(muzzleFlash.transform.position, (direction+randomness).normalized ,out hit,9999,~(1<<LayerMask.NameToLayer("Victims")))
@@ -101,6 +102,7 @@ public class GunControl : MonoBehaviour {
                 if (hit.collider.gameObject == player) {
 					Debug.Log ("THE PLAYER GOT HIT!");
                     victimMonitor.DealtDamage(1f);
+
 
 					splatter.makeBigSplat(hit.collider.transform.position, Vector3.down,7,3, 1<<LayerMask.NameToLayer("City"));
                 }

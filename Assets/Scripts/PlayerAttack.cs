@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour {
     /// </summary>
     public SplatterScript splatter;
     public GameObject splatterPrefab;
+	public ParticleSystem attackEffect;
 
     /// <summary>
     /// Attack range for the monster
@@ -30,6 +31,8 @@ public class PlayerAttack : MonoBehaviour {
 		//Keep track of victims
 		GameObject attackObj = GameObject.Find ("AttackTimer");
 		attack = attackObj.GetComponent<AttackTracker> ();
+
+		attackEffect = (ParticleSystem)Instantiate (this.attackEffect);
 	}
 
 	void Update () {
@@ -52,7 +55,10 @@ public class PlayerAttack : MonoBehaviour {
 
         //Kill the victims
         if (attackTimer == 120 && Input.GetKeyDown("space")) {
-			
+
+			attackEffect.transform.position = this.transform.position;
+			attackEffect.Play();
+
 			attackTimer = 0;
 			attack.setText("4");
 

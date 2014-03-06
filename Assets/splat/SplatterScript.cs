@@ -26,7 +26,9 @@ public class SplatterScript : MonoBehaviour {
 		RaycastHit ray = new RaycastHit ();
 
 		if (Physics.Raycast (position, direction, out ray, layer)) {
-           
+
+
+
 			GameObject splat = (GameObject)Instantiate(this.bloodSplat, ray.point+(.001f * ray.normal) , Quaternion.identity);
 			Vector3 splatDirection = splat.transform.position - ray.normal;
 			splat.transform.LookAt(splatDirection);

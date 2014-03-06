@@ -521,6 +521,8 @@ public class VictimControl : MonoBehaviour {
 			set[ACTION_FIND_GUN] += this.independence * (this.hasGun ? 0 : 1);//I want to find a gun if I have high independence and don't have a gun
 			set[ACTION_FIND_AMMO] += this.independence * (this.hasGun ? 1 : 0);//I want to find ammo if I have a gun and if I have high independence
 			set[ACTION_FIND_ROOM] += this.sleepyness;//I want to find a room if I am sleepy
+
+			set[ACTION_FIND_AMMO] += (this.hasGun ? 1 : 0) * .25f*(4-this.ammo) * this.toughness;
 		}
 
 		//if I am in a small group and I cant see the monster
@@ -528,6 +530,7 @@ public class VictimControl : MonoBehaviour {
 			set[ACTION_FIND_GUN] += .8f*this.independence * (this.hasGun ? 0 : 1);//I want to find a gun if I have high independence and don't have a gun
 			set[ACTION_FIND_AMMO] += .8f*this.independence * (this.hasGun ? 1 : 0);//I want to find ammo if I have a gun and if I have high independence
 			set[ACTION_FIND_ROOM] += .8f*this.sleepyness;//I want to find a room if I am sleepy
+			set[ACTION_FIND_AMMO] += (this.hasGun ? 1 : 0) * .25f*(4-this.ammo) * this.toughness;
 		}
 
 		//if I am in a group and I cant see the monster
@@ -535,6 +538,7 @@ public class VictimControl : MonoBehaviour {
 			set[ACTION_FIND_GUN] += .5f*this.independence * (this.hasGun ? 0 : 1);//I want to find a gun if I have high independence and don't have a gun
 			set[ACTION_FIND_AMMO] += .5f*this.independence * (this.hasGun ? 1 : 0);//I want to find ammo if I have a gun and if I have high independence
 			set[ACTION_FIND_ROOM] += .5f*this.sleepyness;//I want to find a room if I am sleepy
+			set[ACTION_FIND_AMMO] += (this.hasGun ? 1 : 0) * .25f*(4-this.ammo) * this.toughness;
 		}
 
 		switch (terr) {
@@ -713,7 +717,6 @@ public class VictimControl : MonoBehaviour {
     /// Called when victim is destroyed by player. Informs level changer that a victim has died.
     /// </summary>
     void OnDestroy() {
-
 
 
 
